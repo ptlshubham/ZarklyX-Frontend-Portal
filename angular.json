@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "metronic-tailwind-angular": {
+    "zarklyx-frontend-portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/metronic-tailwind-angular",
+            "outputPath": "dist/zarklyx-frontend-portal",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -48,7 +48,7 @@
               "public/assets/vendors/clipboard/clipboard.min.js",
               "public/assets/vendors/leaflet/leaflet.bundle.js",
               "public/assets/vendors/prismjs/prismjs.min.js",
-              "public/assets/js/layouts/demo1.js",
+              "public/assets/js/layouts/main-layout.js",
               "public/assets/js/widgets/general.js",
               "public/assets/js/datatables/allowed-ip-addresses.js",
               "public/assets/js/datatables/current-sessions.js"
@@ -82,10 +82,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "metronic-tailwind-angular:build:production"
+              "buildTarget": "zarklyx-frontend-portal:build:production"
             },
             "development": {
-              "buildTarget": "metronic-tailwind-angular:build:development"
+              "buildTarget": "zarklyx-frontend-portal:build:development"
             }
           },
           "defaultConfiguration": "development"
