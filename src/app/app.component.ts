@@ -19,8 +19,10 @@ export class AppComponent {
   private metronicInitService = inject(MetronicInitService);
 
   private layoutClassMap: Record<string, string> = {
-    // Apply the main layout to all routes by default
+    // Regular user layout
     default: 'demo1 kt-sidebar-fixed kt-header-fixed',
+    // Super admin layout (same base styling but can be extended)
+    admin: 'demo1 kt-sidebar-fixed kt-header-fixed admin-theme',
   };
   private currentLayout = signal('default');
 
@@ -33,11 +35,18 @@ export class AppComponent {
   }
 
   private updateDemo() {
-    // Apply the default layout to all pages
-    // This ensures any new page automatically gets the proper layout styling
-    this.currentLayout.set('default');
+    const url = this.router.url;
+    
+    // Determine layout type based on URL
+    let layoutType = 'default';
+    if (url.startsWith('/admin')) {
+      layoutType = 'admin';
+    }
+    
+    // Apply the appropriate layout styling
+    this.currentLayout.set(layoutType);
     this.clearLayoutClasses();
-    this.applyLayoutClass(this.layoutClassMap['default']);
+    this.applyLayoutClass(this.layoutClassMap[layoutType]);
   }
 
   private clearLayoutClasses() {
