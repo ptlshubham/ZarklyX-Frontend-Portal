@@ -48,6 +48,19 @@ import { BaseAuthComponent } from '../base-auth.component';
             </div>
           </div>
 
+          <!-- Test Credentials Info -->
+          <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+            <div class="flex">
+              <div class="ml-3">
+                <h4 class="text-sm font-medium text-purple-800">Test Credentials</h4>
+                <p class="text-xs text-purple-600 mt-1">
+                  Username: <code class="bg-purple-100 px-1 rounded">influencer1</code> | 
+                  Password: <code class="bg-purple-100 px-1 rounded">password</code>
+                </p>
+              </div>
+            </div>
+          </div>
+
           <!-- Input Fields -->
           <div class="space-y-4">
             <div>

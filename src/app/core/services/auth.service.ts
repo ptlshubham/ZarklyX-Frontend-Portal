@@ -95,14 +95,44 @@ export class AuthService {
   }
 
   private validateCredentials(credentials: any, userType: string): boolean {
-    // Mock validation - replace with actual validation logic
+    // Fake credentials for testing
+    const fakeCredentials = {
+      main: [
+        { email: 'user@example.com', password: 'password' },
+        { email: 'john@example.com', password: '123456' },
+        { email: 'admin@company.com', password: 'admin123' },
+        { email: 'test@test.com', password: 'test' }
+      ],
+      influencer: [
+        { username: 'influencer1', password: 'password' },
+        { username: 'content_creator', password: '123456' },
+        { username: 'social_star', password: 'influencer123' },
+        { username: 'demo_user', password: 'demo' }
+      ],
+      'super-admin': [
+        { adminId: 'admin001', password: 'supersecret', securityCode: '2FA123' },
+        { adminId: 'root', password: 'rootpass', securityCode: 'SEC456' },
+        { adminId: 'superuser', password: 'admin123', securityCode: 'AUTH789' },
+        { adminId: 'sa001', password: 'password', securityCode: '123456' }
+      ]
+    };
+
+    // Check against fake credentials
     switch (userType) {
       case 'main':
-        return credentials.email && credentials.password;
+        return fakeCredentials.main.some(cred => 
+          cred.email === credentials.email && cred.password === credentials.password
+        );
       case 'influencer':
-        return credentials.username && credentials.password;
+        return fakeCredentials.influencer.some(cred => 
+          cred.username === credentials.username && cred.password === credentials.password
+        );
       case 'super-admin':
-        return credentials.adminId && credentials.password && credentials.securityCode;
+        return fakeCredentials['super-admin'].some(cred => 
+          cred.adminId === credentials.adminId && 
+          cred.password === credentials.password && 
+          cred.securityCode === credentials.securityCode
+        );
       default:
         return false;
     }
@@ -170,6 +200,8 @@ export class AuthService {
       this.router.navigate(['/auth/login']);
       return;
     }
+
+    console.log(`Redirecting ${user.userType} user to dashboard...`);
 
     switch (user.userType) {
       case 'main':

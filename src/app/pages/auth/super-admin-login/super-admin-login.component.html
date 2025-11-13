@@ -1,8 +1,7 @@
 <div class="grid lg:grid-cols-2 grow">
     <div class="flex justify-center items-center p-8 lg:p-10 order-2 lg:order-1">
         <div class="kt-card max-w-[370px] w-full">
-            <form (ngSubmit)="onSubmit()" class="kt-card-content flex flex-col gap-5 p-10" id="sign_in_form"
-                method="post">
+            <form (ngSubmit)="onSubmit()" class="kt-card-content flex flex-col gap-5 p-10" id="sign_in_form" method="post">
                 <!-- Error Message -->
                 <div *ngIf="errorMessage" class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
                     <div class="flex">
@@ -12,92 +11,65 @@
                     </div>
                 </div>
 
+                <!-- Test Credentials Info -->
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded mb-4">
+                    <div class="flex">
+                        <div class="ml-3">
+                            <h4 class="text-sm font-medium text-red-800">Test Credentials</h4>
+                            <p class="text-xs text-red-600 mt-1">
+                                Admin ID: <code class="bg-red-100 px-1 rounded">admin001</code> | 
+                                Password: <code class="bg-red-100 px-1 rounded">supersecret</code> | 
+                                Security Code: <code class="bg-red-100 px-1 rounded">2FA123</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="text-center mb-2.5">
                     <h3 class="text-lg font-medium text-mono leading-none mb-2.5">
-                        Sign in
+                        Super Admin Login
                     </h3>
                     <div class="flex items-center justify-center font-medium">
                         <span class="text-sm text-secondary-foreground me-1.5">
-                            Need an account?
+                            Secure administrative access
                         </span>
-                        <a class="text-sm link" href="html/demo1/authentication/branded/sign-up.html">
-                            Sign up
-                        </a>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-2.5">
-                    <a class="kt-btn kt-btn-outline justify-center" href="#">
-                        <img alt="" class="size-3.5 shrink-0" src="/assets/media/brand-logos/google.svg" />
-                        Use Google
-                    </a>
-                    <a class="kt-btn kt-btn-outline justify-center" href="#">
-                        <img alt="" class="size-3.5 shrink-0 dark:hidden"
-                            src="/assets/media/brand-logos/apple-black.svg" />
-                        <img alt="" class="size-3.5 shrink-0 light:hidden"
-                            src="/assets/media/brand-logos/apple-white.svg" />
-                        Use Apple
-                    </a>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="border-t border-border w-full">
-                    </span>
-                    <span class="text-xs text-muted-foreground font-medium uppercase">
-                        Or
-                    </span>
-                    <span class="border-t border-border w-full">
-                    </span>
-                </div>
+
+                <!-- Admin ID Field -->
                 <div class="flex flex-col gap-1">
                     <label class="kt-form-label font-normal text-mono">
-                        Email
+                        Admin ID
                     </label>
-                    <input class="kt-input" placeholder="email@email.com" type="email" [(ngModel)]="credentials.adminId"
-                        name="email" required />
+                    <input class="kt-input" placeholder="Enter Admin ID" type="text" [(ngModel)]="credentials.adminId" name="adminId" required />
                 </div>
+
+                <!-- Password Field -->
                 <div class="flex flex-col gap-1">
-                    <div class="flex items-center justify-between gap-1">
-                        <label class="kt-form-label font-normal text-mono">
-                            Password
-                        </label>
-                        <a class="text-sm kt-link shrink-0"
-                            href="html/demo1/authentication/branded/reset-password/enter-email.html">
-                            Forgot Password?
-                        </a>
-                    </div>
-                    <div class="kt-input" data-kt-toggle-password="true">
-                        <input name="user_password" placeholder="Enter Password" type="password"
-                            [(ngModel)]="credentials.password" required />
-                        <button class="kt-btn kt-btn-sm kt-btn-ghost kt-btn-icon bg-transparent! -me-1.5"
-                            data-kt-toggle-password-trigger="true" type="button">
-                            <span class="kt-toggle-password-active:hidden">
-                                <i class="ki-filled ki-eye text-muted-foreground">
-                                </i>
-                            </span>
-                            <span class="hidden kt-toggle-password-active:block">
-                                <i class="ki-filled ki-eye-slash text-muted-foreground">
-                                </i>
-                            </span>
-                        </button>
-                    </div>
+                    <label class="kt-form-label font-normal text-mono">
+                        Password
+                    </label>
+                    <input class="kt-input" placeholder="Enter Password" type="password" [(ngModel)]="credentials.password" name="password" required />
                 </div>
-                <label class="kt-label">
-                    <input class="kt-checkbox kt-checkbox-sm" name="check" type="checkbox" value="1" />
-                    <span class="kt-checkbox-label">
-                        Remember me
-                    </span>
-                </label>
+
+                <!-- Security Code Field -->
+                <div class="flex flex-col gap-1">
+                    <label class="kt-form-label font-normal text-mono">
+                        Security Code (2FA)
+                    </label>
+                    <input class="kt-input" placeholder="Enter Security Code" type="text" [(ngModel)]="credentials.securityCode" name="securityCode" required />
+                </div>
+
                 <button type="submit" class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
                     <span *ngIf="isLoading">Signing in...</span>
-                    <span *ngIf="!isLoading">Sign In</span>
+                    <span *ngIf="!isLoading">Super Admin Login</span>
                 </button>
 
                 <!-- Navigation to other login types -->
                 <div class="text-center mt-4">
                     <div class="text-sm text-secondary-foreground mb-2">Other login options:</div>
                     <div class="flex gap-2 justify-center">
-                        <button type="button" (click)="switchToInfluencer('influencer')"
-                            class="text-sm kt-link">Influencer
-                            Login</button>
+                        <button type="button" (click)="switchToInfluencer('influencer')" class="text-sm kt-link">Influencer Login</button>
                         <span class="text-sm text-secondary-foreground">|</span>
                         <button type="button" (click)="backToMain()" class="text-sm kt-link">Back To Main</button>
                     </div>
@@ -105,8 +77,7 @@
             </form>
         </div>
     </div>
-    <div
-        class="lg:rounded-xl lg:border lg:border-border lg:m-5 order-1 lg:order-2 bg-top xxl:bg-center xl:bg-cover bg-no-repeat branded-bg">
+    <div class="lg:rounded-xl lg:border lg:border-border lg:m-5 order-1 lg:order-2 bg-top xxl:bg-center xl:bg-cover bg-no-repeat branded-bg">
         <div class="flex flex-col justify-between h-full p-8 lg:p-16">
             <div class="flex flex-col gap-4">
                 <a href="html/demo1.html">
@@ -114,18 +85,18 @@
                 </a>
                 <div class="flex flex-col gap-3">
                     <h3 class="text-2xl font-semibold text-mono">
-                        Secure Access Portal
+                        Super Admin Portal
                     </h3>
                     <div class="text-base font-medium text-secondary-foreground">
-                        A robust authentication gateway ensuring
+                        High-security administrative access
                         <br />
-                        secure
+                        for system
                         <span class="text-mono font-semibold">
-                            efficient user access
+                            management and control
                         </span>
-                        to the Metronic
+                        of the Metronic
                         <br />
-                        Dashboard interface.
+                        platform infrastructure.
                     </div>
                 </div>
             </div>
