@@ -1,0 +1,957 @@
+<!-- Container -->
+<div class="kt-container-fixed">
+    <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+            <h1 class="text-xl font-medium leading-none text-mono">
+                Billing History
+            </h1>
+            <div class="flex items-center gap-2 text-sm font-normal text-secondary-foreground">
+                Central Hub for Personal Customization
+            </div>
+        </div>
+        <div class="flex items-center gap-2.5">
+            <a class="kt-btn kt-btn-outline" href="#">
+                Billing
+            </a>
+        </div>
+    </div>
+</div>
+<!-- End of Container -->
+<!-- Container -->
+<div class="kt-container-fixed">
+    <div class="grid gap-5 lg:gap-7.5">
+        <div class="kt-card kt-card-grid min-w-full">
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    Billing and Invoicing
+                </h3>
+                <button class="kt-btn kt-btn-outline">
+                    <i class="ki-filled ki-exit-down">
+                    </i>
+                    Download PDF
+                </button>
+            </div>
+            <div class="kt-card-table">
+                <div class="grid" data-kt-datatable="true" data-kt-datatable-page-size="10">
+                    <div class="kt-scrollable-x-auto">
+                        <table class="kt-table kt-table-border" data-kt-datatable-table="true">
+                            <thead>
+                                <tr>
+                                    <th class="w-14">
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-check="true"
+                                            type="checkbox" />
+                                    </th>
+                                    <th class="min-w-[200px]" data-kt-datatable-column="invoice">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Invoice
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[170px]">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Status
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="min-w-[170px]" data-kt-datatable-column="date">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Date
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="min-w-[170px]" data-kt-datatable-column="dueDate">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Due Date
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[170px]" data-kt-datatable-column="amount">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Amount
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[100px]">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="1" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-xd912c
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-warning">
+                                            Upcoming
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        6 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        HR Dept
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $24.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="2" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-rq857m
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        17 Jun, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        6 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $29.99
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="3" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-jk563z
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        30 Apr, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        6 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $24.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="4" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-hg234x
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-destructive">
+                                            Declined
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        21 Apr, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        6 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $6.59
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="5" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-lp098y
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        14 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        6 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $79.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="6" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-q196l
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        08 Jan, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        6 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $257.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="7" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-m113s
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-warning">
+                                            Upcoming
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        07 Nov, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Design Dept
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $67.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="8" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-u859c
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-destructive">
+                                            Declined
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        16 May, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        07 Nov, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $494.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="9" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-m803g
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        16 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        16 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $142.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="10" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-r204u
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        25 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        25 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $35.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="11" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-b907a
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        12 Feb, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        12 Feb, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $59.99
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="12" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-n567k
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-warning">
+                                            Upcoming
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        01 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Marketing Dept
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $150.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="13" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-k453j
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-destructive">
+                                            Declined
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        03 Apr, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        03 Apr, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $89.50
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="14" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-d981q
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        20 Feb, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        20 Feb, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $200.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="15" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-p846y
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        15 May, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        15 May, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $75.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="16" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-z190x
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-warning">
+                                            Upcoming
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        10 Jun, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Finance Dept
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $130.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="17" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-l892v
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        25 Jan, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        25 Jan, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $100.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="18" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-t675c
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-destructive">
+                                            Declined
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        18 Jul, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        18 Jul, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $45.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="19" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-w432r
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        09 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        09 Aug, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $60.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="20" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-e765n
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-warning">
+                                            Upcoming
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        12 Oct, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        IT Dept
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $500.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="21" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-h789p
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        27 May, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        27 May, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $220.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="22" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-m987l
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-warning">
+                                            Upcoming
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        19 Sep, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        R&D Dept
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $350.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="23" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-c654j
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-destructive">
+                                            Declined
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        23 Oct, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        23 Oct, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $75.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="24" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-q341w
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        29 Nov, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        29 Nov, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $180.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="25" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-b453g
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        11 Dec, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        11 Dec, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $90.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="26" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-d768k
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-destructive">
+                                            Declined
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        05 Jan, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        05 Jan, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $40.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="27" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-z123v
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        14 Feb, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        14 Feb, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $115.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="28" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-t786y
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">
+                                            Paid
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        23 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        23 Mar, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $55.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="29" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-r890p
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-warning">
+                                            Upcoming
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        30 Apr, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        30 Apr, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $95.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="30" />
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        Invoice-2024-q654j
+                                    </td>
+                                    <td>
+                                        <div class="kt-badge kt-badge-sm kt-badge-outline kt-badge-destructive">
+                                            Declined
+                                        </div>
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        08 May, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        08 May, 2024
+                                    </td>
+                                    <td class="text-foreground font-normal">
+                                        $32.00
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="kt-link kt-link-underlined kt-link-dashed" href="">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
+                        <div class="flex items-center gap-2 order-2 md:order-1">
+                            Show
+                            <select class="kt-select w-16" data-kt-datatable-size="true" data-kt-select=""
+                                name="perpage">
+                            </select>
+                            per page
+                        </div>
+                        <div class="flex items-center gap-4 order-1 md:order-2">
+                            <span data-kt-datatable-info="true">
+                            </span>
+                            <div class="kt-datatable-pagination" data-kt-datatable-pagination="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
