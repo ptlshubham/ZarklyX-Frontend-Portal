@@ -2,36 +2,142 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { SuperAdminLayoutComponent } from './layouts/super-admin-layout/super-admin-layout.component';
 import { IndexComponent as DashboardIndexComponent } from './pages/dashboard/index/index.component';
-import { UsersComponent } from './pages/users/users.component';
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { RoleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-  
-  // Regular User Layout Routes
+  // Root redirect to main login
   {
     path: '',
-    component: MainLayoutComponent,
-    children: [
-      { path: 'dashboard', component: DashboardIndexComponent },
-      { path: 'users', component: UsersComponent },
-      // Add more regular user pages here
-    ],
+    pathMatch: 'full',
+    redirectTo: '/auth/login'
   },
 
-  // Super Admin Layout Routes
+  // Authentication Routes (no layout needed)
+  {
+    path: 'auth',
+    loadChildren: () => import('./pages/auth/auth.routing').then(m => m.authRoutes),
+    data: {
+      title: 'Authentication'
+    }
+  },
+
+  // User Panel with Main Layout
+  {
+    path: '', component: MainLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      // Dashboard Module
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./pages/dashboard/dashboard.routing').then(m => m.dashboardRoutes),
+        canActivate: [RoleGuard],
+        data: {
+          title: 'Dashboard',
+          breadcrumb: 'Dashboard',
+          roles: ['user', 'admin', 'super-admin']
+        }
+      },
+      // Influencer Panel
+      {
+        path: 'influencer',
+        component: MainLayoutComponent,
+        canActivate: [RoleGuard],
+        data: {
+          title: 'Influencer Panel',
+          breadcrumb: 'Influencer',
+          roles: ['influencer']
+        },
+        children: [
+          {
+            path: 'dashboard',
+            loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
+            data: {
+              title: 'Influencer Dashboard',
+              breadcrumb: 'Dashboard',
+              roles: ['influencer']
+            }
+          }
+        ]
+      }
+    ]
+  },
+
+  // Admin Panel with Super Admin Layout
   {
     path: 'admin',
     component: SuperAdminLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      title: 'Admin Panel',
+      breadcrumb: 'Admin',
+      roles: ['admin', 'super-admin']
+    },
     children: [
-      { path: 'dashboard', component: AdminDashboardComponent }, // Dedicated admin dashboard
-      { path: 'users/all', component: UsersComponent }, // Admin user management
-      // Add more super admin pages here:
-      // { path: 'users/roles', component: RolesComponent },
-      // { path: 'system/settings', component: SystemSettingsComponent },
-      // { path: 'security', component: SecurityComponent },
-      // { path: 'analytics', component: AnalyticsComponent },
-      // { path: 'logs', component: SystemLogsComponent },
-    ],
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        component: AdminDashboardComponent,
+        data: {
+          title: 'Admin Dashboard',
+          breadcrumb: 'Dashboard',
+          roles: ['admin', 'super-admin']
+        }
+      },
+      // {
+      //   path: 'users',
+      //   component: UsersComponent,
+      //   data: {
+      //     title: 'Admin Users',
+      //     breadcrumb: 'Users',
+      //     roles: ['admin', 'super-admin']
+      //   }
+      // }
+    ]
   },
+
+  // Super Admin Panel with Super Admin Layout  
+  {
+    path: 'super-admin',
+    component: SuperAdminLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      title: 'Super Admin Panel',
+      breadcrumb: 'Super Admin',
+      roles: ['super-admin']
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        component: AdminDashboardComponent,
+        data: {
+          title: 'Super Admin Dashboard',
+          breadcrumb: 'Dashboard',
+          roles: ['super-admin']
+        }
+      }
+    ]
+  },
+
+  // Unauthorized Access
+  {
+    path: 'unauthorized',
+    loadComponent: () => import('./pages/error/unauthorized.component').then(c => c.UnauthorizedComponent),
+    data: { title: 'Unauthorized Access' }
+  },
+
+  // Catch-all redirect
+  {
+    path: '**',
+    loadComponent: () => import('./pages/error/not-found.component').then(c => c.NotFoundComponent)
+  }
 ];
