@@ -5094,19 +5094,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:rounded-lg {
       border-radius: var(--radius);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:rounded-lg {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:rounded-lg {
       border-radius: var(--radius);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:rounded-lg {
       border-radius: var(--radius);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:rounded-lg {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:rounded-lg {
       border-radius: var(--radius);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:rounded-lg {
       border-radius: var(--radius);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:rounded-lg {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:rounded-lg {
       border-radius: var(--radius);
     }
     .kt-menu-item-active\:border-none.kt-menu-item.active {
@@ -5121,7 +5121,7 @@
       --tw-border-style: none;
       border-style: none;
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:border-none {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-none {
       --tw-border-style: none;
       border-style: none;
     }
@@ -5129,7 +5129,7 @@
       --tw-border-style: none;
       border-style: none;
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:border-none {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-none {
       --tw-border-style: none;
       border-style: none;
     }
@@ -5137,7 +5137,7 @@
       --tw-border-style: none;
       border-style: none;
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:border-none {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-none {
       --tw-border-style: none;
       border-style: none;
     }
@@ -5150,19 +5150,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-border {
       border-color: var(--border);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:border-border {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-border {
       border-color: var(--border);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-border {
       border-color: var(--border);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:border-border {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-border {
       border-color: var(--border);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-border {
       border-color: var(--border);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:border-border {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-border {
       border-color: var(--border);
     }
     .kt-menu-item-active\:border-b-gray-400.kt-menu-item.active {
@@ -5174,19 +5174,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:border-b-gray-400 {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:border-b-gray-400 {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:border-b-gray-400 {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
     .kt-menu-item-active\:border-b-mono.kt-menu-item.active {
@@ -5198,19 +5198,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-b-mono {
       border-bottom-color: var(--mono);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:border-b-mono {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-b-mono {
       border-bottom-color: var(--mono);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-b-mono {
       border-bottom-color: var(--mono);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:border-b-mono {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-b-mono {
       border-bottom-color: var(--mono);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-b-mono {
       border-bottom-color: var(--mono);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:border-b-mono {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-b-mono {
       border-bottom-color: var(--mono);
     }
     .kt-menu-item-active\:border-b-primary.kt-menu-item.active {
@@ -5222,19 +5222,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-b-primary {
       border-bottom-color: var(--primary);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:border-b-primary {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:border-b-primary {
       border-bottom-color: var(--primary);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-b-primary {
       border-bottom-color: var(--primary);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:border-b-primary {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:border-b-primary {
       border-bottom-color: var(--primary);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-b-primary {
       border-bottom-color: var(--primary);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:border-b-primary {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:border-b-primary {
       border-bottom-color: var(--primary);
     }
     .kt-menu-item-active\:\!bg-background.kt-menu-item.active {
@@ -5246,19 +5246,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:\!bg-background {
       background-color: var(--background) !important;
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:\!bg-background {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:\!bg-background {
       background-color: var(--background) !important;
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:\!bg-background {
       background-color: var(--background) !important;
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:\!bg-background {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:\!bg-background {
       background-color: var(--background) !important;
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:\!bg-background {
       background-color: var(--background) !important;
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:\!bg-background {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:\!bg-background {
       background-color: var(--background) !important;
     }
     .kt-menu-item-active\:bg-accent\/60.kt-menu-item.active {
@@ -5285,11 +5285,11 @@
         background-color: color-mix(in oklab, var(--accent) 60%, transparent);
     }
       }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:bg-accent\/60 {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:bg-accent\/60 {
       background-color: var(--accent);
     }
       @supports (color: color-mix(in lab, red, red)) {
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:bg-accent\/60 {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:bg-accent\/60 {
         background-color: color-mix(in oklab, var(--accent) 60%, transparent);
     }
       }
@@ -5301,11 +5301,11 @@
         background-color: color-mix(in oklab, var(--accent) 60%, transparent);
     }
       }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:bg-accent\/60 {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:bg-accent\/60 {
       background-color: var(--accent);
     }
       @supports (color: color-mix(in lab, red, red)) {
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:bg-accent\/60 {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:bg-accent\/60 {
         background-color: color-mix(in oklab, var(--accent) 60%, transparent);
     }
       }
@@ -5317,11 +5317,11 @@
         background-color: color-mix(in oklab, var(--accent) 60%, transparent);
     }
       }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:bg-accent\/60 {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:bg-accent\/60 {
       background-color: var(--accent);
     }
       @supports (color: color-mix(in lab, red, red)) {
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:bg-accent\/60 {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:bg-accent\/60 {
         background-color: color-mix(in oklab, var(--accent) 60%, transparent);
     }
       }
@@ -5334,19 +5334,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:bg-background {
       background-color: var(--background);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:bg-background {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:bg-background {
       background-color: var(--background);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:bg-background {
       background-color: var(--background);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:bg-background {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:bg-background {
       background-color: var(--background);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:bg-background {
       background-color: var(--background);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:bg-background {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:bg-background {
       background-color: var(--background);
     }
     .kt-menu-item-active\:bg-secondary.kt-menu-item.active {
@@ -5358,19 +5358,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:bg-secondary {
       background-color: var(--secondary);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:bg-secondary {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:bg-secondary {
       background-color: var(--secondary);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:bg-secondary {
       background-color: var(--secondary);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:bg-secondary {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:bg-secondary {
       background-color: var(--secondary);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:bg-secondary {
       background-color: var(--secondary);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:bg-secondary {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:bg-secondary {
       background-color: var(--secondary);
     }
     .kt-menu-item-active\:font-medium.kt-menu-item.active {
@@ -5385,7 +5385,7 @@
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:font-medium {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:font-medium {
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
@@ -5393,7 +5393,7 @@
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:font-medium {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:font-medium {
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
@@ -5401,7 +5401,7 @@
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:font-medium {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:font-medium {
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
@@ -5417,7 +5417,7 @@
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:font-semibold {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:font-semibold {
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
@@ -5425,7 +5425,7 @@
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:font-semibold {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:font-semibold {
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
@@ -5433,7 +5433,7 @@
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:font-semibold {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:font-semibold {
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
@@ -5446,19 +5446,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:text-foreground {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:text-foreground {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:text-foreground {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item-active\:text-mono.kt-menu-item.active {
@@ -5470,19 +5470,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:text-mono {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:text-mono {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:text-mono {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item-active\:text-primary.kt-menu-item.active {
@@ -5494,19 +5494,19 @@
     .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:text-primary {
+    .kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:text-primary {
       color: var(--primary);
     }
     .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:text-primary {
+    .kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:text-primary {
       color: var(--primary);
     }
     .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:text-primary {
+    .kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:text-primary {
       color: var(--primary);
     }
       .kt-menu-item-active\:before\:bg-primary.kt-menu-item.active::before {
@@ -5521,7 +5521,7 @@
         content: var(--tw-content);
         background-color: var(--primary);
       }
-      :is(.kt-menu-item.active > .kt-menu-link..kt-menu-item-active\:before\:bg-primary)::before {
+      :is(.kt-menu-item.active > .kt-menu-link .kt-menu-item-active\:before\:bg-primary)::before {
         content: var(--tw-content);
         background-color: var(--primary);
       }
@@ -5529,7 +5529,7 @@
         content: var(--tw-content);
         background-color: var(--primary);
       }
-      :is(.kt-menu-item.active > .kt-menu-label..kt-menu-item-active\:before\:bg-primary)::before {
+      :is(.kt-menu-item.active > .kt-menu-label .kt-menu-item-active\:before\:bg-primary)::before {
         content: var(--tw-content);
         background-color: var(--primary);
       }
@@ -5537,7 +5537,7 @@
         content: var(--tw-content);
         background-color: var(--primary);
       }
-      :is(.kt-menu-item.active > .kt-menu-toggle..kt-menu-item-active\:before\:bg-primary)::before {
+      :is(.kt-menu-item.active > .kt-menu-toggle .kt-menu-item-active\:before\:bg-primary)::before {
         content: var(--tw-content);
         background-color: var(--primary);
       }
@@ -5547,19 +5547,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-border {
       border-color: var(--border);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:border-border {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-border {
       border-color: var(--border);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-border {
       border-color: var(--border);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:border-border {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-border {
       border-color: var(--border);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-border {
       border-color: var(--border);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:border-border {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-border {
       border-color: var(--border);
     }
     .kt-menu-item-here\:border-b-gray-400.kt-menu-item.here {
@@ -5568,19 +5568,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:border-b-gray-400 {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:border-b-gray-400 {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:border-b-gray-400 {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-b-gray-400 {
       border-bottom-color: var(--color-gray-400);
     }
     .kt-menu-item-here\:border-b-mono.kt-menu-item.here {
@@ -5589,19 +5589,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-b-mono {
       border-bottom-color: var(--mono);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:border-b-mono {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-b-mono {
       border-bottom-color: var(--mono);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-b-mono {
       border-bottom-color: var(--mono);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:border-b-mono {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-b-mono {
       border-bottom-color: var(--mono);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-b-mono {
       border-bottom-color: var(--mono);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:border-b-mono {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-b-mono {
       border-bottom-color: var(--mono);
     }
     .kt-menu-item-here\:border-b-primary.kt-menu-item.here {
@@ -5610,19 +5610,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-b-primary {
       border-bottom-color: var(--primary);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:border-b-primary {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:border-b-primary {
       border-bottom-color: var(--primary);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-b-primary {
       border-bottom-color: var(--primary);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:border-b-primary {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:border-b-primary {
       border-bottom-color: var(--primary);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-b-primary {
       border-bottom-color: var(--primary);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:border-b-primary {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:border-b-primary {
       border-bottom-color: var(--primary);
     }
     .kt-menu-item-here\:bg-background.kt-menu-item.here {
@@ -5631,19 +5631,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:bg-background {
       background-color: var(--background);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:bg-background {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:bg-background {
       background-color: var(--background);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:bg-background {
       background-color: var(--background);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:bg-background {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:bg-background {
       background-color: var(--background);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:bg-background {
       background-color: var(--background);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:bg-background {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:bg-background {
       background-color: var(--background);
     }
     .kt-menu-item-here\:bg-transparent.kt-menu-item.here {
@@ -5652,19 +5652,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:bg-transparent {
       background-color: transparent;
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:bg-transparent {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:bg-transparent {
       background-color: transparent;
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:bg-transparent {
       background-color: transparent;
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:bg-transparent {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:bg-transparent {
       background-color: transparent;
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:bg-transparent {
       background-color: transparent;
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:bg-transparent {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:bg-transparent {
       background-color: transparent;
     }
     .kt-menu-item-here\:font-medium.kt-menu-item.here {
@@ -5675,7 +5675,7 @@
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:font-medium {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:font-medium {
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
@@ -5683,7 +5683,7 @@
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:font-medium {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:font-medium {
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
@@ -5691,7 +5691,7 @@
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:font-medium {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:font-medium {
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
     }
@@ -5703,7 +5703,7 @@
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:font-semibold {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:font-semibold {
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
@@ -5711,7 +5711,7 @@
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:font-semibold {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:font-semibold {
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
@@ -5719,7 +5719,7 @@
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:font-semibold {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:font-semibold {
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
     }
@@ -5729,19 +5729,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:text-foreground {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:text-foreground {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:text-foreground {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item-here\:text-mono.kt-menu-item.here {
@@ -5750,19 +5750,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:text-mono {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:text-mono {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:text-mono {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item-here\:text-muted-foreground.kt-menu-item.here {
@@ -5771,19 +5771,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-muted-foreground {
       color: var(--muted-foreground);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:text-muted-foreground {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-muted-foreground {
       color: var(--muted-foreground);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-muted-foreground {
       color: var(--muted-foreground);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:text-muted-foreground {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-muted-foreground {
       color: var(--muted-foreground);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-muted-foreground {
       color: var(--muted-foreground);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:text-muted-foreground {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-muted-foreground {
       color: var(--muted-foreground);
     }
     .kt-menu-item-here\:text-primary.kt-menu-item.here {
@@ -5792,19 +5792,19 @@
     .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.here > .kt-menu-link..kt-menu-item-here\:text-primary {
+    .kt-menu-item.here > .kt-menu-link .kt-menu-item-here\:text-primary {
       color: var(--primary);
     }
     .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.here > .kt-menu-label..kt-menu-item-here\:text-primary {
+    .kt-menu-item.here > .kt-menu-label .kt-menu-item-here\:text-primary {
       color: var(--primary);
     }
     .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.here > .kt-menu-toggle..kt-menu-item-here\:text-primary {
+    .kt-menu-item.here > .kt-menu-toggle .kt-menu-item-here\:text-primary {
       color: var(--primary);
     }
     .kt-menu-item-show\:\!flex.kt-menu-item.show {
@@ -5813,19 +5813,19 @@
     .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:\!flex {
       display: flex !important;
     }
-    .kt-menu-item.show > .kt-menu-link..kt-menu-item-show\:\!flex {
+    .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:\!flex {
       display: flex !important;
     }
     .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:\!flex {
       display: flex !important;
     }
-    .kt-menu-item.show > .kt-menu-label..kt-menu-item-show\:\!flex {
+    .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:\!flex {
       display: flex !important;
     }
     .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:\!flex {
       display: flex !important;
     }
-    .kt-menu-item.show > .kt-menu-toggle..kt-menu-item-show\:\!flex {
+    .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:\!flex {
       display: flex !important;
     }
     .kt-menu-item-show\:hidden.kt-menu-item.show {
@@ -5834,19 +5834,19 @@
     .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:hidden {
       display: none;
     }
-    .kt-menu-item.show > .kt-menu-link..kt-menu-item-show\:hidden {
+    .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:hidden {
       display: none;
     }
     .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:hidden {
       display: none;
     }
-    .kt-menu-item.show > .kt-menu-label..kt-menu-item-show\:hidden {
+    .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:hidden {
       display: none;
     }
     .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:hidden {
       display: none;
     }
-    .kt-menu-item.show > .kt-menu-toggle..kt-menu-item-show\:hidden {
+    .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:hidden {
       display: none;
     }
     .kt-menu-item-show\:inline-flex.kt-menu-item.show {
@@ -5855,19 +5855,19 @@
     .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:inline-flex {
       display: inline-flex;
     }
-    .kt-menu-item.show > .kt-menu-link..kt-menu-item-show\:inline-flex {
+    .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:inline-flex {
       display: inline-flex;
     }
     .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:inline-flex {
       display: inline-flex;
     }
-    .kt-menu-item.show > .kt-menu-label..kt-menu-item-show\:inline-flex {
+    .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:inline-flex {
       display: inline-flex;
     }
     .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:inline-flex {
       display: inline-flex;
     }
-    .kt-menu-item.show > .kt-menu-toggle..kt-menu-item-show\:inline-flex {
+    .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:inline-flex {
       display: inline-flex;
     }
     .kt-menu-item-show\:text-foreground.kt-menu-item.show {
@@ -5876,19 +5876,19 @@
     .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.show > .kt-menu-link..kt-menu-item-show\:text-foreground {
+    .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.show > .kt-menu-label..kt-menu-item-show\:text-foreground {
+    .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:text-foreground {
       color: var(--foreground);
     }
-    .kt-menu-item.show > .kt-menu-toggle..kt-menu-item-show\:text-foreground {
+    .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:text-foreground {
       color: var(--foreground);
     }
     .kt-menu-item-show\:text-mono.kt-menu-item.show {
@@ -5897,19 +5897,19 @@
     .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.show > .kt-menu-link..kt-menu-item-show\:text-mono {
+    .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.show > .kt-menu-label..kt-menu-item-show\:text-mono {
+    .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:text-mono {
       color: var(--mono);
     }
-    .kt-menu-item.show > .kt-menu-toggle..kt-menu-item-show\:text-mono {
+    .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:text-mono {
       color: var(--mono);
     }
     .kt-menu-item-show\:text-primary.kt-menu-item.show {
@@ -5918,19 +5918,19 @@
     .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.show > .kt-menu-link..kt-menu-item-show\:text-primary {
+    .kt-menu-item.show > .kt-menu-link .kt-menu-item-show\:text-primary {
       color: var(--primary);
     }
     .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.show > .kt-menu-label..kt-menu-item-show\:text-primary {
+    .kt-menu-item.show > .kt-menu-label .kt-menu-item-show\:text-primary {
       color: var(--primary);
     }
     .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:text-primary {
       color: var(--primary);
     }
-    .kt-menu-item.show > .kt-menu-toggle..kt-menu-item-show\:text-primary {
+    .kt-menu-item.show > .kt-menu-toggle .kt-menu-item-show\:text-primary {
       color: var(--primary);
     }
     .kt-menu-link-hover\:border-none.kt-menu-link:hover {
