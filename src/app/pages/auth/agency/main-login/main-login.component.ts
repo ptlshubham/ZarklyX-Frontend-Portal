@@ -3,15 +3,15 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
-import { AuthService } from '../../../core/services/auth.service';
-import { BaseAuthComponent } from '../base-auth.component';
+import { AuthService } from '../../../../core/services/auth.service';
+import { BaseAuthComponent } from '../../base-auth.component';
 
 @Component({
     selector: 'app-main-login',
     standalone: true,
     imports: [CommonModule, FormsModule],
     templateUrl: './main-login.component.html',
-    styleUrls: ['../auth-layout.scss', './main-login.component.scss']
+    styleUrls: ['../../auth-layout.scss', './main-login.component.scss']
 })
 export class MainLoginComponent extends BaseAuthComponent {
     credentials = {
