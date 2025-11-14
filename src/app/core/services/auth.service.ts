@@ -205,7 +205,7 @@ export class AuthService {
 
     switch (user.userType) {
       case 'main':
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/overview']);
         break;
       case 'influencer':
         this.router.navigate(['/influencer/dashboard']);
@@ -214,7 +214,7 @@ export class AuthService {
         this.router.navigate(['/super-admin/dashboard']);
         break;
       default:
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/overview']);
     }
   }
 }
