@@ -41,7 +41,6 @@
               "public/assets/css/styles.css"
             ],
             "scripts": [
-              "public/assets/vendors/prismjs/prismjs.min.js",
               "public/assets/js/core.bundle.js",
               "public/assets/vendors/ktui/ktui.min.js",
               "public/assets/vendors/apexcharts/apexcharts.min.js",
