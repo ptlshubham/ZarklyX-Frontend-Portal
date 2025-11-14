@@ -41,13 +41,13 @@
               "public/assets/css/styles.css"
             ],
             "scripts": [
+              "public/assets/vendors/prismjs/prismjs.min.js",
               "public/assets/js/core.bundle.js",
               "public/assets/vendors/ktui/ktui.min.js",
               "public/assets/vendors/apexcharts/apexcharts.min.js",
               "public/assets/vendors/@form-validation/form-validation.bundle.js",
               "public/assets/vendors/clipboard/clipboard.min.js",
               "public/assets/vendors/leaflet/leaflet.bundle.js",
-              "public/assets/vendors/prismjs/prismjs.min.js",
               "public/assets/js/layouts/main-layout.js",
               "public/assets/js/widgets/general.js",
               "public/assets/js/datatables/allowed-ip-addresses.js",

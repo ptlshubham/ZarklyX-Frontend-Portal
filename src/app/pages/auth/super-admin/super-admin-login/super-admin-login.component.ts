@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
-import { AuthService } from '../../../core/services/auth.service';
-import { BaseAuthComponent } from '../base-auth.component';
+import { AuthService } from '../../../../core/services/auth.service';
+import { BaseAuthComponent } from '../../base-auth.component';
 
 @Component({
   selector: 'app-super-admin-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  styleUrls: ['../auth-layout.scss', './super-admin-login.component.scss'],
+  styleUrls: ['../../auth-layout.scss', './super-admin-login.component.scss'],
   templateUrl: './super-admin-login.component.html'
 })
 export class SuperAdminLoginComponent extends BaseAuthComponent {

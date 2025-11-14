@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
-import { AuthService } from '../../../core/services/auth.service';
-import { BaseAuthComponent } from '../base-auth.component';
+import { AuthService } from '../../../../core/services/auth.service';
+import { BaseAuthComponent } from '../../base-auth.component';
 
 @Component({
   selector: 'app-influencer-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  styleUrls: ['../auth-layout.scss'],
+  styleUrls: ['../../auth-layout.scss'],
   template: `
     <div class="auth-page-bg">
       <div class="auth-card bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
@@ -259,7 +259,7 @@ export class InfluencerLoginComponent extends BaseAuthComponent {
 
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     this.authService.login(this.credentials, 'influencer').subscribe({
       next: (success) => {
         this.isLoading = false;
