@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { SuperAdminLayoutComponent } from './layouts/super-admin-layout/super-admin-layout.component';
-import { IndexComponent as DashboardIndexComponent } from './pages/dashboard/index/index.component';
-import { AdminDashboardComponent } from './pages/admin/admin-dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleGuard } from './core/guards/role.guard';
+import { DashboardComponent } from './pages/super-admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   // Root redirect to main login
@@ -41,7 +40,7 @@ export const routes: Routes = [
       },
       {
         path: 'overview',
-        loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
+        loadComponent: () => import('./pages/agency/dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
           title: 'Dashboard Overview',
           breadcrumb: 'Overview',
@@ -52,32 +51,32 @@ export const routes: Routes = [
   },
 
   // Influencer Panel with Main Layout
-  {
-    path: 'influencer',
-    component: MainLayoutComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      title: 'Influencer Panel',
-      breadcrumb: 'Influencer',
-      roles: ['influencer']
-    },
-    children: [
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-      },
-      {
-        path: 'dashboard',
-        loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
-        data: {
-          title: 'Influencer Dashboard',
-          breadcrumb: 'Dashboard',
-          roles: ['influencer']
-        }
-      }
-    ]
-  },
+  // {
+  //   path: 'influencer',
+  //   component: MainLayoutComponent,
+  //   canActivate: [AuthGuard, RoleGuard],
+  //   data: {
+  //     title: 'Influencer Panel',
+  //     breadcrumb: 'Influencer',
+  //     roles: ['influencer']
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: 'dashboard',
+  //       pathMatch: 'full'
+  //     },
+  //     {
+  //       path: 'dashboard',
+  //       loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
+  //       data: {
+  //         title: 'Influencer Dashboard',
+  //         breadcrumb: 'Dashboard',
+  //         roles: ['influencer']
+  //       }
+  //     }
+  //   ]
+  // },
 
   // Admin Panel with Super Admin Layout
   {
@@ -97,7 +96,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: AdminDashboardComponent,
+        component: DashboardComponent,
         data: {
           title: 'Admin Dashboard',
           breadcrumb: 'Dashboard',
@@ -134,7 +133,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: AdminDashboardComponent,
+        component: DashboardComponent,
         data: {
           title: 'Super Admin Dashboard',
           breadcrumb: 'Dashboard',
