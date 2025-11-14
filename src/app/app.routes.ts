@@ -27,20 +27,11 @@ export const routes: Routes = [
     path: 'dashboard',
     component: MainLayoutComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {
-      title: 'Dashboard',
-      breadcrumb: 'Dashboard',
-      roles: ['user', 'admin', 'super-admin']
-    },
+    data: { title: 'Dashboard', breadcrumb: 'Dashboard', roles: ['user', 'admin', 'super-admin'] },
     children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
       {
-        path: '',
-        redirectTo: 'overview',
-        pathMatch: 'full'
-      },
-      {
-        path: 'overview',
-        loadComponent: () => import('./pages/agency/dashboard/index/index.component').then(c => c.IndexComponent),
+        path: 'overview', loadComponent: () => import('./pages/agency/dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
           title: 'Dashboard Overview',
           breadcrumb: 'Overview',
@@ -78,42 +69,6 @@ export const routes: Routes = [
   //   ]
   // },
 
-  // Admin Panel with Super Admin Layout
-  {
-    path: 'admin',
-    component: SuperAdminLayoutComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      title: 'Admin Panel',
-      breadcrumb: 'Admin',
-      roles: ['admin', 'super-admin']
-    },
-    children: [
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-      },
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-        data: {
-          title: 'Admin Dashboard',
-          breadcrumb: 'Dashboard',
-          roles: ['admin', 'super-admin']
-        }
-      },
-      // {
-      //   path: 'users',
-      //   component: UsersComponent,
-      //   data: {
-      //     title: 'Admin Users',
-      //     breadcrumb: 'Users',
-      //     roles: ['admin', 'super-admin']
-      //   }
-      // }
-    ]
-  },
 
   // Super Admin Panel with Super Admin Layout  
   {

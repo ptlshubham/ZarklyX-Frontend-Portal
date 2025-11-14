@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { InfluencerCategoryComponent } from './influencer-management/influencer-category/influencer-category.component';
 
 export const adminRoutes: Routes = [
     {
@@ -13,6 +14,15 @@ export const adminRoutes: Routes = [
         data: {
             title: 'Admin Dashboard',
             breadcrumb: 'Dashboard',
+            roles: ['admin', 'super-admin']
+        }
+    },
+    {
+        path: 'categories',
+        component: InfluencerCategoryComponent,
+        data: {
+            title: 'Category Management',
+            breadcrumb: 'Categories',
             roles: ['admin', 'super-admin']
         }
     }
