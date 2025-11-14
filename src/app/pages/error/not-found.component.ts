@@ -5,17 +5,35 @@ import { RouterLink } from '@angular/router';
   selector: 'app-not-found',
   standalone: true,
   template: `
-    <div class="flex items-center justify-center min-h-screen">
-      <div class="text-center">
-        <h1 class="text-4xl font-bold text-red-600">404</h1>
-        <p class="text-xl">Page Not Found</p>
-        <p class="text-gray-600">The page you are looking for doesn't exist.</p>
-        <a routerLink="/dashboard" class="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Go to Dashboard
-        </a>
+    <div class="kt-container-fixed" id="contentContainer">
+     </div>
+     <!-- End of Container -->
+     <div class="flex flex-col items-center justify-center h-[95%]">
+      <div class="mb-10">
+       <img alt="image" class="dark:hidden max-h-[160px]" src="assets/media/illustrations/19.svg"/>
+       <img alt="image" class="light:hidden max-h-[160px]" src="assets/media/illustrations/19-dark.svg"/>
       </div>
-    </div>
+      <span class="kt-badge kt-badge-primary kt-badge-outline mb-3">
+       404 Error
+      </span>
+      <h3 class="text-2xl font-semibold text-mono text-center mb-2">
+       We have lost this page
+      </h3>
+      <div class="text-base text-center text-secondary-foreground mb-10">
+       The requested page is missing. Check the URL or
+       <a class="text-primary font-medium hover:text-primary" href="html/demo1.html">
+        Return Home
+       </a>
+       .
+      </div>
+      <div class="relative">
+       <input class="kt-input ps-8 max-w-64" placeholder="Search Metronic" type="text" value=""/>
+       <button class="kt-btn kt-btn-ghost kt-btn-icon text-muted-foreground kt-btn-sm absolute start-0 top-2/4 -translate-y-2/4 ms-1">
+        <i class="ki-filled ki-magnifier">
+        </i>
+       </button>
+      </div>
+     </div>
   `,
-  imports: [RouterLink]
 })
-export class NotFoundComponent {}
+export class NotFoundComponent { }

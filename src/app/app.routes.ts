@@ -23,42 +23,58 @@ export const routes: Routes = [
     }
   },
 
-  // User Panel with Main Layout
+  // User Dashboard with Main Layout
   {
-    path: '', component: MainLayoutComponent, canActivate: [AuthGuard],
+    path: 'dashboard',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      title: 'Dashboard',
+      breadcrumb: 'Dashboard',
+      roles: ['user', 'admin', 'super-admin']
+    },
     children: [
-      // Dashboard Module
       {
-        path: 'dashboard',
-        loadChildren: () => import('./pages/dashboard/dashboard.routing').then(m => m.dashboardRoutes),
-        canActivate: [RoleGuard],
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full'
+      },
+      {
+        path: 'overview',
+        loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
-          title: 'Dashboard',
-          breadcrumb: 'Dashboard',
+          title: 'Dashboard Overview',
+          breadcrumb: 'Overview',
           roles: ['user', 'admin', 'super-admin']
         }
-      },
-      // Influencer Panel
+      }
+    ]
+  },
+
+  // Influencer Panel with Main Layout
+  {
+    path: 'influencer',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      title: 'Influencer Panel',
+      breadcrumb: 'Influencer',
+      roles: ['influencer']
+    },
+    children: [
       {
-        path: 'influencer',
-        component: MainLayoutComponent,
-        canActivate: [RoleGuard],
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
-          title: 'Influencer Panel',
-          breadcrumb: 'Influencer',
+          title: 'Influencer Dashboard',
+          breadcrumb: 'Dashboard',
           roles: ['influencer']
-        },
-        children: [
-          {
-            path: 'dashboard',
-            loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
-            data: {
-              title: 'Influencer Dashboard',
-              breadcrumb: 'Dashboard',
-              roles: ['influencer']
-            }
-          }
-        ]
+        }
       }
     ]
   },
