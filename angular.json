@@ -48,9 +48,7 @@
               "public/assets/vendors/clipboard/clipboard.min.js",
               "public/assets/vendors/leaflet/leaflet.bundle.js",
               "public/assets/js/layouts/main-layout.js",
-              "public/assets/js/widgets/general.js",
-              "public/assets/js/datatables/allowed-ip-addresses.js",
-              "public/assets/js/datatables/current-sessions.js"
+              "public/assets/js/widgets/general.js"
             ]
           },
           "configurations": {

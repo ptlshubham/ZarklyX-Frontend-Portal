@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'metronic-tailwind-angular' title`, () => {
+  it(`should have the 'zarklyx-frontend-portal' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('metronic-tailwind-angular');
+    expect(app.title).toEqual('zarklyx-frontend-portal');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, metronic-tailwind-angular');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, zarklyx-frontend-portal');
   });
 });

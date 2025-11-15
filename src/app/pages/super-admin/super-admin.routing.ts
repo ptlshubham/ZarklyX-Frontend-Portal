@@ -1,15 +1,9 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { InfluencerCategoryComponent } from './influencer-management/influencer-category/influencer-category.component';
 
-export const adminRoutes: Routes = [
+export const SuperAdminRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-    },
-    {
-        path: 'dashboard',
         component: DashboardComponent,
         data: {
             title: 'Admin Dashboard',
@@ -17,15 +11,17 @@ export const adminRoutes: Routes = [
             roles: ['admin', 'super-admin']
         }
     },
+
     {
-        path: 'categories',
-        component: InfluencerCategoryComponent,
-        data: {
-            title: 'Category Management',
-            breadcrumb: 'Categories',
-            roles: ['admin', 'super-admin']
-        }
-    }
+        path: 'influencer',
+        data: { title: 'Super Admin Panel', breadcrumb: 'Super Admin', roles: ['super-admin'] },
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('./influencer-management/influencer-management.routing').then(m => m.InfluencerManagementRoutes)
+            }
+        ]
+    },
     // Add more admin routes here as you create components:
     // {
     //   path: 'users',
