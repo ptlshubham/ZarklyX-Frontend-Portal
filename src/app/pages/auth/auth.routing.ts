@@ -23,6 +23,14 @@ export const authRoutes: Routes = [
         }
     },
     {
+        path: 'basic-details',
+        loadComponent: () => import('./agency/agency-basic-details-stepper/agency-basic-details-stepper.component').then(c => c.AgencyBasicDetailsStepperComponent),
+        data: {
+            title: 'basic-details',
+            breadcrumb: 'basic-details'
+        }
+    },
+    {
         path: 'login/super-admin',
         loadComponent: () => import('./super-admin/super-admin-login/super-admin-login.component').then(c => c.SuperAdminLoginComponent),
         data: {
