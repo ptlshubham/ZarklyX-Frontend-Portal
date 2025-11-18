@@ -1,8 +1,7 @@
-<div class="grid lg:grid-cols-2 grow">
+<div class="grid lg:grid-cols-2 grow min-h-[95vh]">
     <div class="flex justify-center items-center p-8 lg:p-10 order-2 lg:order-1">
         <div class="kt-card max-w-[370px] w-full">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="kt-form kt-card-content flex flex-col p-10"
-                id="sign_in_form">
+            <form [formGroup]="loginForm" class="kt-form kt-card-content flex flex-col p-10" id="sign_in_form">
                 <!-- Error Message -->
                 <div class="text-center mb-6">
                     <h3 class="text-lg font-medium text-mono leading-none mb-2.5">
@@ -12,7 +11,7 @@
                         <span class="text-sm text-secondary-foreground me-1.5">
                             Need an account?
                         </span>
-                        <a class="text-sm link" href="html/demo1/authentication/branded/sign-up.html">
+                        <a class="text-sm kt-link" routerLink="/auth/signup">
                             Sign up
                         </a>
                     </div>
@@ -23,7 +22,7 @@
                         Use Google
                     </a>
                     <a class="kt-btn kt-btn-outline justify-center" href="#">
-                        <img alt="" class="size-3.5 shrink-0 dark:hidden"
+                        <img alt="" class="size-3.5 shrink-0"
                             src="/assets/media/brand-logos/apple-black.svg" />
                         <img alt="" class="size-3.5 shrink-0 light:hidden"
                             src="/assets/media/brand-logos/apple-white.svg" />
@@ -41,27 +40,28 @@
                 </div>
                 <div class="flex flex-col kt-form-item gap-1">
                     <label class="kt-form-label font-normal text-mono">
-                        Email address:
+                        Email Or Mobile No
                     </label>
                     <div class="kt-form-control">
                         <input class="kt-input"
-                            [class.kt-input-error]="f['email'].invalid && (f['email'].touched || submitted)"
-                            [class.border-red-500]="f['email'].invalid && (f['email'].touched || submitted)"
-                            placeholder="Email address" type="email" formControlName="email" autocomplete="email"
-                            required />
+                            [class.kt-input-error]="f['emailOrMobile'].invalid && (f['emailOrMobile'].touched || submitted)"
+                            [class.border-red-500]="f['emailOrMobile'].invalid && (f['emailOrMobile'].touched || submitted)"
+                            placeholder="Email or Mobile Number" type="text" formControlName="emailOrMobile"
+                            autocomplete="on" required />
                     </div>
-                    @if (f['email'].invalid && (f['email'].touched || submitted)) {
+
+                    @if (f['emailOrMobile'].invalid && (f['emailOrMobile'].touched || submitted)) {
                     <div class="kt-form-message">
-                        @if (f['email'].errors?.['required']) {
-                        Email is required
+                        @if (f['emailOrMobile'].errors?.['required']) {
+                        Email or Mobile number is required
                         }
-                        @if (f['email'].errors?.['email']) {
-                        Please enter a valid email address
+                        @if (f['emailOrMobile'].errors?.['pattern']) {
+                        Please enter a valid Email or Mobile number
                         }
                     </div>
                     }
                 </div>
-                <div class="flex flex-col kt-form-item gap-1">
+                <!-- <div class="flex flex-col kt-form-item gap-1">
                     <div class="flex items-center justify-between gap-1">
                         <label class="kt-form-label font-normal text-mono">
                             Password:
@@ -106,8 +106,61 @@
                         }
                     </div>
                     }
+                </div> -->
+                @if(isOtpPage){
+                <div class="mb-2">
+                    <div class="text-center mb-2">
+                        <div class="flex flex-col">
+                            <span class="text-sm text-secondary-foreground mb-1.5">
+                                Enter the verification code we sent it in your Email Or Phone
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-2.5" style="flex-wrap: nowrap !important;">
+                        <input
+                            class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
+                            style="width: 40px !important" maxlength="1" name="code_0" placeholder="" type="text"
+                            value="" (input)="onOtpInput($event, 0)" />
+                        <input
+                            class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
+                            style="width: 40px !important" maxlength="1" name="code_1" placeholder="" type="text"
+                            value="" (input)="onOtpInput($event, 1)" />
+                        <input
+                            class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
+                            style="width: 40px !important" maxlength="1" name="code_2" type="text" value=""
+                            (input)="onOtpInput($event, 2)" />
+                        <input
+                            class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
+                            style="width: 40px !important" maxlength="1" name="code_3" type="text" value=""
+                            (input)="onOtpInput($event, 3)" />
+                        <input
+                            class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
+                            style="width: 40px !important" maxlength="1" name="code_4" type="text" value=""
+                            (input)="onOtpInput($event, 4)" />
+                        <input
+                            class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
+                            style="width: 40px !important" maxlength="1" name="code_5" type="text" value=""
+                            (input)="onOtpInput($event, 5)" />
+                    </div>
+
+                    <div class="flex items-center justify-center mb-3 mt-3">
+                        <span class="text-2sm text-secondary-foreground me-1.5">
+                            Didn’t receive a code? @if(resendTimer != 0){({{resendTimer}}s)}
+                        </span>
+                        @if(resendTimer == 0){
+                        <a class="text-2sm kt-link" (click)="resendOtp()">
+                            Resend
+                        </a>
+                        }
+                    </div>
                 </div>
-                <div class="kt-form-item">
+                }
+                @if(errorMessage){
+                <div class="flex items-center justify-center">
+                    <div class="kt-form-message">{{errorMessage}}</div>
+                </div>
+                }
+                <!-- <div class="kt-form-item">
                     <div class="kt-form-control">
                         <label class="kt-label">
                             <input class="kt-checkbox kt-checkbox-sm" formControlName="rememberMe" type="checkbox" />
@@ -116,17 +169,31 @@
                             </span>
                         </label>
                     </div>
-                </div>
-                <button type="submit" class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
-                    @if (isLoading) {
+                </div> -->
+                @if (isLoading && !isOtpPage) {
+                <button class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
                     <span>Signing in...</span>
-                    } @else {
-                    <span>Sign In</span>
-                    }
                 </button>
+                }
+                @else if(isOtpPage){
+                @if(isOtpPage && isLoading){
+                <button class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
+                    <span>Verifing Otp...</span>
+                </button>}@else{
+                <button (click)="submitOtp()" class="kt-btn kt-btn-primary flex justify-center grow"
+                    [disabled]="isLoading">
+                    <span>Verify Otp</span>
+                </button>}
+                }
+                @else{
+                <button (click)="onSubmit()" class="kt-btn kt-btn-primary flex justify-center grow"
+                    [disabled]="loginForm.invalid">
+                    <span>Sign In</span>
+                </button>
+                }
 
                 <!-- Navigation to other login types -->
-                <div class="text-center mt-4">
+                <div class="text-center mt-2">
                     <div class="text-sm text-secondary-foreground mb-2">Other login options:</div>
                     <div class="flex gap-2 justify-center">
                         <button type="button" (click)="switchLoginType('influencer')" class="text-sm kt-link">Influencer
@@ -143,7 +210,7 @@
         class="lg:rounded-xl lg:border lg:border-border lg:m-5 order-1 lg:order-2 bg-top xxl:bg-center xl:bg-cover bg-no-repeat branded-bg">
         <div class="flex flex-col justify-between h-full p-8 lg:p-16">
             <div class="flex flex-col gap-4">
-                <a href="html/demo1.html">
+                <a href="/">
                     <img class="h-[28px] max-w-none" src="/assets/media/app/mini-logo.svg" />
                 </a>
                 <div class="flex flex-col gap-3">
