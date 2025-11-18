@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
-// Declare all Metronic and KTUI components
+// Declare all KTui components
 declare var KTToggle: any;
 declare var KTDrawer: any;
 declare var KTMenu: any;
 declare var KTScrollable: any;
 declare var KTSticky: any;
 declare var KTReparent: any;
-declare var KTRotate: any;
 declare var KTDropdown: any;
 declare var KTModal: any;
 declare var KTCollapse: any;
@@ -26,6 +25,9 @@ declare var KTDatepicker: any;
 declare var KTSelect: any;
 declare var KTToast: any;
 
+// Declare window object
+declare var window: any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,120 +36,179 @@ export class MetronicInitService {
   constructor() { }
 
   init() {
-    this.initToggles();
-    this.initScrollables();
-    this.initDrawers();
-    this.initMenus();
-    this.initSticky();
-    this.initReparent();
-    this.initDropdowns();
-    this.initModals();
-    this.initCollapse();
-    this.initDismiss();
-    this.initTabs();
-    this.initAccordions();
-    this.initScrollspy();
-    this.initScrollto();
-    this.initTooltips();
-    this.initSteppers();
-    this.initThemeSwitch();
-    this.initImageInput();
-    this.initTogglePassword();
-    this.initDatatables();
-    this.initDatepicker();
-    this.initSelect();
-    this.initToast();
+    // Initialize all available components with safe error handling
+    this.safeInit('KTToggle', () => this.initToggles());
+    this.safeInit('KTScrollable', () => this.initScrollables());
+    this.safeInit('KTDrawer', () => this.initDrawers());
+    this.safeInit('KTMenu', () => this.initMenus());
+    this.safeInit('KTSticky', () => this.initSticky());
+    this.safeInit('KTReparent', () => this.initReparent());
+    this.safeInit('KTDropdown', () => this.initDropdowns());
+    this.safeInit('KTModal', () => this.initModals());
+    this.safeInit('KTCollapse', () => this.initCollapse());
+    this.safeInit('KTDismiss', () => this.initDismiss());
+    this.safeInit('KTTabs', () => this.initTabs());
+    this.safeInit('KTAccordion', () => this.initAccordions());
+    this.safeInit('KTScrollspy', () => this.initScrollspy());
+    this.safeInit('KTScrollto', () => this.initScrollto());
+    this.safeInit('KTTooltip', () => this.initTooltips());
+    this.safeInit('KTStepper', () => this.initSteppers());
+    this.safeInit('KTThemeSwitch', () => this.initThemeSwitch());
+    this.safeInit('KTImageInput', () => this.initImageInput());
+    this.safeInit('KTTogglePassword', () => this.initTogglePassword());
+    this.safeInit('KTDataTable', () => this.initDatatables());
+    this.safeInit('KTDatepicker', () => this.initDatepicker());
+    this.safeInit('KTSelect', () => this.initSelect());
+    this.safeInit('KTToast', () => this.initToast());
+  }
+
+  private safeInit(componentName: string, initFn: () => void) {
+    try {
+      if (typeof window !== 'undefined' && window[componentName] && typeof window[componentName].init === 'function') {
+        initFn();
+      } else {
+        console.warn(`${componentName} component is not available or does not have an init method`);
+      }
+    } catch (error) {
+      console.error(`Error initializing ${componentName}:`, error);
+    }
   }
 
   initDrawers() {
-    KTDrawer.init();
+    if (typeof KTDrawer !== 'undefined') {
+      KTDrawer.init();
+    }
   }
 
   initMenus() {
-    KTMenu.init();
+    if (typeof KTMenu !== 'undefined') {
+      KTMenu.init();
+    }
   }
 
   initDropdowns() {
-    KTDropdown.init();
+    if (typeof KTDropdown !== 'undefined') {
+      KTDropdown.init();
+    }
   }
 
   initSticky() {
-    KTSticky.init();
+    if (typeof KTSticky !== 'undefined') {
+      KTSticky.init();
+    }
   }
 
   initReparent() {
-    KTReparent.init();
+    if (typeof KTReparent !== 'undefined') {
+      KTReparent.init();
+    }
   }
 
   initScrollables() {
-    KTScrollable.init();
+    if (typeof KTScrollable !== 'undefined') {
+      KTScrollable.init();
+    }
   }
 
   initToggles() {
-    KTToggle.init();
+    if (typeof KTToggle !== 'undefined') {
+      KTToggle.init();
+    }
   }
 
   initModals() {
-    KTModal.init();
+    if (typeof KTModal !== 'undefined') {
+      KTModal.init();
+    }
   }
 
   initCollapse() {
-    KTCollapse.init();
+    if (typeof KTCollapse !== 'undefined') {
+      KTCollapse.init();
+    }
   }
 
   initDismiss() {
-    KTDismiss.init();
+    if (typeof KTDismiss !== 'undefined') {
+      KTDismiss.init();
+    }
   }
 
   initTabs() {
-    KTTabs.init();
+    if (typeof KTTabs !== 'undefined') {
+      KTTabs.init();
+    }
   }
 
   initAccordions() {
-    KTAccordion.init();
+    if (typeof KTAccordion !== 'undefined') {
+      KTAccordion.init();
+    }
   }
 
   initScrollspy() {
-    KTScrollspy.init();
+    if (typeof KTScrollspy !== 'undefined') {
+      KTScrollspy.init();
+    }
   }
 
   initScrollto() {
-    KTScrollto.init();
+    if (typeof KTScrollto !== 'undefined') {
+      KTScrollto.init();
+    }
   }
 
   initTooltips() {
-    KTTooltip.init();
+    if (typeof KTTooltip !== 'undefined') {
+      KTTooltip.init();
+    }
   }
 
   initSteppers() {
-    KTStepper.init();
+    if (typeof KTStepper !== 'undefined') {
+      KTStepper.init();
+    }
   }
 
   initThemeSwitch() {
-    KTThemeSwitch.init();
+    if (typeof KTThemeSwitch !== 'undefined') {
+      KTThemeSwitch.init();
+    }
   }
 
   initImageInput() {
-    KTImageInput.init();
+    if (typeof KTImageInput !== 'undefined') {
+      KTImageInput.init();
+    }
   }
 
   initTogglePassword() {
-    KTTogglePassword.init();
+    if (typeof KTTogglePassword !== 'undefined') {
+      KTTogglePassword.init();
+    }
   }
 
   initDatatables() {
-    KTDataTable.init();
+    if (typeof KTDataTable !== 'undefined') {
+      KTDataTable.init();
+    }
   }
 
   initDatepicker() {
-    KTDatepicker.init();
+    if (typeof KTDatepicker !== 'undefined') {
+      KTDatepicker.init();
+    }
   }
 
   initSelect() {
-    KTSelect.init();
+    if (typeof KTSelect !== 'undefined') {
+      KTSelect.init();
+    }
   }
 
   initToast() {
-    KTToast.init();
+    if (typeof KTToast !== 'undefined') {
+      KTToast.init();
+    }
   }
 }

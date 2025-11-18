@@ -1,31 +1,10 @@
-
 <div class="grid lg:grid-cols-2 grow">
     <div class="flex justify-center items-center p-8 lg:p-10 order-2 lg:order-1">
         <div class="kt-card max-w-[370px] w-full">
-            <form (ngSubmit)="onSubmit()" class="kt-card-content flex flex-col gap-5 p-10" id="sign_in_form" method="post">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="kt-form kt-card-content flex flex-col p-10"
+                id="sign_in_form">
                 <!-- Error Message -->
-                <div *ngIf="errorMessage" class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
-                    <div class="flex">
-                        <div class="ml-3">
-                            <p class="text-sm text-red-700">{{ errorMessage }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Test Credentials Info -->
-                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-4">
-                    <div class="flex">
-                        <div class="ml-3">
-                            <h4 class="text-sm font-medium text-blue-800">Test Credentials</h4>
-                            <p class="text-xs text-blue-600 mt-1">
-                                Email: <code class="bg-blue-100 px-1 rounded">user&#64;example.com</code> | 
-                                Password: <code class="bg-blue-100 px-1 rounded">password</code>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mb-2.5">
+                <div class="text-center mb-6">
                     <h3 class="text-lg font-medium text-mono leading-none mb-2.5">
                         Sign in
                     </h3>
@@ -44,7 +23,8 @@
                         Use Google
                     </a>
                     <a class="kt-btn kt-btn-outline justify-center" href="#">
-                        <img alt="" class="size-3.5 shrink-0 dark:hidden" src="/assets/media/brand-logos/apple-black.svg" />
+                        <img alt="" class="size-3.5 shrink-0 dark:hidden"
+                            src="/assets/media/brand-logos/apple-black.svg" />
                         <img alt="" class="size-3.5 shrink-0 light:hidden"
                             src="/assets/media/brand-logos/apple-white.svg" />
                         Use Apple
@@ -59,63 +39,108 @@
                     <span class="border-t border-border w-full">
                     </span>
                 </div>
-                <div class="flex flex-col gap-1">
+                <div class="flex flex-col kt-form-item gap-1">
                     <label class="kt-form-label font-normal text-mono">
-                        Email
+                        Email address:
                     </label>
-                    <input class="kt-input" placeholder="email@email.com" type="email" [(ngModel)]="credentials.email" name="email" required />
+                    <div class="kt-form-control">
+                        <input class="kt-input"
+                            [class.kt-input-error]="f['email'].invalid && (f['email'].touched || submitted)"
+                            [class.border-red-500]="f['email'].invalid && (f['email'].touched || submitted)"
+                            placeholder="Email address" type="email" formControlName="email" autocomplete="email"
+                            required />
+                    </div>
+                    @if (f['email'].invalid && (f['email'].touched || submitted)) {
+                    <div class="kt-form-message">
+                        @if (f['email'].errors?.['required']) {
+                        Email is required
+                        }
+                        @if (f['email'].errors?.['email']) {
+                        Please enter a valid email address
+                        }
+                    </div>
+                    }
                 </div>
-                <div class="flex flex-col gap-1">
+                <div class="flex flex-col kt-form-item gap-1">
                     <div class="flex items-center justify-between gap-1">
                         <label class="kt-form-label font-normal text-mono">
-                            Password
+                            Password:
                         </label>
                         <a class="text-sm kt-link shrink-0"
                             href="html/demo1/authentication/branded/reset-password/enter-email.html">
                             Forgot Password?
                         </a>
                     </div>
-                    <div class="kt-input" data-kt-toggle-password="true">
-                        <input name="user_password" placeholder="Enter Password" type="password" [(ngModel)]="credentials.password" required />
-                        <button class="kt-btn kt-btn-sm kt-btn-ghost kt-btn-icon bg-transparent! -me-1.5"
-                            data-kt-toggle-password-trigger="true" type="button">
-                            <span class="kt-toggle-password-active:hidden">
-                                <i class="ki-filled ki-eye text-muted-foreground">
-                                </i>
+                    <div class="kt-form-control">
+                        <div class="kt-input"
+                            [class.kt-input-error]="f['password'].invalid && (f['password'].touched || submitted)"
+                            [class.border-red-500]="f['password'].invalid && (f['password'].touched || submitted)">
+                            <input formControlName="password" placeholder="Password"
+                                [type]="fieldTextType ? 'text' : 'password'" autocomplete="current-password"
+                                [attr.aria-invalid]="f['password'].invalid && (f['password'].touched || submitted)"
+                                required />
+                            <button class="kt-btn kt-btn-sm kt-btn-ghost kt-btn-icon bg-transparent! -me-1.5"
+                                (click)="toggleFieldTextType()" type="button" data-kt-toggle-password-trigger="true">
+                                @if (!fieldTextType) {
+                                <span class="kt-toggle-password-active:hidden">
+                                    <i class="ki-filled ki-eye text-muted-foreground">
+                                    </i>
+                                </span>
+                                }
+                                @if (fieldTextType) {
+                                <span class="hidden kt-toggle-password-active:block">
+                                    <i class="ki-filled ki-eye-slash text-muted-foreground">
+                                    </i>
+                                </span>
+                                }
+                            </button>
+                        </div>
+                    </div>
+                    @if (f['password'].invalid && (f['password'].touched || submitted)) {
+                    <div class="kt-form-message">
+                        @if (f['password'].errors?.['required']) {
+                        Password is required
+                        }
+                        @if (f['password'].errors?.['minlength']) {
+                        Password must be at least 6 characters
+                        }
+                    </div>
+                    }
+                </div>
+                <div class="kt-form-item">
+                    <div class="kt-form-control">
+                        <label class="kt-label">
+                            <input class="kt-checkbox kt-checkbox-sm" formControlName="rememberMe" type="checkbox" />
+                            <span class="kt-checkbox-label">
+                                Remember me
                             </span>
-                            <span class="hidden kt-toggle-password-active:block">
-                                <i class="ki-filled ki-eye-slash text-muted-foreground">
-                                </i>
-                            </span>
-                        </button>
+                        </label>
                     </div>
                 </div>
-                <label class="kt-label">
-                    <input class="kt-checkbox kt-checkbox-sm" name="check" type="checkbox" value="1" />
-                    <span class="kt-checkbox-label">
-                        Remember me
-                    </span>
-                </label>
                 <button type="submit" class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
-                    <span *ngIf="isLoading">Signing in...</span>
-                    <span *ngIf="!isLoading">Sign In</span>
+                    @if (isLoading) {
+                    <span>Signing in...</span>
+                    } @else {
+                    <span>Sign In</span>
+                    }
                 </button>
-                
+
                 <!-- Navigation to other login types -->
                 <div class="text-center mt-4">
                     <div class="text-sm text-secondary-foreground mb-2">Other login options:</div>
                     <div class="flex gap-2 justify-center">
-                        <button type="button" (click)="switchLoginType('influencer')" 
-                                class="text-sm kt-link">Influencer Login</button>
+                        <button type="button" (click)="switchLoginType('influencer')" class="text-sm kt-link">Influencer
+                            Login</button>
                         <span class="text-sm text-secondary-foreground">|</span>
-                        <button type="button" (click)="switchLoginType('super-admin')" 
-                                class="text-sm kt-link">Super Admin</button>
+                        <button type="button" (click)="switchLoginType('super-admin')" class="text-sm kt-link">Super
+                            Admin</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="lg:rounded-xl lg:border lg:border-border lg:m-5 order-1 lg:order-2 bg-top xxl:bg-center xl:bg-cover bg-no-repeat branded-bg">
+    <div
+        class="lg:rounded-xl lg:border lg:border-border lg:m-5 order-1 lg:order-2 bg-top xxl:bg-center xl:bg-cover bg-no-repeat branded-bg">
         <div class="flex flex-col justify-between h-full p-8 lg:p-16">
             <div class="flex flex-col gap-4">
                 <a href="html/demo1.html">

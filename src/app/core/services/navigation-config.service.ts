@@ -91,7 +91,7 @@ export class NavigationConfigService {
         title: 'Admin Dashboard',
         type: 'item',
         icon: 'ki-dashboard',
-        url: '/super-admin/dashboard',
+        url: '/super-admin',
         roles: ['admin', 'super-admin']
       },
       {
@@ -158,7 +158,7 @@ export class NavigationConfigService {
         title: 'Super Admin Dashboard',
         type: 'item',
         icon: 'ki-dashboard',
-        url: '/super-admin/dashboard',
+        url: '/super-admin',
         roles: ['super-admin']
       },
       {

@@ -3,10 +3,10 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { SuperAdminLayoutComponent } from './layouts/super-admin-layout/super-admin-layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleGuard } from './core/guards/role.guard';
-import { DashboardComponent } from './pages/super-admin/dashboard/dashboard.component';
+
 
 export const routes: Routes = [
-  // Root redirect to main login
+  // Root redirect to login
   {
     path: '',
     pathMatch: 'full',
@@ -22,78 +22,44 @@ export const routes: Routes = [
     }
   },
 
-  // User Dashboard with Main Layout
+  // Agency Routes with Main Layout - All agency features in one place
   {
     path: 'dashboard',
     component: MainLayoutComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { title: 'Dashboard', breadcrumb: 'Dashboard', roles: ['user', 'admin', 'super-admin'] },
+    data: { title: 'Dashboard', breadcrumb: 'Dashboard', roles: ['user', 'admin'] },
     children: [
-      { path: '', redirectTo: 'overview', pathMatch: 'full' },
       {
-        path: 'overview', loadComponent: () => import('./pages/agency/dashboard/index/index.component').then(c => c.IndexComponent),
-        data: {
-          title: 'Dashboard Overview',
-          breadcrumb: 'Overview',
-          roles: ['user', 'admin', 'super-admin']
-        }
+        path: '',
+        loadChildren: () => import('./pages/agency/agency.routing').then(m => m.agencyRoutes)
       }
     ]
   },
 
-  // Influencer Panel with Main Layout
-  // {
-  //   path: 'influencer',
-  //   component: MainLayoutComponent,
-  //   canActivate: [AuthGuard, RoleGuard],
-  //   data: {
-  //     title: 'Influencer Panel',
-  //     breadcrumb: 'Influencer',
-  //     roles: ['influencer']
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       redirectTo: 'dashboard',
-  //       pathMatch: 'full'
-  //     },
-  //     {
-  //       path: 'dashboard',
-  //       loadComponent: () => import('./pages/dashboard/index/index.component').then(c => c.IndexComponent),
-  //       data: {
-  //         title: 'Influencer Dashboard',
-  //         breadcrumb: 'Dashboard',
-  //         roles: ['influencer']
-  //       }
-  //     }
-  //   ]
-  // },
+  // Influencer Routes with Main Layout - All influencer features in one place
+  {
+    path: 'influencer',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { title: 'Influencer Panel', breadcrumb: 'Influencer', roles: ['influencer'] },
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./pages/infulencer/influencer.routing').then(m => m.influencerRoutes)
+      }
+    ]
+  },
 
-
-  // Super Admin Panel with Super Admin Layout  
+  // Super Admin Routes with Super Admin Layout - All super admin features in one place
   {
     path: 'super-admin',
     component: SuperAdminLayoutComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {
-      title: 'Super Admin Panel',
-      breadcrumb: 'Super Admin',
-      roles: ['super-admin']
-    },
+    data: { title: 'Super Admin Panel', breadcrumb: 'Super Admin', roles: ['super-admin'] },
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-      },
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-        data: {
-          title: 'Super Admin Dashboard',
-          breadcrumb: 'Dashboard',
-          roles: ['super-admin']
-        }
+        loadChildren: () => import('./pages/super-admin/super-admin.routing').then(m => m.SuperAdminRoutes)
       }
     ]
   },

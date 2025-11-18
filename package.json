@@ -17,6 +17,10 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/platform-browser-dynamic": "^20.1.0",
     "@angular/router": "^20.1.0",
+    "@keenthemes/ktui": "^1.0.27",
+    "@ng-select/ng-select": "^20.7.0",
+    "country-state-city": "^3.2.1",
+    "moment-timezone": "^0.6.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

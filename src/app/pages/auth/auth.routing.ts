@@ -10,7 +10,7 @@ export const authRoutes: Routes = [
         path: 'login',
         loadComponent: () => import('./agency/main-login/main-login.component').then(c => c.MainLoginComponent),
         data: {
-            title: 'Login',
+            title: 'Agency Login',
             breadcrumb: 'Login'
         }
     },
@@ -28,6 +28,11 @@ export const authRoutes: Routes = [
         data: {
             title: 'Influencer Sign up',
             breadcrumb: 'Influencer Sign up'
+        path: 'basic-details',
+        loadComponent: () => import('./agency/agency-basic-details-stepper/agency-basic-details-stepper.component').then(c => c.AgencyBasicDetailsStepperComponent),
+        data: {
+            title: 'basic-details',
+            breadcrumb: 'basic-details'
         }
     },
     {
@@ -38,4 +43,39 @@ export const authRoutes: Routes = [
             breadcrumb: 'Super Admin Login'
         }
     }
+];
+    },
+    // Add more auth routes here as you create components:
+    // {
+    //   path: 'register',
+    //   loadComponent: () => import('./agency/register/register.component').then(c => c.RegisterComponent),
+    //   data: {
+    //     title: 'Agency Registration',
+    //     breadcrumb: 'Register'
+    //   }
+    // },
+    // {
+    //   path: 'forgot-password',
+    //   loadComponent: () => import('./common/forgot-password/forgot-password.component').then(c => c.ForgotPasswordComponent),
+    //   data: {
+    //     title: 'Forgot Password',
+    //     breadcrumb: 'Forgot Password'
+    //   }
+    // },
+    // {
+    //   path: 'reset-password',
+    //   loadComponent: () => import('./common/reset-password/reset-password.component').then(c => c.ResetPasswordComponent),
+    //   data: {
+    //     title: 'Reset Password',
+    //     breadcrumb: 'Reset Password'
+    //   }
+    // }
+    // {
+    //   path: 'verify-email',
+    //   loadComponent: () => import('./common/verify-email/verify-email.component').then(c => c.VerifyEmailComponent),
+    //   data: {
+    //     title: 'Verify Email',
+    //     breadcrumb: 'Verify Email'
+    //   }
+    // }
 ];
