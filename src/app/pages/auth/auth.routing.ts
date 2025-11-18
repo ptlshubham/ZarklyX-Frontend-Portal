@@ -23,6 +23,14 @@ export const authRoutes: Routes = [
         }
     },
     {
+        path: 'signup/influencer',
+        loadComponent: () => import('./influencer/influencer-signup/influencer-signup.component').then(c => c.InfluencerSignUpComponent),
+        data: {
+            title: 'Influencer Sign up',
+            breadcrumb: 'Influencer Sign up'
+        }
+    },
+    {
         path: 'basic-details',
         loadComponent: () => import('./agency/agency-basic-details-stepper/agency-basic-details-stepper.component').then(c => c.AgencyBasicDetailsStepperComponent),
         data: {
@@ -45,7 +53,9 @@ export const authRoutes: Routes = [
             title: 'Sign Up',
             breadcrumb: 'Sign Up'
         }
-    }
+    },
+]
+
     // Add more auth routes here as you create components:
     // {
     //   path: 'register',
@@ -79,4 +89,3 @@ export const authRoutes: Routes = [
     //     breadcrumb: 'Verify Email'
     //   }
     // }
-];
