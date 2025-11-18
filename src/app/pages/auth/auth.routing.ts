@@ -23,6 +23,11 @@ export const authRoutes: Routes = [
         }
     },
     {
+        path: 'signup/influencer',
+        loadComponent: () => import('./influencer/influencer-signup/influencer-signup.component').then(c => c.InfluencerSignUpComponent),
+        data: {
+            title: 'Influencer Sign up',
+            breadcrumb: 'Influencer Sign up'
         path: 'basic-details',
         loadComponent: () => import('./agency/agency-basic-details-stepper/agency-basic-details-stepper.component').then(c => c.AgencyBasicDetailsStepperComponent),
         data: {
@@ -37,6 +42,8 @@ export const authRoutes: Routes = [
             title: 'Super Admin Login',
             breadcrumb: 'Super Admin Login'
         }
+    }
+];
     },
     // Add more auth routes here as you create components:
     // {
