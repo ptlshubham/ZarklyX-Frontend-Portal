@@ -23,6 +23,14 @@ export const authRoutes: Routes = [
         }
     },
     {
+        path: 'signup/influencer',
+        loadComponent: () => import('./influencer/influencer-signup/influencer-signup.component').then(c => c.InfluencerSignUpComponent),
+        data: {
+            title: 'Influencer Sign up',
+            breadcrumb: 'Influencer Sign up'
+        }
+    },
+    {
         path: 'login/super-admin',
         loadComponent: () => import('./super-admin/super-admin-login/super-admin-login.component').then(c => c.SuperAdminLoginComponent),
         data: {
