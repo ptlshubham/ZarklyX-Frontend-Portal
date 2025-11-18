@@ -45,7 +45,7 @@ export const authRoutes: Routes = [
             title: 'Super Admin Login',
             breadcrumb: 'Super Admin Login'
         }
-    };
+    },
     {
         path: 'signup',
         loadComponent: () => import('./agency/signup/signup.component').then(c => c.SignupComponent),
@@ -53,8 +53,8 @@ export const authRoutes: Routes = [
             title: 'Sign Up',
             breadcrumb: 'Sign Up'
         }
-    }
-];
+    },
+]
 
     // Add more auth routes here as you create components:
     // {
