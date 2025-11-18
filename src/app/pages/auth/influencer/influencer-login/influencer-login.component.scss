@@ -1,0 +1,12 @@
+// Main Login Component Specific Styles
+// Base auth layout styles are handled by auth-layout.scss
+
+// Component-specific customizations can go here
+// The universal auth layout rules will automatically apply
+
+.branded-bg {
+    background-image: url("/assets/media/images/2600x1600/influ.jpg");
+}
+.dark .branded-bg {
+    background-image: url("/assets/media/images/2600x1600/1-dark.png");
+}
