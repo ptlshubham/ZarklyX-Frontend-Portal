@@ -4,14 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { BaseAuthComponent } from '../../base-auth.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 declare const KTSelect: any;
 
 @Component({
   selector: 'app-influencer-sign-up',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, HttpClientModule],
   templateUrl: './influencer-signup.component.html',
   styleUrls: ['../../auth-layout.scss', './influencer-signup.component.scss'],
 })
@@ -49,14 +49,15 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
   });
 
 
-    getSelectOption(country: string, code: string) {
+  getSelectOption(country: string, code: string) {
     return JSON.stringify({
       name: country,
       text: `${code}`
     });
   }
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     renderer: Renderer2,
     @Inject(DOCUMENT) document: Document,
     private formBuilder: FormBuilder
@@ -74,7 +75,7 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
   }
 
 
-    loadCountryCode() {
+  loadCountryCode() {
     this.http.get<any>('https://ipapi.co/json/').subscribe(res => {
       if (res && res.country_calling_code) {
         console.log(res);
@@ -186,7 +187,7 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
     return this.otpValues.length === 6 && this.otpValues.every(v => /^[0-9]$/.test(v));
   }
 
-  wrongInfoEnter(){
+  wrongInfoEnter() {
     this.isOtpPage = false;
 
   }
