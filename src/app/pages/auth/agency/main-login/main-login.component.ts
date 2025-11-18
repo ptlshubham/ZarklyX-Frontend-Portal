@@ -1,5 +1,5 @@
 import { Component, Renderer2, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
@@ -12,7 +12,8 @@ import { BaseAuthComponent } from '../../base-auth.component';
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterLink
     ],
     templateUrl: './main-login.component.html',
     styleUrls: ['../../auth-layout.scss', './main-login.component.scss']
@@ -23,6 +24,12 @@ export class MainLoginComponent extends BaseAuthComponent {
     isLoading = false;
     errorMessage = '';
     fieldTextType = false;
+    isOtpPage = false;
+
+    // OTP
+    otpValues: string[] = ['', '', '', '', '', ''];
+    resendTimer = 60;
+    otpInterval: ReturnType<typeof setInterval> | null = null;
 
     constructor(
         private router: Router,
@@ -37,9 +44,9 @@ export class MainLoginComponent extends BaseAuthComponent {
 
     private initializeForm(): void {
         this.loginForm = this.formBuilder.group({
-            email: ['user@example.com', [Validators.required, Validators.email]],
-            password: ['password', [Validators.required, Validators.minLength(6)]],
-            rememberMe: [false]
+            emailOrMobile: [
+                '', [Validators.required, Validators.pattern(/^(?:\+?\d{7,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]
+            ]
         });
     }
 
@@ -58,35 +65,115 @@ export class MainLoginComponent extends BaseAuthComponent {
         this.errorMessage = '';
 
         const credentials = {
-            email: this.loginForm.value.email,
-            password: this.loginForm.value.password
+            emailOrMobile: this.loginForm.value.emailOrMobile
         };
 
-        this.authService.login(credentials, 'main').subscribe({
-            next: (success) => {
-                this.isLoading = false;
-                if (success) {
-                    this.authService.redirectToUserDashboard();
-                } else {
-                    this.errorMessage = 'Invalid email or password';
-                }
-            },
-            error: (error) => {
-                this.isLoading = false;
-                this.errorMessage = 'Login failed. Please try again.';
-                console.error('Login error:', error);
-            }
-        });
+        setTimeout(() => {
+            this.isLoading = false;
+
+            this.startOtpTimer();
+            this.isOtpPage = true;
+            this.loginForm.get('emailOrMobile')?.disable();
+        }, 600);
+        // this.authService.login(credentials, 'main').subscribe({
+        //     next: (success) => {
+        //         this.isLoading = false;
+        //         if (success) {
+        //             this.authService.redirectToUserDashboard();
+        //         } else {
+        //             this.errorMessage = 'Invalid emailOrMobile or password';
+        //         }
+        //     },
+        //     error: (error) => {
+        //         this.isLoading = false;
+        //         this.errorMessage = 'Login failed. Please try again.';
+        //         console.error('Login error:', error);
+        //     }
+        // });
     }
 
     /**
      * Password Hide/Show
      */
-    toggleFieldTextType() {
-        this.fieldTextType = !this.fieldTextType;
-    }
+    // toggleFieldTextType() {
+    //     this.fieldTextType = !this.fieldTextType;
+    // }
 
     switchLoginType(type: 'influencer' | 'super-admin') {
         this.router.navigate(['/auth/login', type]);
+    }
+
+    onOtpInput(event: Event, index: number) {
+        const value = (event.target as HTMLInputElement).value;
+
+        if (!/^[0-9]?$/.test(value)) {
+            (event.target as HTMLInputElement).value = '';
+            return;
+        }
+
+        this.otpValues[index] = value;
+
+        if (value && index < 5) {
+            const nextInput = document.querySelector<HTMLInputElement>(`input[name="code_${index + 1}"]`);
+            nextInput?.focus();
+        }
+
+        if (!value && index > 0) {
+            const prevInput = document.querySelector<HTMLInputElement>(`input[name="code_${index - 1}"]`);
+            prevInput?.focus();
+        }
+        if (value && index === 5) {
+            this.submitOtp();
+        }
+    }
+
+    startOtpTimer(): void {
+        this.resendTimer = 60;
+        if (this.otpInterval) clearInterval(this.otpInterval);
+
+        this.otpInterval = setInterval(() => {
+            this.resendTimer--;
+            if (this.resendTimer <= 0 && this.otpInterval) {
+                clearInterval(this.otpInterval);
+            }
+        }, 1000);
+    }
+
+    submitOtp() {
+        const otp = this.otpValues.join('');
+
+        // Validate OTP length
+        if (otp.length !== 6) {
+            this.errorMessage = 'Please enter full 6-digit OTP.';
+            return;
+        }
+        console.log("OTP : " + otp);
+        this.isLoading = true;
+
+        // Disable Inputs
+        this.loginForm.get('emailOrMobile')?.disable();
+        const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
+        inputs.forEach((input) => input.disabled = true);
+
+        setTimeout(() => {
+            this.isLoading = false;
+            if (otp === '123456') {
+                this.authService.login({ email: 'user@example.com', password: 'password' }, 'main').subscribe(() => {
+                    this.authService.redirectToUserDashboard();
+                });
+            } else {
+                this.errorMessage = 'Invalid OTP. Please try again.';
+            }
+
+            // Re-enable inputs if needed
+            inputs.forEach((input) => input.disabled = false);
+        }, 600);
+    }
+
+    resendOtp() {
+        if (this.resendTimer > 0) return;
+
+        console.log(' RESEND OTP TRIGGERED');
+        this.startOtpTimer();
     }
 }
