@@ -1,48 +1,36 @@
 .branded-bg {
-    background-image: none;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-
-    // Use step-specific classes to change the background per step. Default: none for mobile.
-    @media (min-width: 1024px) {
-        &.step-1 {
-            background-image: url("/assets/media/images/2600x1600/1.png");
-        }
-        &.step-2 {
-            background-image: url("/assets/media/images/2600x1600/2.png");
-        }
-        &.step-3 {
-            background-image: url("/assets/media/images/2600x1600/1.png");
-        }
-        &.step-4 {
-            background-image: url("/assets/media/images/2600x1600/2.png");
-        }
-        &.step-5 {
-            background-image: url("/assets/media/images/2600x1600/1.png");
-        }
+    &.step-1 {
+        background-image: url("/assets/media/images/2600x1600/1.png");
+    }
+    &.step-2 {
+        background-image: url("/assets/media/images/2600x1600/2.png");
+    }
+    &.step-3 {
+        background-image: url("/assets/media/images/2600x1600/1.png");
+    }
+    &.step-4 {
+        background-image: url("/assets/media/images/2600x1600/2.png");
+    }
+    &.step-5 {
+        background-image: url("/assets/media/images/2600x1600/1.png");
     }
 }
 
 .dark .branded-bg {
-    background-image: none;
-
-    @media (min-width: 1024px) {
-        &.step-1 {
-            background-image: url("/assets/media/images/2600x1600/1-damediark.png");
-        }
-        &.step-2 {
-            background-image: url("/assets/media/images/2600x1600/2-damediark.png");
-        }
-        &.step-3 {
-            background-image: url("/assets/media/images/2600x1600/3-damediark.png");
-        }
-        &.step-4 {
-            background-image: url("/assets/media/images/2600x1600/4-damediark.png");
-        }
-        &.step-5 {
-            background-image: url("/assets/media/images/2600x1600/5-damediark.png");
-        }
+    &.step-1 {
+        background-image: url("/assets/media/images/2600x1600/1-damediark.png");
+    }
+    &.step-2 {
+        background-image: url("/assets/media/images/2600x1600/2-damediark.png");
+    }
+    &.step-3 {
+        background-image: url("/assets/media/images/2600x1600/3-damediark.png");
+    }
+    &.step-4 {
+        background-image: url("/assets/media/images/2600x1600/4-damediark.png");
+    }
+    &.step-5 {
+        background-image: url("/assets/media/images/2600x1600/5-damediark.png");
     }
 }
 
