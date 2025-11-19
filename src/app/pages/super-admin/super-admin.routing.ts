@@ -22,6 +22,16 @@ export const SuperAdminRoutes: Routes = [
             }
         ]
     },
+    {
+        path: 'agency',
+        data: { title: 'Super Admin Panel', breadcrumb: 'Super Admin', roles: ['super-admin'] },
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('./agency-management/agency-management.routing').then(m => m.AgencyManagementRoutes)
+            }
+        ]
+    },
     // Add more admin routes here as you create components:
     // {
     //   path: 'users',
