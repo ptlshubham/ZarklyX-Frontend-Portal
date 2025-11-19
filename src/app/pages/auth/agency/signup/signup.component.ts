@@ -3,7 +3,8 @@ import { Component, DOCUMENT, ElementRef, Inject, Renderer2, ViewChild } from '@
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BaseAuthComponent } from '../../base-auth.component';
 import { HttpClient } from '@angular/common/http'
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { AuthService } from '../../../../core/services/auth.service';
 
 
 declare const KTSelect: any;
@@ -74,18 +75,24 @@ export class SignupComponent extends BaseAuthComponent {
   constructor(private http: HttpClient,
     renderer: Renderer2,
     @Inject(DOCUMENT) document: Document,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) {
     super(renderer, document);
+    this.initializeForm();
+    this.fetchCountryCodes();
+  }
+
+  private initializeForm(): void {
     this.signupForm = this.formBuilder.group({
-      firstName: ['', [Validators.required,  Validators.pattern(/^[A-Za-z]{2,30}$/)]],
-      lastName: ['', [Validators.required,  Validators.pattern(/^[A-Za-z]{2,30}$/)]],
+      firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,30}$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,30}$/)]],
       email: ['', [Validators.required, Validators.email]],
-      contact: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/) ]],
+      contact: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
       countryCode: ['', Validators.required],
       acceptTaC: [false]
     });
-    this.fetchCountryCodes();
   }
 
 
@@ -97,14 +104,78 @@ export class SignupComponent extends BaseAuthComponent {
     }, 100);
   }
 
-  // loadCountryCode() {
-  //   this.http.get<any>('https://ipapi.co/json/').subscribe(res => {
-  //     if (res && res.country_calling_code) {
-  //       console.log(res);
-  //       // this.form.countryCode = res.country_calling_code;
-  //     }
-  //   });
-  // }
+  getCountryByCoordinates(lat: number, lon: number) {
+    this.http.get<any>('https://geolocation-db.com/json/')
+      .subscribe({
+        next: response => {
+          const countryCode = response?.country_code?.toUpperCase();
+
+          if (countryCode) {
+            this.setCallingCodeFromCountry(countryCode);
+          } else {
+            this.setDefaultIndiaFallback();
+          }
+        },
+        error: () => this.setDefaultIndiaFallback()
+      });
+  }
+
+  setCallingCodeFromCountry(countryShort: string) {
+    const selected = this.countryCodes.find(c => c.country === countryShort);
+
+    if (selected) {
+      this.applyCountrySelect(`${selected.code} - ${selected.country}`);
+    } else {
+      this.setDefaultIndiaFallback();
+    }
+  }
+
+  applyCountrySelect(finalValue: string) {
+    this.signupForm.patchValue({ countryCode: finalValue });
+
+    setTimeout(() => {
+      const selectEl = this.countrySelect.nativeElement;
+      selectEl.value = finalValue;
+      selectEl.dispatchEvent(new Event('change'));
+
+      let instance = KTSelect.getInstance?.(selectEl);
+
+      if (!instance) {
+        instance = new KTSelect(selectEl);
+      }
+
+      if (instance && typeof instance.update === 'function') {
+        instance.update();
+      }
+    }, 200);
+
+  }
+
+  setDefaultIndiaFallback() {
+    const selected = this.countryCodes.find(c => c.country === 'IN') || { country: 'IN', code: '+91' };
+    const finalValue = `${selected.code} - ${selected.country}`;
+    this.applyCountrySelect(finalValue);
+  }
+
+  getUserLocation() {
+    if (!navigator.geolocation) {
+      console.warn('Geolocation is not supported by this browser.');
+      this.setDefaultIndiaFallback();
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+
+        this.getCountryByCoordinates(latitude, longitude);
+      },
+      error => {
+        console.warn('Location permission denied or unavailable', error);
+        this.setDefaultIndiaFallback();
+      }
+    );
+  }
 
   fetchCountryCodes() {
     this.http.get<RestCountryApi[]>("https://restcountries.com/v3.1/all?fields=name,cca2,idd,timezones")
@@ -122,6 +193,7 @@ export class SignupComponent extends BaseAuthComponent {
           };
         }).filter(x => x.code !== "");
       });
+    this.getUserLocation();
   }
 
   get f() { return this.signupForm.controls; }
@@ -160,6 +232,8 @@ export class SignupComponent extends BaseAuthComponent {
   onOtpInput(event: Event, index: number) {
     const value = (event.target as HTMLInputElement).value;
 
+    this.errorMessage = '';
+
     if (!/^[0-9]?$/.test(value)) {
       (event.target as HTMLInputElement).value = '';
       return;
@@ -182,6 +256,25 @@ export class SignupComponent extends BaseAuthComponent {
     }
   }
 
+  onOtpKeyDown(event: KeyboardEvent, index: number) {
+    const input = event.target as HTMLInputElement;
+
+    if (event.key === 'Backspace') {
+      if (input.value === '' && index > 0) {
+        const prevInput = document.querySelector<HTMLInputElement>(`input[name="code_${index - 1}"]`);
+        if (prevInput) {
+          prevInput.value = '';
+          this.otpValues[index - 1] = '';
+          prevInput.focus();
+        }
+      } else {
+        // Clear current input only
+        input.value = '';
+        this.otpValues[index] = '';
+      }
+    }
+  }
+
   submitOtp() {
     const otp = this.otpValues.join('');
 
@@ -190,19 +283,30 @@ export class SignupComponent extends BaseAuthComponent {
       return;
     }
 
-    this.isLoading = true
-    console.log(' form data:', this.signupForm);
-    console.log('OTP ENTERED:', otp);
-    this.errorMessage = 'Invalid OTP'
+    this.isLoading = true;
+
     const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
     inputs.forEach((input) => input.disabled = true);
-    setTimeout(() => {
-      this.isLoading = false;
 
-      const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
+    if (otp == '123456') {
+      this.authService.createAccount(this.signupForm.value).subscribe(isCreated => {
+        if (isCreated) {
+          this.router.navigate(['/auth/basic-details']);
+          return;
+        } else {
+          this.errorMessage = 'Invalid OTP!';
+          this.isLoading = false;
+
+          inputs.forEach((input) => input.disabled = false);
+        }
+      });
+    } else {
+      this.errorMessage = 'Invalid OTP';
+      this.isLoading = false;
       inputs.forEach((input) => input.disabled = false);
-    }, 600);
+    }
   }
+
 
   resendOtp() {
     if (this.resendTimer > 0) return;

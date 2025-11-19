@@ -27,7 +27,7 @@ export class AuthService {
     const token = localStorage.getItem('auth_token');
     const roles = JSON.parse(localStorage.getItem('user_roles') || '[]');
     const userType = localStorage.getItem('user_type') as any;
-    
+
     if (token && roles.length > 0 && userType) {
       const user: User = {
         id: 'user-id', // In real app, decode from token
@@ -80,6 +80,38 @@ export class AuthService {
     });
   }
 
+  createAccount(formData: any): Observable<boolean> {
+    return new Observable(observer => {
+      setTimeout(() => {
+        try {
+          if (!formData?.email) {
+            observer.next(false);
+            observer.complete();
+            return;
+          }
+
+          const newUser: User = {
+            id: `main-${Date.now()}`,
+            email: formData.email,
+            username: formData.username || '',
+            adminId: undefined,
+            roles: ['user'],
+            userType: 'main'
+          };
+          this.setUserSession(newUser);
+          this.currentUserSubject.next(newUser);
+
+          observer.next(true);
+        } catch (error) {
+          observer.next(false);
+        } finally {
+          observer.complete();
+        }
+      }, 1000); // Simulate API delay
+    });
+  }
+
+
   logout(): void {
     // Clear all auth data
     localStorage.removeItem('auth_token');
@@ -89,7 +121,7 @@ export class AuthService {
     localStorage.removeItem('user_username');
     localStorage.removeItem('user_admin_id');
     localStorage.removeItem('user_permissions');
-    
+
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);
   }
@@ -120,17 +152,17 @@ export class AuthService {
     // Check against fake credentials
     switch (userType) {
       case 'main':
-        return fakeCredentials.main.some(cred => 
+        return fakeCredentials.main.some(cred =>
           cred.email === credentials.email && cred.password === credentials.password
         );
       case 'influencer':
-        return fakeCredentials.influencer.some(cred => 
+        return fakeCredentials.influencer.some(cred =>
           cred.username === credentials.username && cred.password === credentials.password
         );
       case 'super-admin':
-        return fakeCredentials['super-admin'].some(cred => 
-          cred.adminId === credentials.adminId && 
-          cred.password === credentials.password && 
+        return fakeCredentials['super-admin'].some(cred =>
+          cred.adminId === credentials.adminId &&
+          cred.password === credentials.password &&
           cred.securityCode === credentials.securityCode
         );
       default:
@@ -157,12 +189,12 @@ export class AuthService {
 
   private setUserSession(user: User): void {
     const token = `${user.userType}-token-${Date.now()}`;
-    
+
     localStorage.setItem('auth_token', token);
     localStorage.setItem('user_roles', JSON.stringify(user.roles));
     localStorage.setItem('user_type', user.userType);
     localStorage.setItem('user_email', user.email);
-    
+
     if (user.username) {
       localStorage.setItem('user_username', user.username);
     }
