@@ -13,7 +13,7 @@ export const SuperAdminRoutes: Routes = [
     },
 
     {
-        path: 'influencer',
+        path: 'influencers',
         data: { title: 'Super Admin Panel', breadcrumb: 'Super Admin', roles: ['super-admin'] },
         children: [
             {
