@@ -50,9 +50,9 @@
                         <div class="flex flex-wrap gap-2 justify-center">
                             @for (option of businessAreaOptions; track option.value) {
                             <button type="button" (click)="toggleBusinessArea(option.value)"
-                                class="kt-badge kt-badge-lg gap-2 cursor-pointer transition-all"
+                                class="kt-badge inline-flex items-center gap-2 px-3 py-3.5 rounded-lg text-[14px] font-normal transition-all whitespace-nowrap border-gray-300"
                                 [class.kt-badge-primary]="isBusinessAreaSelected(option.value)"
-                                [class.kt-badge-primary-outline]="!isBusinessAreaSelected(option.value)">
+                                [class.kt-badge-outline]="!isBusinessAreaSelected(option.value)">
                                 <i class="ki-outline text-base" [ngClass]="option.icon"></i>
                                 <span>{{ option.label }}</span>
                                 @if (isBusinessAreaSelected(option.value)) {

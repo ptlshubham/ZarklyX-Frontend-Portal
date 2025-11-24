@@ -75,21 +75,6 @@ export class MainLoginComponent extends BaseAuthComponent {
             this.isOtpPage = true;
             this.loginForm.get('emailOrMobile')?.disable();
         }, 600);
-        // this.authService.login(credentials, 'main').subscribe({
-        //     next: (success) => {
-        //         this.isLoading = false;
-        //         if (success) {
-        //             this.authService.redirectToUserDashboard();
-        //         } else {
-        //             this.errorMessage = 'Invalid emailOrMobile or password';
-        //         }
-        //     },
-        //     error: (error) => {
-        //         this.isLoading = false;
-        //         this.errorMessage = 'Login failed. Please try again.';
-        //         console.error('Login error:', error);
-        //     }
-        // });
     }
 
     /**
@@ -105,6 +90,8 @@ export class MainLoginComponent extends BaseAuthComponent {
 
     onOtpInput(event: Event, index: number) {
         const value = (event.target as HTMLInputElement).value;
+
+        this.errorMessage = '';
 
         if (!/^[0-9]?$/.test(value)) {
             (event.target as HTMLInputElement).value = '';
@@ -124,6 +111,25 @@ export class MainLoginComponent extends BaseAuthComponent {
         }
         if (value && index === 5) {
             this.submitOtp();
+        }
+    }
+
+    onOtpKeyDown(event: KeyboardEvent, index: number) {
+        const input = event.target as HTMLInputElement;
+
+        if (event.key === 'Backspace') {
+            if (input.value === '' && index > 0) {
+                const prevInput = document.querySelector<HTMLInputElement>(`input[name="code_${index - 1}"]`);
+                if (prevInput) {
+                    prevInput.value = '';
+                    this.otpValues[index - 1] = '';
+                    prevInput.focus();
+                }
+            } else {
+                // Clear current input only
+                input.value = '';
+                this.otpValues[index] = '';
+            }
         }
     }
 
@@ -158,8 +164,22 @@ export class MainLoginComponent extends BaseAuthComponent {
         setTimeout(() => {
             this.isLoading = false;
             if (otp === '123456') {
-                this.authService.login({ email: 'user@example.com', password: 'password' }, 'main').subscribe(() => {
-                    this.authService.redirectToUserDashboard();
+
+                this.authService.login({ email: 'user@example.com', password: 'password' }, 'main').subscribe({
+                    next: (success) => {
+                        this.isLoading = false;
+                        if (success) {
+                            this.authService.redirectToUserDashboard();
+                            return;
+                        } else {
+                            this.errorMessage = 'Invalid emailOrMobile or password';
+                        }
+                    },
+                    error: (error) => {
+                        this.isLoading = false;
+                        this.errorMessage = 'Login failed. Please try again.';
+                        console.error('Login error:', error);
+                    }
                 });
             } else {
                 this.errorMessage = 'Invalid OTP. Please try again.';

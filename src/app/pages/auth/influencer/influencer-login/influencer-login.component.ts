@@ -101,6 +101,8 @@ export class InfluencerLoginComponent extends BaseAuthComponent {
   onOtpInput(event: any, index: number) {
     const value = event.target.value;
 
+    this.errorMessage = '';
+
     if (!/^[0-9]?$/.test(value)) {
       event.target.value = '';
       return;
@@ -122,6 +124,25 @@ export class InfluencerLoginComponent extends BaseAuthComponent {
     }
   }
 
+  onOtpKeyDown(event: KeyboardEvent, index: number) {
+    const input = event.target as HTMLInputElement;
+
+    if (event.key === 'Backspace') {
+      if (input.value === '' && index > 0) {
+        const prevInput = document.querySelector<HTMLInputElement>(`input[name="code_${index - 1}"]`);
+        if (prevInput) {
+          prevInput.value = '';
+          this.otpValues[index - 1] = '';
+          prevInput.focus();
+        }
+      } else {
+        // Clear current input only
+        input.value = '';
+        this.otpValues[index] = '';
+      }
+    }
+  }
+
   startOtpTimer() {
     this.resendTimer = 60;
     clearInterval(this.otpInterval);
@@ -133,6 +154,7 @@ export class InfluencerLoginComponent extends BaseAuthComponent {
       }
     }, 1000);
   }
+
   submitOtp() {
     const otp = this.otpValues.join('');
 
@@ -141,17 +163,40 @@ export class InfluencerLoginComponent extends BaseAuthComponent {
       this.errorMessage = 'Please enter full 6-digit OTP.';
       return;
     }
-
-    // Start loader and disable input
+    console.log("OTP : " + otp);
     this.isLoading = true;
+
+    // Disable Inputs
     this.loginForm.get('emailOrMobile')?.disable();
-    const inputs = document.querySelectorAll('input[name^="code_"]');
-    inputs.forEach((input: any) => input.disabled = true);
+    const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
+    inputs.forEach((input) => input.disabled = true);
+
     setTimeout(() => {
       this.isLoading = false;
+      if (otp === '123456') {
 
-      const inputs = document.querySelectorAll('input[name^="code_"]');
-      inputs.forEach((input: any) => input.disabled = false);
+        this.authService.login({ username: 'influencer1', password: 'password' }, 'influencer').subscribe({
+          next: (success) => {
+            this.isLoading = false;
+            if (success) {
+              this.authService.redirectToUserDashboard();
+              return;
+            } else {
+              this.errorMessage = 'Invalid emailOrMobile or password';
+            }
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.errorMessage = 'Login failed. Please try again.';
+            console.error('Login error:', error);
+          }
+        });
+      } else {
+        this.errorMessage = 'Invalid OTP. Please try again.';
+      }
+
+      // Re-enable inputs if needed
+      inputs.forEach((input) => input.disabled = false);
     }, 600);
   }
 

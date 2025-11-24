@@ -31,6 +31,14 @@ export const authRoutes: Routes = [
         }
     },
     {
+        path: 'influencer-details',
+        loadComponent: () => import('./influencer/influencer-details-stepper/influencer-details-stepper.component').then(c => c.InfluencerDetailsStepperComponent),
+        data: {
+            title: 'Influencer Sign up',
+            breadcrumb: 'Influencer Sign up'
+        }
+    },
+    {
         path: 'basic-details',
         loadComponent: () => import('./agency/agency-basic-details-stepper/agency-basic-details-stepper.component').then(c => c.AgencyBasicDetailsStepperComponent),
         data: {

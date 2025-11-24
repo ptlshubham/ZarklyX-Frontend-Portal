@@ -1,10 +1,11 @@
 import { Component, Renderer2, Inject, ViewChild, ElementRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { BaseAuthComponent } from '../../base-auth.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../../../core/services/auth.service';
 
 declare const KTSelect: any;
 
@@ -60,27 +61,23 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
     private http: HttpClient,
     renderer: Renderer2,
     @Inject(DOCUMENT) document: Document,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) {
     super(renderer, document);
-    this.signupForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      contact: ['', [Validators.required]],
-      countryCode: ['', Validators.required],
-      acceptTaC: [false]
-    });
+    this.initializeForm();
     this.fetchCountryCodes();
   }
 
-
-  loadCountryCode() {
-    this.http.get<any>('https://ipapi.co/json/').subscribe(res => {
-      if (res && res.country_calling_code) {
-        console.log(res);
-        // this.form.countryCode = res.country_calling_code;
-      }
+  private initializeForm(): void {
+    this.signupForm = this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,30}$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,30}$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      contact: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
+      countryCode: ['', Validators.required],
+      acceptTaC: [false]
     });
   }
 
@@ -90,6 +87,80 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
         new KTSelect(this.countrySelect.nativeElement);
       }
     }, 100);
+  }
+
+  getCountryByCoordinates(lat: number, lon: number) {
+    this.http.get<any>('https://geolocation-db.com/json/')
+      .subscribe({
+        next: response => {
+
+          const countryCode = response?.country_code?.toUpperCase();
+
+          if (countryCode) {
+            this.setCallingCodeFromCountry(countryCode);
+          } else {
+            this.setDefaultIndiaFallback();
+          }
+        },
+        error: () => this.setDefaultIndiaFallback()
+      });
+  }
+
+  setCallingCodeFromCountry(countryShort: string) {
+    const selected = this.countryCodes.find(c => c.country === countryShort);
+
+    if (selected) {
+      this.applyCountrySelect(`${selected.code} - ${selected.country}`);
+    } else {
+      this.setDefaultIndiaFallback();
+    }
+  }
+
+  applyCountrySelect(finalValue: string) {
+    this.signupForm.patchValue({ countryCode: finalValue });
+
+    setTimeout(() => {
+      const selectEl = this.countrySelect.nativeElement;
+      selectEl.value = finalValue;
+      selectEl.dispatchEvent(new Event('change'));
+
+      let instance = KTSelect.getInstance?.(selectEl);
+
+      if (!instance) {
+        instance = new KTSelect(selectEl);
+      }
+
+      if (instance && typeof instance.update === 'function') {
+        instance.update();
+      }
+    }, 200);
+
+  }
+
+  setDefaultIndiaFallback() {
+    const selected = this.countryCodes.find(c => c.country === 'CA') || { country: 'CA', code: '+1' };
+    const finalValue = `${selected.code} - ${selected.country}`;
+    this.applyCountrySelect(finalValue);
+  }
+
+  getUserLocation() {
+    if (!navigator.geolocation) {
+      console.warn('Geolocation is not supported by this browser.');
+      this.setDefaultIndiaFallback();
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+
+        this.getCountryByCoordinates(latitude, longitude);
+      },
+      error => {
+        console.warn('Location permission denied or unavailable', error);
+        this.setDefaultIndiaFallback();
+      }
+    );
   }
 
   fetchCountryCodes() {
@@ -108,6 +179,7 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
           };
         }).filter(x => x.code !== "");
       });
+    this.getUserLocation();
   }
 
   get f() { return this.signupForm.controls; }
@@ -144,6 +216,7 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
 
   onOtpInput(event: any, index: number) {
     const value = event.target.value;
+    this.errorMessage = '';
 
     if (!/^[0-9]?$/.test(value)) {
       event.target.value = '';
@@ -166,6 +239,26 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
       this.submitOtp();
     }
   }
+
+  onOtpKeyDown(event: KeyboardEvent, index: number) {
+    const input = event.target as HTMLInputElement;
+
+    if (event.key === 'Backspace') {
+      if (input.value === '' && index > 0) {
+        const prevInput = document.querySelector<HTMLInputElement>(`input[name="code_${index - 1}"]`);
+        if (prevInput) {
+          prevInput.value = '';
+          this.otpValues[index - 1] = '';
+          prevInput.focus();
+        }
+      } else {
+        // Clear current input only
+        input.value = '';
+        this.otpValues[index] = '';
+      }
+    }
+  }
+
   submitOtp() {
     const otp = this.otpValues.join('');
 
@@ -174,7 +267,28 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
       return;
     }
 
-    console.log('OTP ENTERED:', otp);
+    this.isLoading = true;
+
+    const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
+    inputs.forEach((input) => input.disabled = true);
+
+    if (otp === '123456') {
+      this.authService.createAccount(this.signupForm.value).subscribe(isCreated => {
+        if (isCreated) {
+          this.router.navigate(['/auth/influencer-details']);
+          return;
+        } else {
+          // this.errorMessage = 'Invalid OTP!';
+          this.isLoading = false;
+
+          inputs.forEach((input) => input.disabled = false);
+        }
+      });
+    } else {
+      this.errorMessage = 'Invalid OTP';
+      this.isLoading = false;
+      inputs.forEach((input) => input.disabled = false);
+    }
   }
 
   resendOtp() {
