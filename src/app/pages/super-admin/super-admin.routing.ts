@@ -13,12 +13,22 @@ export const SuperAdminRoutes: Routes = [
     },
 
     {
-        path: 'influencer',
+        path: 'influencers',
         data: { title: 'Super Admin Panel', breadcrumb: 'Super Admin', roles: ['super-admin'] },
         children: [
             {
                 path: '',
                 loadChildren: () => import('./influencer-management/influencer-management.routing').then(m => m.InfluencerManagementRoutes)
+            }
+        ]
+    },
+    {
+        path: 'agency',
+        data: { title: 'Super Admin Panel', breadcrumb: 'Super Admin', roles: ['super-admin'] },
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('./agency-management/agency-management.routing').then(m => m.AgencyManagementRoutes)
             }
         ]
     },
