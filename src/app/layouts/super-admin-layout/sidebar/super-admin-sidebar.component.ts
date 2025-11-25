@@ -1,9 +1,11 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MenuItem } from './menu.model';
-import { superAdminMenu } from './menu';
+import { MenuItem } from './super-admin-menu.model';
+import { superAdminMenu } from './super-admin-menu';
 import { filter } from 'rxjs/operators';
+
+declare var KTMenu: any;
 
 @Component({
     selector: 'app-super-admin-sidebar',
@@ -17,47 +19,62 @@ export class SuperAdminSidebarComponent implements AfterViewInit {
 
     constructor(private router: Router) {
         this.currentUrl = this.router.url;
-        console.log('Initial URL:', this.currentUrl);
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
             this.currentUrl = event.urlAfterRedirects || event.url;
-            console.log('Navigation URL:', this.currentUrl);
             setTimeout(() => this.expandActiveMenus(), 100);
         });
     }
 
     ngAfterViewInit() {
-        setTimeout(() => this.expandActiveMenus(), 200);
+        // Initialize Metronic menu
+        setTimeout(() => {
+            const menuElement = document.querySelector('#sidebar_menu');
+            if (menuElement && typeof KTMenu !== 'undefined') {
+                KTMenu.createInstances();
+            }
+            this.expandActiveMenus();
+        }, 300);
     }
 
     expandActiveMenus() {
-        console.log('Expanding active menus for URL:', this.currentUrl);
-        // Find all menu items that should be expanded
+        // Find and mark active menu items
         this.menuItems.forEach(item => {
-            if (this.hasSubItems(item) && this.isChildRouteActive(item)) {
-                console.log(`Parent menu "${item.label}" (ID: ${item.id}) should be active`);
+            if (this.hasSubItems(item)) {
+                const isActive = this.isChildRouteActive(item);
                 const itemElement = document.querySelector(`[data-menu-id="${item.id}"]`);
+                
                 if (itemElement) {
-                    itemElement.classList.add('kt-menu-item-show', 'kt-menu-item-here');
-                    console.log(`Added classes to parent menu "${item.label}"`);
+                    if (isActive) {
+                        itemElement.classList.add('kt-menu-item-show', 'kt-menu-item-here');
+                    } else {
+                        itemElement.classList.remove('kt-menu-item-show', 'kt-menu-item-here');
+                    }
                 }
             }
-            // Check nested items
+            
+            // Check nested items (2nd level)
             if (item.subItems) {
                 item.subItems.forEach(subItem => {
-                    if (this.hasSubItems(subItem) && this.isChildRouteActive(subItem)) {
-                        console.log(`Sub menu "${subItem.label}" (ID: ${subItem.id}) should be active`);
+                    if (this.hasSubItems(subItem)) {
+                        const isActive = this.isChildRouteActive(subItem);
                         const subItemElement = document.querySelector(`[data-menu-id="${subItem.id}"]`);
+                        
                         if (subItemElement) {
-                            subItemElement.classList.add('kt-menu-item-show', 'kt-menu-item-here');
-                            console.log(`Added classes to sub menu "${subItem.label}"`);
+                            if (isActive) {
+                                subItemElement.classList.add('kt-menu-item-show', 'kt-menu-item-here');
+                            } else {
+                                subItemElement.classList.remove('kt-menu-item-show', 'kt-menu-item-here');
+                            }
                         }
                     }
                 });
             }
         });
     }
+
+
 
     hasSubItems(item: MenuItem): boolean {
         return !!item.subItems && item.subItems.length > 0;
@@ -73,19 +90,12 @@ export class SuperAdminSidebarComponent implements AfterViewInit {
         
         // Check if item itself has the active link
         if (item.link && this.currentUrl.startsWith(item.link)) {
-            console.log(`✓ Item "${item.label}" is active (direct link match)`);
             return true;
         }
         
         // Check if any child route is active
         const childLinks = this.getChildLinks(item);
-        const isActive = childLinks.some(link => this.currentUrl.startsWith(link));
-        
-        if (isActive) {
-            console.log(`✓ Item "${item.label}" is active (child link match). Child links:`, childLinks);
-        }
-        
-        return isActive;
+        return childLinks.some(link => this.currentUrl.startsWith(link));
     }
     
     // Check if specific link is active (exact match)
