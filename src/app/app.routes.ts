@@ -36,6 +36,20 @@ export const routes: Routes = [
     ]
   },
 
+  // Profile Routes
+  {
+    path: 'profile',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { title: 'Profile', breadcrumb: 'Profile', roles: ['user', 'admin'] },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./pages/agency/profile/profile.component').then(c => c.ProfileComponent)
+      }
+    ]
+  },
+
   // Influencer Routes with Main Layout - All influencer features in one place
   {
     path: 'influencer',

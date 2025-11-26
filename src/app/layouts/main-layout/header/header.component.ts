@@ -15,4 +15,7 @@ export class HeaderComponent {
     console.log('User logged out');
     this.router.navigate(['/auth/login']);
   }
+  goToProfile() {
+    this.router.navigate(['/profile']);
+  }
 }
