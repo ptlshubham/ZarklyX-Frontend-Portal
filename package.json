@@ -20,6 +20,7 @@
     "@keenthemes/ktui": "^1.0.27",
     "@ng-select/ng-select": "^20.7.0",
     "country-state-city": "^3.2.1",
+    "currency-codes": "^2.2.0",
     "moment-timezone": "^0.6.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
