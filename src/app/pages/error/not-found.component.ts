@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
      <!-- End of Container -->
      <div class="flex flex-col items-center justify-center h-[95%]">
       <div class="mb-10">
-       <img alt="image" class="dark:hidden max-h-[160px]" src="assets/media/illustrations/19.svg"/>
+       <img alt="image" class="block dark:hidden max-h-[160px]" src="assets/media/illustrations/19.svg"/>
        <img alt="image" class="light:hidden max-h-[160px]" src="assets/media/illustrations/19-dark.svg"/>
       </div>
       <span class="kt-badge kt-badge-primary kt-badge-outline mb-3">

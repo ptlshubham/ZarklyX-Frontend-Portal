@@ -23,6 +23,10 @@ export class ThemeToggleService {
       this.themeMode.set('system');
     }
     this.updateEffectiveTheme();
+    // Update favicons on initial load
+    this.updateFavicons();
+    // Listen for browser dark mode changes for favicon updates
+    this.setupBrowserDarkModeListener();
     // React to themeMode changes
     effect(() => {
       this.updateEffectiveTheme();
@@ -92,6 +96,14 @@ export class ThemeToggleService {
       this.systemListener();
       this.systemListener = null;
     }
+  }
+
+  // Listen for browser dark mode changes to update favicons
+  private setupBrowserDarkModeListener() {
+    const browserDarkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    browserDarkModeQuery.addEventListener('change', () => {
+      this.updateFavicons();
+    });
   }
 
   setThemeMode(mode: ThemeMode) {
