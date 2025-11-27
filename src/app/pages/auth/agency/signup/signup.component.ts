@@ -37,6 +37,10 @@ export class SignupComponent extends BaseAuthComponent {
   submitted = false;
 
   countryCodes: CountryCode[] = [];
+  private userId:string= '';
+
+  showPassword = false;
+  showConfirmPassword = false;
 
   isOtpPage = false;
   isLoading = false;
@@ -91,10 +95,26 @@ export class SignupComponent extends BaseAuthComponent {
       email: ['', [Validators.required, Validators.email]],
       contact: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
       countryCode: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
       acceptTaC: [false]
+    }, {
+      validators: this.matchPasswords('password', 'confirmPassword')
     });
   }
 
+  matchPasswords(password: string, confirmPassword: string) {
+    return (formGroup: FormGroup) => {
+      const pass = formGroup.get(password);
+      const confirm = formGroup.get(confirmPassword);
+
+      if (pass?.value !== confirm?.value) {
+        confirm?.setErrors({ passwordMismatch: true });
+      } else {
+        confirm?.setErrors(null);
+      }
+    };
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -219,14 +239,24 @@ export class SignupComponent extends BaseAuthComponent {
     this.errorMessage = '';
     this.isLoading = true;
 
-    console.log(' form data:', this.signupForm);
-
-    setTimeout(() => {
-      this.isLoading = false;
-
-      this.startOtpTimer();
-      this.isOtpPage = true;
-    }, 600);
+    this.authService.registerAcoount(this.signupForm.value).subscribe({
+      next: (res) => {
+        if (res) {
+          this.isLoading = false;
+          this.startOtpTimer();
+          this.isOtpPage = true;
+          this.userId = res.data.userId;
+          localStorage.setItem('userId', this.userId)
+        } else {
+          this.errorMessage = 'Someting went Wrong';
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error(err);
+        this.errorMessage = err.error.message;
+      }
+    });
   }
 
   onOtpInput(event: Event, index: number) {
@@ -275,6 +305,31 @@ export class SignupComponent extends BaseAuthComponent {
     }
   }
 
+  onOtpPaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pasted = event.clipboardData?.getData('text') ?? '';
+    const digits = pasted.replace(/\D/g, '').slice(0, 6);
+
+    if (!digits) return;
+
+    digits.split('').forEach((digit, idx) => {
+      const input = document.querySelector<HTMLInputElement>(`input[name="code_${idx}"]`);
+      if (input) {
+        input.value = digit;
+        this.otpValues[idx] = digit;
+      }
+    });
+
+    const lastIndex = digits.length - 1;
+    const lastInput = document.querySelector<HTMLInputElement>(`input[name="code_${lastIndex}"]`);
+    lastInput?.focus();
+
+    if (digits.length === 6) {
+      this.submitOtp();
+    }
+  }
+
   submitOtp() {
     const otp = this.otpValues.join('');
 
@@ -288,31 +343,41 @@ export class SignupComponent extends BaseAuthComponent {
     const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
     inputs.forEach((input) => input.disabled = true);
 
-    if (otp == '123456') {
-      this.authService.createAccount(this.signupForm.value).subscribe(isCreated => {
-        if (isCreated) {
+    this.authService.verifyRegisterOtp({ userId: this.userId, otp }).subscribe({
+      next: (success) => {
+        if (success) {
           this.router.navigate(['/auth/basic-details']);
-          return;
         } else {
-          this.errorMessage = 'Invalid OTP!';
+          this.errorMessage = 'Invalid OTP';
           this.isLoading = false;
-
           inputs.forEach((input) => input.disabled = false);
         }
-      });
-    } else {
-      this.errorMessage = 'Invalid OTP';
-      this.isLoading = false;
-      inputs.forEach((input) => input.disabled = false);
-    }
+      },
+      error: (err) => {
+        console.log(err)
+        this.errorMessage = err.error.message;
+        this.isLoading = false;
+        inputs.forEach((input) => input.disabled = false);
+      }
+    });
   }
 
 
   resendOtp() {
     if (this.resendTimer > 0) return;
-
-    console.log(' RESEND OTP TRIGGERED');
-    this.startOtpTimer();
+    const formValue = this.signupForm.value;
+    this.authService.resendOtp({ email: formValue.email, contact: formValue.contact, otpFlow: 'register' }).subscribe({
+      next: (success) => {
+        if (success) {
+          this.startOtpTimer();
+        } else {
+          this.resendTimer = 0;
+        }
+      },
+      error: (err) => {
+        this.resendTimer = 0;
+      }
+    })
   }
   isOtpComplete(): boolean {
     return this.otpValues.length === 6 && this.otpValues.every(v => /^[0-9]$/.test(v));

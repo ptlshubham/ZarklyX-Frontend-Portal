@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { DashboardServiceService } from '../../../pages/infulencer/widgets/dashboard-service.service';
+import { WidgetsComponent } from "../../../pages/infulencer/widgets/widgets/widgets.component";
 
 @Component({
   selector: '[app-header]',
   templateUrl: './header.component.html',
+  imports: [WidgetsComponent],
 })
 export class HeaderComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.checkInfluencerRoute(event.urlAfterRedirects);
+      });}
   logout() {
     // Implement logout logic here
     localStorage.removeItem('auth_token');
@@ -18,4 +27,13 @@ export class HeaderComponent {
   goToProfile() {
     this.router.navigate(['/profile']);
   }
+  
+  isInfluencerPage = true;
+  private checkInfluencerRoute(url: string) {
+    this.isInfluencerPage = url === '/influencer';
+  }
+  
+  widgetsService = inject(DashboardServiceService);
+
+  isWidgetsOpen = false;
 }

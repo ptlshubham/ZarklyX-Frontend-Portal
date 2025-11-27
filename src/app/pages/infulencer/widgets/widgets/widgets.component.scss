@@ -1,0 +1,67 @@
+:host {
+    display: block;
+}
+
+.widget-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: inherit;
+}
+
+/* Absolute positioned settings button */
+.delete-btn, .settings-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 1;
+    padding: 4px;
+    background: white;
+    cursor: pointer;
+}
+
+
+/* Ensure overlay covers entire widget */
+.widget-container {
+    position: relative;
+    /* You already have this, just ensuring */
+}
+
+
+.widget-options-menu {
+    position: absolute;
+    z-index: 3;
+    background-color: whitesmoke;
+    color: black;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+
+    >div {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+}
+
+.swing {
+    animation: swing 1.2s ease-in-out infinite;
+    transform-origin: middle center; /* where it swings from */
+}
+
+@keyframes swing {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(1deg); }
+    50%  { transform: rotate(-1deg); }
+    75%  { transform: rotate(1deg); }
+    100% { transform: rotate(0deg); }
+}

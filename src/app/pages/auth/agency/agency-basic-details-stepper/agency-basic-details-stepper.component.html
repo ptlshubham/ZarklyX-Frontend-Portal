@@ -269,9 +269,9 @@
                         <div class="flex flex-wrap gap-2 justify-center">
                             @for (module of moduleOptions; track module.value) {
                             <button type="button" (click)="toggleModule(module.value)"
-                                class="kt-badge kt-badge-lg gap-2 cursor-pointer transition-all"
+                                class="kt-badge inline-flex items-center gap-2 px-3 py-3.5 rounded-lg text-[14px] font-normal transition-all whitespace-nowrap border-gray-300"
                                 [class.kt-badge-primary]="isModuleSelected(module.value)"
-                                [class.kt-badge-primary-outline]="!isModuleSelected(module.value)">
+                                [class.kt-badge-outline]="!isModuleSelected(module.value)">
                                 <i class="ki-outline text-base" [ngClass]="module.icon"></i>
                                 <span>{{ module.label }}</span>
                                 @if (isModuleSelected(module.value)) {

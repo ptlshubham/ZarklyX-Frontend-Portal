@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const influencerRoutes: Routes = [
     {
         path: '',
-        loadComponent: () => import('../agency/dashboard/index/index.component').then(c => c.IndexComponent),
+        loadComponent: () => import('./dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
             title: 'Influencer Dashboard',
             breadcrumb: 'Dashboard',
@@ -12,7 +12,7 @@ export const influencerRoutes: Routes = [
     },
     {
         path: 'profile',
-        loadComponent: () => import('../agency/dashboard/index/index.component').then(c => c.IndexComponent),
+        loadComponent: () => import('./dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
             title: 'My Profile',
             breadcrumb: 'Profile',
@@ -21,7 +21,7 @@ export const influencerRoutes: Routes = [
     },
     {
         path: 'campaigns',
-        loadComponent: () => import('../agency/dashboard/index/index.component').then(c => c.IndexComponent),
+        loadComponent: () => import('./dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
             title: 'My Campaigns',
             breadcrumb: 'Campaigns',
@@ -30,7 +30,7 @@ export const influencerRoutes: Routes = [
     },
     {
         path: 'earnings',
-        loadComponent: () => import('../agency/dashboard/index/index.component').then(c => c.IndexComponent),
+        loadComponent: () => import('./dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
             title: 'Earnings',
             breadcrumb: 'Earnings',
@@ -39,7 +39,7 @@ export const influencerRoutes: Routes = [
     },
     {
         path: 'content',
-        loadComponent: () => import('../agency/dashboard/index/index.component').then(c => c.IndexComponent),
+        loadComponent: () => import('./dashboard/index/index.component').then(c => c.IndexComponent),
         data: {
             title: 'Content Management',
             breadcrumb: 'Content',

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService, User } from '../../../../core/services/auth.service';
 import { BaseAuthComponent } from '../../base-auth.component';
 import moment from 'moment-timezone';
 import { Country, ICountry } from 'country-state-city';
@@ -25,6 +25,8 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   currentStep = 1;
   isLoading = false;
   submitted = false;
+
+  private userId: string = '';
 
   agencyForm!: FormGroup;
 
@@ -52,8 +54,8 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   ];
 
   accountTypeOptions = [
-    { value: 'Agency', label: 'Agency/Industry', icon: 'ki-office-bag', description: 'For businesses and organizations' },
-    { value: 'Freelancer', label: 'Freelancer', icon: 'ki-user', description: 'For individual professionals' }
+    { value: 'organization', label: 'Agency/Industry', icon: 'ki-office-bag', description: 'For businesses and organizations' },
+    { value: 'freelancer', label: 'Freelancer', icon: 'ki-user', description: 'For individual professionals' }
   ];
 
   countries: string[] = [];
@@ -84,8 +86,21 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
     @Inject(DOCUMENT) document: Document
   ) {
     super(renderer, document);
+
+    this.checkUserId();
     this.initializeForm();
     this.initializeCountriesAndTimezones();
+  }
+
+  private checkUserId() {
+    const storedUserId = localStorage.getItem('userId');
+
+    if (!storedUserId) {
+      this.router.navigate(['/auth/signup']);
+      return;
+    }
+
+    this.userId = storedUserId;
   }
 
   private initializeForm(): void {
@@ -165,18 +180,17 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       if (!this.agencyForm.get('businessArea')?.value) {
         return;
       }
-      this.currentStep = 2;
+      this.registerCategory();
     } else if (this.currentStep === 2) {
       if (!this.agencyForm.get('accountType')?.value) {
         return;
       }
-      this.currentStep = 3;
-      this.initializeSelects();
+      this.registerUserType();
     } else if (this.currentStep === 3) {
       if (!this.agencyForm.get('companyName')?.valid || !this.agencyForm.get('country')?.valid || !this.agencyForm.get('timezone')?.valid) {
         return;
       }
-      this.currentStep = 4;
+      this.registerCompanyDetails();
     } else if (this.currentStep === 4) {
       if (!this.agencyForm.get('client')?.value) {
         return;
@@ -192,6 +206,128 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
         this.initializeSelects();
       }
     }
+  }
+
+  registerCategory() {
+    this.isLoading = true;
+    this.authService.registerCategory({ category: this.agencyForm.get('businessArea')?.value, userId: this.userId }).subscribe({
+      next: (res) => {
+        if (res) {
+          this.isLoading = false;
+          this.currentStep = 2;
+        } else {
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+      }
+    })
+  }
+
+  registerUserType() {
+    this.isLoading = true;
+    this.authService.registerUserType({ userType: this.agencyForm.get('accountType')?.value, userId: this.userId }).subscribe({
+      next: (res) => {
+        if (res) {
+          this.isLoading = false;
+          this.currentStep = 3;
+          this.initializeSelects();
+        } else {
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+      }
+    })
+  }
+
+  registerCompanyDetails() {
+    this.isLoading = true;
+    const companyDeatilsForm = this.agencyForm.value;
+    const payload = {
+      userId: this.userId,
+      companyName: companyDeatilsForm.companyName,
+      website: companyDeatilsForm.website,
+      country: companyDeatilsForm.country,
+      timezone: companyDeatilsForm.timezone,
+    }
+
+    this.authService.registerCompanyDetails(payload).subscribe({
+      next: (res) => {
+        if (res) {
+          this.isLoading = false;
+          this.currentStep = 4;
+        } else {
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+      }
+    })
+  }
+
+  registerFinalStep() {
+    this.isLoading = true;
+    const companyDeatilsForm = this.agencyForm.value;
+    const payload = {
+      userId: this.userId,
+      noOfClientsRange: companyDeatilsForm.client,
+      selectedModules: companyDeatilsForm.selectedModules
+    }
+    const dummyMainUser = {
+      email: 'mainuser@example.com',
+      username: 'main_user',
+      adminId: '',
+      roles: ['user'],
+      userType: 'main'
+    };
+
+    this.authService.registerFinalStep(payload).subscribe({
+      next: (res) => {
+        if (res) {
+          this.isLoading = false;
+
+          this.router.navigate(['/dashboard']);
+          localStorage.setItem('auth_token', `${dummyMainUser.userType}-token-${Date.now()}`);
+          localStorage.setItem('user_roles', JSON.stringify(dummyMainUser.roles));
+          localStorage.setItem('user_type', dummyMainUser.userType);
+          localStorage.setItem('user_email', dummyMainUser.email);
+
+          if (dummyMainUser.username) {
+            localStorage.setItem('user_username', dummyMainUser.username);
+          }
+
+          if (dummyMainUser.adminId) {
+            localStorage.setItem('user_admin_id', dummyMainUser.adminId);
+          }
+
+          const permissionMap: any = {
+            'user': ['read:dashboard', 'read:profile'],
+            'influencer': ['read:dashboard', 'read:profile', 'manage:content', 'read:analytics'],
+            'admin': ['read:dashboard', 'read:users', 'write:users', 'read:reports'],
+            'super-admin': ['*']
+          };
+
+          let permissions = new Set<string>();
+          dummyMainUser.roles.forEach((role: string) => {
+            if (permissionMap[role]) {
+              permissionMap[role].forEach((p: string) => permissions.add(p));
+            }
+          });
+
+          localStorage.setItem('user_permissions', JSON.stringify([...permissions]));
+
+          // Redirect
+          this.router.navigate(['/dashboard']);
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+      }
+    });
   }
 
   isStepValid(): boolean {
@@ -255,11 +391,6 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       return;
     }
     this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-      setTimeout(() => {
-        this.router.navigate(['/dashboard']);
-      }, 1000);
-    }, 1500);
+    this.registerFinalStep()
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ApiService } from './api.service';
 
 export interface User {
   id: string;
@@ -18,7 +20,8 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    private httpClient: HttpClient) {
     // Check if user is already logged in
     this.loadUserFromStorage();
   }
@@ -63,8 +66,9 @@ export class AuthService {
     return userPermissions.includes(permission);
   }
 
-  login(credentials: any, userType: 'main' | 'influencer' | 'super-admin'): Observable<boolean> {
+  login(credentials: any, userType: 'main' | 'influencer' | 'super-admin'): Observable<any> {
     // Mock login - replace with actual API call
+    // return this.httpClient.post(ApiService.mainLoginURL, credentials);
     return new Observable(observer => {
       setTimeout(() => {
         if (this.validateCredentials(credentials, userType)) {
@@ -80,37 +84,33 @@ export class AuthService {
     });
   }
 
-  createAccount(formData: any): Observable<boolean> {
-    return new Observable(observer => {
-      setTimeout(() => {
-        try {
-          if (!formData?.email) {
-            observer.next(false);
-            observer.complete();
-            return;
-          }
-
-          const newUser: User = {
-            id: `main-${Date.now()}`,
-            email: formData.email,
-            username: formData.username || '',
-            adminId: undefined,
-            roles: ['user'],
-            userType: 'main'
-          };
-          this.setUserSession(newUser);
-          this.currentUserSubject.next(newUser);
-
-          observer.next(true);
-        } catch (error) {
-          observer.next(false);
-        } finally {
-          observer.complete();
-        }
-      }, 1000); // Simulate API delay
-    });
+  registerAcoount(data: any):Observable<any> {
+    return this.httpClient.post(ApiService.registerUserURL, data);
   }
 
+  verifyRegisterOtp(data:any){
+    return this.httpClient.post(ApiService.verifyRegisterOtpURL, data);
+  }
+  
+  resendOtp(data:any){
+    return this.httpClient.post(ApiService.resendOtpURL, data)
+  }
+
+  registerCategory(data:any){
+    return this.httpClient.post(ApiService.registerCategoryURL, data);
+  }
+  
+  registerUserType(data:any){
+    return this.httpClient.post(ApiService.registerUserTypeURL, data);
+  }
+
+  registerCompanyDetails(data:any){
+    return this.httpClient.post(ApiService.registerCompanyDetailsURL, data)
+  }
+
+  registerFinalStep(data:any){
+    return this.httpClient.post(ApiService.registerFinalStepURL, data);
+  }
 
   logout(): void {
     // Clear all auth data

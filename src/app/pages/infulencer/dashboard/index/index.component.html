@@ -1,0 +1,64 @@
+<div class="kt-container-fixed" id="contentContainer">
+</div>
+
+<div class="kt-container-fixed">
+	<div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+		<div class="flex flex-col justify-center gap-2">
+			<h1 class="text-xl font-medium leading-none text-mono">
+				Dashboard
+			</h1>
+		</div>
+		<div class="flex items-center gap-2.5">
+			@if(!editMode){
+			<button (click)="toggleEditMode()" [disabled]="widgetsService.addedWidgets().length === 0">
+				<i class="ki-filled ki-notepad-edit text-xl">
+				</i>
+			</button>
+			}@else{
+			<button (click)="toggleEditMode()">
+				<i class="ki-filled ki-copy-success text-xl">
+				</i>
+			</button>
+			}
+		</div>
+	</div>
+</div>
+
+<div class="kt-container-fixed mt-1">
+	<div class="dashboard-widgets" cdkDropList (cdkDropListDropped)="dropDashboard($event)" #widgetsContainer>
+		@for (w of widgetsService.addedWidgets(); track w.id) {
+		<app-widgets cdkDrag [cdkDragDisabled]="!editMode" [data]="w" />
+		}
+		@empty {
+		<div class="col-span-6 row-span-5">
+			<div>
+				<div class="">
+					<div class="flex flex-col items-center gap-2.5 py-7.5">
+						<div class="flex justify-center p-7.5 py-9">
+							<img alt="image" class="dark:hidden max-h-[150px]"
+								src="assets/media/illustrations/32.svg" />
+							<img alt="image" class="light:hidden max-h-[150px]"
+								src="assets/media/illustrations/32-dark.svg" />
+						</div>
+						<div class="flex flex-col gap-5 lg:gap-7.5">
+							<div class="flex flex-col gap-3 text-center">
+								<h2 class="text-xl font-semibold text-mono">
+									Let's Get Started
+								</h2>
+								<p class="text-sm text-foreground">
+									Add a widget to begin building your layout.
+								</p>
+							</div>
+							<div class="flex justify-center mb-5">
+								<button class="kt-btn kt-btn-outline" data-kt-drawer-toggle="#widgets_drawer">
+									<i class="ki-filled ki-element-plus"></i>Add widgets
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+	</div>
+</div>

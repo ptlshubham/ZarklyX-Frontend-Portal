@@ -1,0 +1,37 @@
+<div class="kt-card h-full">
+    <div class="kt-card-header">
+        <h3 class="kt-card-title">
+            Earnings
+        </h3>
+        <div class="flex gap-5">
+            <label class="flex items-center gap-2">
+                <input class="kt-switch" name="check" type="checkbox" value="1" />
+                <span class="kt-label">
+                    Referrals only
+                </span>
+            </label>
+            <select class="kt-select w-36" data-kt-select="true" data-kt-select-placeholder="Select period"
+                name="kt-select">
+                <option>
+                    None
+                </option>
+                <option value="1">
+                    1 month
+                </option>
+                <option value="2">
+                    3 month
+                </option>
+                <option value="3">
+                    6 month
+                </option>
+                <option value="4">
+                    12 month
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="kt-card-content flex flex-col justify-end items-stretch grow px-3 py-1">
+        <div id="earnings_X">
+        </div>
+    </div>
+</div>

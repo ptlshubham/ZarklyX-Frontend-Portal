@@ -143,6 +143,31 @@ export class InfluencerLoginComponent extends BaseAuthComponent {
     }
   }
 
+  onOtpPaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pasted = event.clipboardData?.getData('text') ?? '';
+    const digits = pasted.replace(/\D/g, '').slice(0, 6);
+
+    if (!digits) return;
+
+    digits.split('').forEach((digit, idx) => {
+      const input = document.querySelector<HTMLInputElement>(`input[name="code_${idx}"]`);
+      if (input) {
+        input.value = digit;
+        this.otpValues[idx] = digit;
+      }
+    });
+
+    const lastIndex = digits.length - 1;
+    const lastInput = document.querySelector<HTMLInputElement>(`input[name="code_${lastIndex}"]`);
+    lastInput?.focus();
+
+    if (digits.length === 6) {
+      this.submitOtp();
+    }
+  }
+
   startOtpTimer() {
     this.resendTimer = 60;
     clearInterval(this.otpInterval);
@@ -206,5 +231,9 @@ export class InfluencerLoginComponent extends BaseAuthComponent {
 
     console.log(' RESEND OTP TRIGGERED');
     this.startOtpTimer();
+  }
+
+  isOtpComplete(): boolean {
+    return this.otpValues.length === 6 && this.otpValues.every(v => /^[0-9]$/.test(v));
   }
 }

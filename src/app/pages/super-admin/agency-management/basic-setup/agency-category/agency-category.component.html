@@ -114,6 +114,8 @@
                                 </tr>
                             </thead>
                             <tbody>
+
+                                @for (category of paginateData; track category.id) {
                                 <tr>
                                     <td class="text-center">
                                         <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
@@ -121,19 +123,21 @@
                                     </td>
                                     <td>
                                         <div class="flex items-center gap-2.5">
-                                            <i class="ki-filled ki-pencil">
-                                            </i>
+                                            @if(category.icon) {
+                                            <i class="ki-filled" [ngClass]="'ki-' + category.icon"></i>
+                                            }
                                             <a class="text-sm font-medium text-mono hover:text-primary" href="#">
-                                                Tyler Hero
+                                                {{ category.name }}
                                             </a>
 
                                         </div>
                                     </td>
                                     <td class="font-normal text-foreground">
-                                        Miami, FL
+                                        {{ category.icon || 'No Icon' }}
                                     </td>
                                     <td>
-                                        <input class="kt-switch kt-switch-sm" name="check" type="checkbox" value="1" />
+                                        <input class="kt-switch kt-switch-sm" name="check" type="checkbox"
+                                            [checked]="category.isActive === 1" />
                                     </td>
                                     <td>
                                         <div class="kt-menu" data-kt-menu="true">
@@ -160,7 +164,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="kt-menu-item">
-                                                        <a class="kt-menu-link" href="#">
+                                                        <a class="kt-menu-link" (click)="removeCategoryId(category.id)">
                                                             <span class="kt-menu-icon">
                                                                 <i class="ki-filled ki-trash">
                                                                 </i>
@@ -175,6 +179,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -210,46 +215,55 @@
                 </i>
             </button>
         </div>
-        <div class="kt-modal-body grid gap-5 px-0 py-5">
+        <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
 
-            <div class="flex flex-col px-5 gap-2.5">
-                <div class="flex flex-center gap-1">
-                    <label class="text-mono font-semibold text-sm">
-                        Category Details
-                    </label>
-                </div>
-                <input class="kt-input" type="text" placeholder="Enter Category Details" />
-            </div>
-            <div class="flex flex-col px-5 gap-2.5">
-                <div class="flex flex-center gap-1">
-                    <label class="text-mono font-semibold text-sm">
-                        Icon Name
-                    </label>
-                    <i class="ki-filled ki-information-2 text-muted-foreground text-sm"
-                        data-kt-tooltip="#popover_content" data-kt-tooltip-trigger="hover"
-                        data-kt-tooltip-placement="bottom-start">
-                    </i>
-                </div>
-                <div id="popover_content" class="kt-popover max-w-56">
-                    <div class="kt-popover-header">Icon Selection Guide</div>
-                    <div class="kt-popover-content text-justify">
-                        Visit <a href="https://keenthemes.com/keenicons" target="_blank"
-                            class="kt-link">keenthemes.com/keenicons</a>, browse the available icons, click preview,
-                        copy the icon name, and paste it in the field below.
+            <div class="kt-modal-body grid gap-5 px-0 py-5">
+                <div class="flex flex-col px-5 gap-2.5">
+                    <div class="flex flex-center gap-1">
+                        <label class="text-mono font-semibold text-sm">
+                            Category Details
+                        </label>
+                    </div>
+                    <input class="kt-input" type="text" placeholder="Enter Category Details" formControlName="name"
+                        [class.kt-input-error]="f['name'].invalid && (f['name'].touched) || submitted"
+                        [class.border-red-500]="f['name'].invalid && (f['name'].touched) || submitted" />
+                    <div class="text-red-500 text-sm"
+                        *ngIf="f['name'].invalid && (f['name'].touched || submitted)">
+                        Category Name is required
                     </div>
                 </div>
-                <input class="kt-input" type="text" placeholder="Paste Your Icon Name Here" />
-            </div>
-            <div class="flex flex-col px-5 gap-4">
-                <div class="flex justify-end">
-                    <button class="kt-btn kt-btn-destructive kt-btn-outline mr-3" data-kt-modal-dismiss="true">
-                        Cancel
-                    </button>
-                    <button class="kt-btn kt-btn-primary">
-                        Save
-                    </button>
+                <div class="flex flex-col px-5 gap-2.5">
+                    <div class="flex flex-center gap-1">
+                        <label class="text-mono font-semibold text-sm">
+                            Icon Name
+                        </label>
+                        <i class="ki-filled ki-information-2 text-muted-foreground text-sm"
+                            data-kt-tooltip="#popover_content" data-kt-tooltip-trigger="hover"
+                            data-kt-tooltip-placement="bottom-start">
+                        </i>
+                    </div>
+                    <div id="popover_content" class="kt-popover max-w-56">
+                        <div class="kt-popover-header">Icon Selection Guide</div>
+                        <div class="kt-popover-content text-justify">
+                            Visit <a href="https://keenthemes.com/keenicons" target="_blank"
+                                class="kt-link">keenthemes.com/keenicons</a>, browse the available icons, click preview,
+                            copy the icon name, and paste it in the field below.
+                        </div>
+                    </div>
+                    <input class="kt-input" type="text" placeholder="Paste Your Icon Name Here"
+                        formControlName="icon" />
+                </div>
+                <div class="flex flex-col px-5 gap-4">
+                    <div class="flex justify-end">
+                        <button class="kt-btn kt-btn-destructive kt-btn-outline mr-3" data-kt-modal-dismiss="true">
+                            Cancel
+                        </button>
+                        <button class="kt-btn kt-btn-primary" type="submit" >
+                            Save
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

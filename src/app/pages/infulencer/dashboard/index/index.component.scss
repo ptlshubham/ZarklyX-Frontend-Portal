@@ -1,0 +1,13 @@
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  touch-action: pan-y;
+}
+
+@media (max-width: 992px) {
+  .dashboard-widgets {
+    padding: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

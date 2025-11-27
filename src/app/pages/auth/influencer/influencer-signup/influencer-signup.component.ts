@@ -258,6 +258,31 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
       }
     }
   }
+  onOtpPaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pasted = event.clipboardData?.getData('text') ?? '';
+    const digits = pasted.replace(/\D/g, '').slice(0, 6);
+
+    if (!digits) return;
+
+    digits.split('').forEach((digit, idx) => {
+      const input = document.querySelector<HTMLInputElement>(`input[name="code_${idx}"]`);
+      if (input) {
+        input.value = digit;
+        this.otpValues[idx] = digit;
+      }
+    });
+
+    const lastIndex = digits.length - 1;
+    const lastInput = document.querySelector<HTMLInputElement>(`input[name="code_${lastIndex}"]`);
+    lastInput?.focus();
+
+    if (digits.length === 6) {
+      this.submitOtp();
+    }
+  }
+
 
   submitOtp() {
     const otp = this.otpValues.join('');
@@ -273,7 +298,7 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
     inputs.forEach((input) => input.disabled = true);
 
     if (otp === '123456') {
-      this.authService.createAccount(this.signupForm.value).subscribe(isCreated => {
+      this.authService.registerAcoount(this.signupForm.value).subscribe(isCreated => {
         if (isCreated) {
           this.router.navigate(['/auth/influencer-details']);
           return;

@@ -1,0 +1,51 @@
+<div class="widget-container" [class.swing]="isEditable()">
+    <!-- for dev comment below button more more config -->
+    @if(isEditable()){
+    <button class="delete-btn" (click)="deleteWidget()"><span class="kt-menu-icon text-red-300 hover:text-red-500 transition text-xl">
+            <i class="ki-filled ki-trash">
+            </i>
+        </span></button>
+    }
+    <!-- for dev uncomment below button -->
+    <!-- <button class="settings-btn" (click)="showOptions.set(true)"><i class="ki-filled ki-setting-2"></i></button> -->
+
+
+    <ng-container *ngComponentOutlet="data().content"></ng-container>
+
+    <!-- @if (showOptions()) {
+    <div class="widget-options-menu p-8">
+
+        <div class="flex gap-2 items-center justify-center mt-3">
+            <button class="nav-arrow left-arrow">
+                ‹
+            </button>
+            width:
+            <button class="kt-btn kt-btn-outline" (click)="setWidth(1)">1</button>
+            <button class="kt-btn kt-btn-outline" (click)="setWidth(2)">2</button>
+            <button class="kt-btn kt-btn-outline" (click)="setWidth(3)">3</button>
+            <button class="kt-btn kt-btn-outline" (click)="setWidth(4)">4</button>
+            <button class="nav-arrow right-arrow">
+                ›
+            </button>
+        </div>
+
+        <div class="flex gap-2 items-center justify-center mt-3">
+            height:
+            <button class="kt-btn kt-btn-outline" (click)="setHeight(1)">1</button>
+            <button class="kt-btn kt-btn-outline" (click)="setHeight(2)">2</button>
+            <button class="kt-btn kt-btn-outline" (click)="setHeight(3)">3</button>
+            <button class="kt-btn kt-btn-outline" (click)="setHeight(4)">4</button>
+        </div>
+
+        <div class="flex gap-2">
+            <button class="kt-btn kt-btn-outline" (click)="deleteWidget()">
+                Delete
+            </button>
+            <button class="kt-btn kt-btn-outline" (click)="showOptions.set(false)">
+                Close
+            </button>
+        </div>
+    </div>
+
+    } -->
+</div>
