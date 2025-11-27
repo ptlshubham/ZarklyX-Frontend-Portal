@@ -46,6 +46,32 @@ export class ThemeToggleService {
     html.classList.remove('light', 'dark');
     html.setAttribute('data-theme', this.effectiveTheme());
     html.classList.add(this.effectiveTheme());
+    this.updateFavicons();
+  }
+
+  // Update favicons based on theme
+  private updateFavicons() {
+    // Check browser's actual dark mode preference (not portal theme)
+    const isBrowserDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const favicon16 = document.getElementById('favicon-16') as HTMLLinkElement;
+    const favicon32 = document.getElementById('favicon-32') as HTMLLinkElement;
+    const faviconIco = document.getElementById('favicon-ico') as HTMLLinkElement;
+
+    if (favicon16) {
+      favicon16.href = isBrowserDark 
+        ? '/assets/media/app/favicon-16x16-white.png' 
+        : '/assets/media/app/favicon-16x16.png';
+    }
+    if (favicon32) {
+      favicon32.href = isBrowserDark 
+        ? '/assets/media/app/favicon-32x32-white.png' 
+        : '/assets/media/app/favicon-32x32.png';
+    }
+    if (faviconIco) {
+      faviconIco.href = isBrowserDark 
+        ? '/assets/media/app/favicon-white.ico' 
+        : '/assets/media/app/favicon.ico';
+    }
   }
 
   // Listen for system theme changes if in system mode
