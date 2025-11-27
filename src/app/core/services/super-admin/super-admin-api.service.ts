@@ -9,7 +9,7 @@ declare var $: any;
 })
 export class SuperAdminApiService {
     public static HOST_URL: string = ApiService.HOST_URL;
-    
+
     constructor() {
     }
 
@@ -23,8 +23,8 @@ export class SuperAdminApiService {
     // Category Crud Operation
     public static GetAllCategoryURL: string = SuperAdminApiService.HOST_URL + '/category/getAllCategory';
     public static AddCategoryURL: string = SuperAdminApiService.HOST_URL + '/category/addCategory';
-    public static UpdateCategoryByIdURL: string = SuperAdminApiService.HOST_URL + '/category/updateCategoryById/';
+    public static UpdateCategoryByIdURL: string = SuperAdminApiService.HOST_URL + '/category/updateCategoryById';
     public static RemoveCategoryByIdURL: string = SuperAdminApiService.HOST_URL + '/category/removeById/';
-    
+
 
 }

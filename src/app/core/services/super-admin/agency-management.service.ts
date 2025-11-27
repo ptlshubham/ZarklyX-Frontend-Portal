@@ -16,10 +16,11 @@ export class AgencyManagementService {
     addCategory(data: any): Observable<any> {
         return this.httpClient.post(SuperAdminApiService.AddCategoryURL, data);
     }
-    updateCategoty(data: any, id: any) {
+    updateCategoty(data: any): Observable<any> {
+        debugger
         return this.httpClient.post(SuperAdminApiService.UpdateCategoryByIdURL, data);
     }
     removeCategoryUsingId(id: any) {
-        return this.httpClient.get(SuperAdminApiService.UpdateCategoryByIdURL + id);
+        return this.httpClient.get(SuperAdminApiService.RemoveCategoryByIdURL + id);
     }
 }

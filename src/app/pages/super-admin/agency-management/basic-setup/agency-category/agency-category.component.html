@@ -9,9 +9,9 @@
             </div>
         </div>
         <div class="flex items-center gap-2.5">
-            <a class="kt-btn kt-btn-outline" href="#">
+            <!-- <a class="kt-btn kt-btn-outline">
                 Import CSV
-            </a>
+            </a> -->
             <a class="kt-btn kt-btn-primary" data-kt-modal-toggle="#category_modal">
                 Add Category
             </a>
@@ -25,90 +25,75 @@
         <div class="kt-card kt-card-grid min-w-full">
             <div class="kt-card-header flex-wrap gap-2">
                 <h3 class="kt-card-title text-sm">
-                    Showing 10 of 100 users
+                    Showing {{ paginateData.length }} of {{ collectionSize }} categories
                 </h3>
                 <div class="flex flex-wrap gap-2 lg:gap-5">
                     <div class="flex">
                         <label class="kt-input">
                             <i class="ki-filled ki-magnifier">
                             </i>
-                            <input placeholder="Search users" type="text" value="" />
+                            <input placeholder="Search categories" type="text" [(ngModel)]="searchTerm"
+                                (input)="onSearch($event)" />
                         </label>
-                    </div>
-                    <div class="flex flex-wrap gap-2.5">
-                        <select class="kt-select w-36" data-kt-select="true"
-                            data-kt-select-placeholder="Select a status">
-                            <option value="1">
-                                Active
-                            </option>
-                            <option value="2">
-                                Disabled
-                            </option>
-                            <option value="2">
-                                Pending
-                            </option>
-                        </select>
-                        <select class="kt-select w-36" data-kt-select="true" data-kt-select-placeholder="Select a sort">
-                            <option value="1">
-                                Latest
-                            </option>
-                            <option value="2">
-                                Older
-                            </option>
-                            <option value="3">
-                                Oldest
-                            </option>
-                        </select>
-                        <button class="kt-btn kt-btn-outline kt-btn-primary">
-                            <i class="ki-filled ki-setting-4">
-                            </i>
-                            Filters
-                        </button>
                     </div>
                 </div>
             </div>
             <div class="kt-card-content">
-                <div class="grid" data-kt-datatable="true" data-kt-datatable-page-size="10">
+                <div class="grid">
                     <div class="kt-scrollable-x-auto">
-                        <table class="kt-table table-auto kt-table-border" data-kt-datatable-table="true">
+                        <table class="kt-table table-auto kt-table-border">
                             <thead>
                                 <tr>
                                     <th class="w-[60px] text-center">
-                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-check="true"
-                                            type="checkbox" />
+                                        <input class="kt-checkbox kt-checkbox-sm" type="checkbox" />
                                     </th>
-                                    <th class="min-w-[200px]">
+                                    <th class="min-w-[60px] cursor-pointer" (click)="sortData('index')">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Sr No.
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                                <i class="ki-filled"
+                                                    [ngClass]="sortColumn === 'index' ? (sortDirection === 'asc' ? 'ki-up' : 'ki-down') : 'ki-sort'"></i>
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="min-w-[200px] cursor-pointer" (click)="sortData('name')">
                                         <span class="kt-table-col">
                                             <span class="kt-table-col-label">
                                                 Category Name
                                             </span>
                                             <span class="kt-table-col-sort">
+                                                <i class="ki-filled"
+                                                    [ngClass]="sortColumn === 'name' ? (sortDirection === 'asc' ? 'ki-up' : 'ki-down') : 'ki-sort'"></i>
                                             </span>
                                         </span>
                                     </th>
-                                    <th class="min-w-[165px]">
+                                    <th class="min-w-[165px] cursor-pointer" (click)="sortData('icon')">
                                         <span class="kt-table-col">
                                             <span class="kt-table-col-label">
                                                 Icon Name
                                             </span>
                                             <span class="kt-table-col-sort">
+                                                <i class="ki-filled"
+                                                    [ngClass]="sortColumn === 'icon' ? (sortDirection === 'asc' ? 'ki-up' : 'ki-down') : 'ki-sort'"></i>
                                             </span>
                                         </span>
                                     </th>
-                                    <th class="min-w-[100px]">
+                                    <th class="min-w-[100px] cursor-pointer" (click)="sortData('isActive')">
                                         <span class="kt-table-col">
                                             <span class="kt-table-col-label">
                                                 Status
                                             </span>
                                             <span class="kt-table-col-sort">
+                                                <i class="ki-filled"
+                                                    [ngClass]="sortColumn === 'isActive' ? (sortDirection === 'asc' ? 'ki-up' : 'ki-down') : 'ki-sort'"></i>
                                             </span>
                                         </span>
                                     </th>
                                     <th class="w-[60px]">
-                                        <span class="kt-table-col">
-                                            <span class="kt-table-col-label">
-                                                Action
-                                            </span>
+                                        <span class="kt-table-col-label">
+                                            Action
                                         </span>
                                     </th>
                                 </tr>
@@ -118,18 +103,21 @@
                                 @for (category of paginateData; track category.id) {
                                 <tr>
                                     <td class="text-center">
-                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
-                                            type="checkbox" value="1" />
+                                        <input class="kt-checkbox kt-checkbox-sm" type="checkbox" />
+                                    </td>
+                                    <td>
+                                        <a class="text-sm font-medium text-mono hover:text-primary">
+                                            {{ category.index }}
+                                        </a>
                                     </td>
                                     <td>
                                         <div class="flex items-center gap-2.5">
                                             @if(category.icon) {
                                             <i class="ki-filled" [ngClass]="'ki-' + category.icon"></i>
                                             }
-                                            <a class="text-sm font-medium text-mono hover:text-primary" href="#">
+                                            <a class="text-sm font-medium text-mono hover:text-primary">
                                                 {{ category.name }}
                                             </a>
-
                                         </div>
                                     </td>
                                     <td class="font-normal text-foreground">
@@ -137,7 +125,8 @@
                                     </td>
                                     <td>
                                         <input class="kt-switch kt-switch-sm" name="check" type="checkbox"
-                                            [checked]="category.isActive === 1" />
+                                            [checked]="category.isActive === 1"
+                                            (change)="toggleCategoryStatus(category.id, category.isActive)" />
                                     </td>
                                     <td>
                                         <div class="kt-menu" data-kt-menu="true">
@@ -153,7 +142,7 @@
                                                 <div class="kt-menu-dropdown kt-menu-default w-full max-w-[175px]"
                                                     data-kt-menu-dismiss="true">
                                                     <div class="kt-menu-item">
-                                                        <a class="kt-menu-link" href="#">
+                                                        <a class="kt-menu-link">
                                                             <span class="kt-menu-icon">
                                                                 <i class="ki-filled ki-pencil">
                                                                 </i>
@@ -187,15 +176,31 @@
                         class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
                         <div class="flex items-center gap-2 order-2 md:order-1">
                             Show
-                            <select class="kt-select w-16" data-kt-datatable-size="true" data-kt-select=""
-                                name="perpage">
+                            <select class="kt-select w-16" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+                                <option [value]="5">5</option>
+                                <option [value]="10">10</option>
+                                <option [value]="25">25</option>
+                                <option [value]="50">50</option>
+                                <option [value]="75">75</option>
+                                <option [value]="100">100</option>
                             </select>
                             per page
                         </div>
                         <div class="flex items-center gap-4 order-1 md:order-2">
-                            <span data-kt-datatable-info="true">
+                            <span>
+                                Showing {{ (page - 1) * pageSize + 1 }} to {{ page * pageSize > collectionSize ?
+                                collectionSize : page * pageSize }} of {{ collectionSize }}
                             </span>
-                            <div class="kt-datatable-pagination" data-kt-datatable-pagination="true">
+                            <div class="flex gap-2">
+                                <button class="kt-btn kt-btn-sm kt-btn-icon kt-btn-outline" [disabled]="page === 1"
+                                    (click)="onPageChange(page - 1)">
+                                    <i class="ki-filled ki-left"></i>
+                                </button>
+                                <span class="flex items-center px-2">{{ page }}</span>
+                                <button class="kt-btn kt-btn-sm kt-btn-icon kt-btn-outline"
+                                    [disabled]="page * pageSize >= collectionSize" (click)="onPageChange(page + 1)">
+                                    <i class="ki-filled ki-right"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -215,7 +220,7 @@
                 </i>
             </button>
         </div>
-        <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
+        <form [formGroup]="addCategoryForm">
 
             <div class="kt-modal-body grid gap-5 px-0 py-5">
                 <div class="flex flex-col px-5 gap-2.5">
@@ -227,10 +232,11 @@
                     <input class="kt-input" type="text" placeholder="Enter Category Details" formControlName="name"
                         [class.kt-input-error]="f['name'].invalid && (f['name'].touched) || submitted"
                         [class.border-red-500]="f['name'].invalid && (f['name'].touched) || submitted" />
-                    <div class="text-red-500 text-sm"
-                        *ngIf="f['name'].invalid && (f['name'].touched || submitted)">
+                    @if (f['name'].invalid && (f['name'].touched || submitted)) {
+                    <div class="text-red-500 text-sm">
                         Category Name is required
                     </div>
+                    }
                 </div>
                 <div class="flex flex-col px-5 gap-2.5">
                     <div class="flex flex-center gap-1">
@@ -238,7 +244,7 @@
                             Icon Name
                         </label>
                         <i class="ki-filled ki-information-2 text-muted-foreground text-sm"
-                            data-kt-tooltip="#popover_content" data-kt-tooltip-trigger="hover"
+                            data-kt-tooltip="#popover_content" data-kt-tooltip-trigger="click"
                             data-kt-tooltip-placement="bottom-start">
                         </i>
                     </div>
@@ -250,15 +256,22 @@
                             copy the icon name, and paste it in the field below.
                         </div>
                     </div>
-                    <input class="kt-input" type="text" placeholder="Paste Your Icon Name Here"
-                        formControlName="icon" />
+                    <input class="kt-input" type="text" placeholder="Paste Your Icon Name Here" formControlName="icon"
+                        [class.kt-input-error]="f['icon'].invalid && (f['icon'].touched) || submitted"
+                        [class.border-red-500]="f['icon'].invalid && (f['icon'].touched) || submitted" />
+                    @if (f['icon'].invalid && (f['icon'].touched || submitted)) {
+                    <div class="text-red-500 text-sm">
+                        Icon Name is required
+                    </div>
+                    }
                 </div>
                 <div class="flex flex-col px-5 gap-4">
                     <div class="flex justify-end">
                         <button class="kt-btn kt-btn-destructive kt-btn-outline mr-3" data-kt-modal-dismiss="true">
                             Cancel
                         </button>
-                        <button class="kt-btn kt-btn-primary" type="submit" >
+                        <button class="kt-btn kt-btn-primary" type="submit" [disabled]="addCategoryForm.invalid"
+                            (click)="addCategory()">
                             Save
                         </button>
                     </div>
