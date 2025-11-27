@@ -1,4 +1,4 @@
-import { MenuItem } from './menu.model';
+import { MenuItem } from './super-admin-menu.model';
 
 // Super Admin Menu Configuration
 export const superAdminMenu: MenuItem[] = [
@@ -7,7 +7,7 @@ export const superAdminMenu: MenuItem[] = [
         id: 1,
         label: 'Dashboard',
         icon: 'ki-filled ki-element-11',
-        link: '/super-admin/dashboard'
+        link: '/super-admin'
     },
     // Management Section
     {
@@ -117,38 +117,57 @@ export const superAdminMenu: MenuItem[] = [
             },
             {
                 id: 19,
-                label: 'Business Category Manager',
-                link: '/super-admin/agencies/categories',
-                parentId: 12
+                label: 'Signup Settings',
+                parentId: 12,
+                subItems: [
+                    {
+                        id: 20,
+                        label: 'Business Category Management',
+                        link: '/super-admin/agencies/categories',
+                        parentId: 19
+                    },
+                    {
+                        id: 21,
+                        label: 'Premium Features',
+                        link: '/super-admin/agencies/premium-features',
+                        parentId: 19
+                    }
+                ]
             },
+            // {
+            //     id: 22,
+            //     label: 'Business Category Manager',
+            //     link: '/super-admin/agencies/categories',
+            //     parentId: 12
+            // },
+            // {
+            //     id: 23,
+            //     label: 'Premium Feature Control',
+            //     link: '/super-admin/agencies/premium-features',
+            //     parentId: 12
+            // },
             {
-                id: 20,
-                label: 'Premium Feature Control',
-                link: '/super-admin/agencies/premium-features',
-                parentId: 12
-            },
-            {
-                id: 21,
+                id: 24,
                 label: 'Usage Insights',
                 parentId: 12,
                 subItems: [
                     {
-                        id: 22,
+                        id: 25,
                         label: 'Credits Usage',
                         link: '/super-admin/agencies/usage/credits',
-                        parentId: 21
+                        parentId: 24
                     },
                     {
-                        id: 23,
+                        id: 26,
                         label: 'Storage Usage',
                         link: '/super-admin/agencies/usage/storage',
-                        parentId: 21
+                        parentId: 24
                     },
                     {
-                        id: 24,
+                        id: 27,
                         label: 'Social Accounts',
                         link: '/super-admin/agencies/usage/social-accounts',
-                        parentId: 21
+                        parentId: 24
                     }
                 ]
             }
@@ -156,134 +175,134 @@ export const superAdminMenu: MenuItem[] = [
     },
     // Influencer Management
     {
-        id: 25,
+        id: 28,
         label: 'Influencer Management',
         icon: 'ki-filled ki-users',
         subItems: [
             {
-                id: 26,
+                id: 29,
                 label: 'All Influencers',
                 link: '/super-admin/influencers/list',
-                parentId: 25
+                parentId: 28
             },
             {
-                id: 27,
+                id: 30,
                 label: 'Approvals',
                 link: '/super-admin/influencers/approvals',
-                parentId: 25
-            },
-            {
-                id: 28,
-                label: 'Categories',
-                parentId: 25,
-                subItems: [
-                    {
-                        id: 29,
-                        label: 'Category',
-                        link: '/super-admin/influencers/categories',
-                        parentId: 28
-                    },
-                    {
-                        id: 30,
-                        label: 'Sub-category',
-                        link: '/super-admin/influencers/sub-categories',
-                        parentId: 28
-                    }
-                ]
+                parentId: 28
             },
             {
                 id: 31,
-                label: 'Platforms',
-                parentId: 25,
+                label: 'Categories',
+                parentId: 28,
                 subItems: [
                     {
                         id: 32,
-                        label: 'Instagram',
-                        link: '/super-admin/influencers/platforms/instagram',
+                        label: 'Category',
+                        link: '/super-admin/influencers/categories',
                         parentId: 31
                     },
                     {
                         id: 33,
-                        label: 'Facebook',
-                        link: '/super-admin/influencers/platforms/facebook',
-                        parentId: 31
-                    },
-                    {
-                        id: 34,
-                        label: 'TikTok',
-                        link: '/super-admin/influencers/platforms/tiktok',
-                        parentId: 31
-                    },
-                    {
-                        id: 35,
-                        label: 'YouTube',
-                        link: '/super-admin/influencers/platforms/youtube',
+                        label: 'Sub-category',
+                        link: '/super-admin/influencers/sub-categories',
                         parentId: 31
                     }
                 ]
             },
             {
-                id: 36,
-                label: 'Influencer Health & Stats',
-                link: '/super-admin/influencers/health-stats',
-                parentId: 25
+                id: 34,
+                label: 'Platforms',
+                parentId: 28,
+                subItems: [
+                    {
+                        id: 35,
+                        label: 'Instagram',
+                        link: '/super-admin/influencers/platforms/instagram',
+                        parentId: 34
+                    },
+                    {
+                        id: 36,
+                        label: 'Facebook',
+                        link: '/super-admin/influencers/platforms/facebook',
+                        parentId: 34
+                    },
+                    {
+                        id: 37,
+                        label: 'TikTok',
+                        link: '/super-admin/influencers/platforms/tiktok',
+                        parentId: 34
+                    },
+                    {
+                        id: 38,
+                        label: 'YouTube',
+                        link: '/super-admin/influencers/platforms/youtube',
+                        parentId: 34
+                    }
+                ]
             },
             {
-                id: 37,
+                id: 39,
+                label: 'Influencer Health & Stats',
+                link: '/super-admin/influencers/health-stats',
+                parentId: 28
+            },
+            {
+                id: 40,
                 label: 'Influencer KYC',
                 link: '/super-admin/influencers/kyc',
-                parentId: 25
+                parentId: 28
             }
         ]
     },
     // Credits Management
     {
-        id: 38,
+        id: 41,
         label: 'Credits Management',
         icon: 'ki-filled ki-dollar',
         subItems: [
             {
-                id: 39,
+                id: 42,
                 label: 'Credit Packages',
                 link: '/super-admin/credits/packages',
-                parentId: 38
-            },
-            {
-                id: 40,
-                label: 'Credit Pricing',
-                link: '/super-admin/credits/pricing',
-                parentId: 38
-            },
-            {
-                id: 41,
-                label: 'Manual Credit Adjustment',
-                link: '/super-admin/credits/manual-adjustment',
-                parentId: 38
-            },
-            {
-                id: 42,
-                label: 'Credit Purchase History',
-                link: '/super-admin/credits/purchase-history',
-                parentId: 38
+                parentId: 41
             },
             {
                 id: 43,
+                label: 'Credit Pricing',
+                link: '/super-admin/credits/pricing',
+                parentId: 41
+            },
+            {
+                id: 44,
+                label: 'Manual Credit Adjustment',
+                link: '/super-admin/credits/manual-adjustment',
+                parentId: 41
+            },
+            {
+                id: 45,
+                label: 'Credit Purchase History',
+                link: '/super-admin/credits/purchase-history',
+                parentId: 41
+            },
+            {
+                id: 46,
                 label: 'Credit Usage Reports',
                 link: '/super-admin/credits/usage-reports',
-                parentId: 38
+                parentId: 41
             }
         ]
     },
     // Platform Integrations
     {
-        id: 44,
+        id: 47,
         label: 'Platform Integrations',
         icon: 'ki-filled ki-technology-2',
         subItems: [
             {
-                id: 45,
+                id: 48,
                 label: 'Social APIs',
-                parentId: 44,
+                parentId: 47,
                 subItems: [
                     {
                         id: 46,
@@ -312,46 +331,46 @@ export const superAdminMenu: MenuItem[] = [
                 ]
             },
             {
-                id: 50,
+                id: 53,
                 label: 'Cloud Integrations',
-                parentId: 44,
+                parentId: 47,
                 subItems: [
                     {
-                        id: 51,
+                        id: 54,
                         label: 'AWS',
                         link: '/super-admin/integrations/cloud/aws',
-                        parentId: 50
+                        parentId: 53
                     },
                     {
-                        id: 52,
+                        id: 55,
                         label: 'GCP',
                         link: '/super-admin/integrations/cloud/gcp',
-                        parentId: 50
+                        parentId: 53
                     },
                     {
-                        id: 53,
+                        id: 56,
                         label: 'Azure',
                         link: '/super-admin/integrations/cloud/azure',
-                        parentId: 50
+                        parentId: 53
                     }
                 ]
             },
             {
-                id: 54,
+                id: 57,
                 label: 'SMTP & SMS',
-                parentId: 44,
+                parentId: 47,
                 subItems: [
                     {
-                        id: 55,
+                        id: 58,
                         label: 'SMTP Configuration',
                         link: '/super-admin/integrations/smtp',
-                        parentId: 54
+                        parentId: 57
                     },
                     {
-                        id: 56,
+                        id: 59,
                         label: 'SMS Gateway',
                         link: '/super-admin/integrations/sms',
-                        parentId: 54
+                        parentId: 57
                     }
                 ]
             }
@@ -359,20 +378,20 @@ export const superAdminMenu: MenuItem[] = [
     },
     // System Content
     {
-        id: 57,
+        id: 60,
         label: 'System Content',
         icon: 'ki-filled ki-social-media',
         subItems: [
             {
-                id: 58,
+                id: 61,
                 label: 'Blog Management',
                 link: '/super-admin/content/blogs',
-                parentId: 57
+                parentId: 60
             },
             {
-                id: 59,
+                id: 62,
                 label: 'CMS',
-                parentId: 57,
+                parentId: 60,
                 subItems: [
                     {
                         id: 60,
@@ -422,26 +441,26 @@ export const superAdminMenu: MenuItem[] = [
     },
     // Support & Tickets
     {
-        id: 67,
+        id: 70,
         label: 'Support & Tickets',
         icon: 'ki-filled ki-messages',
         subItems: [
             {
-                id: 68,
+                id: 71,
                 label: 'All Tickets',
                 link: '/super-admin/tickets/all',
-                parentId: 67
+                parentId: 70
             },
             {
-                id: 69,
+                id: 72,
                 label: 'Assign Tickets',
                 link: '/super-admin/tickets/assign',
-                parentId: 67
+                parentId: 70
             },
             {
-                id: 70,
+                id: 73,
                 label: 'Departments',
-                parentId: 67,
+                parentId: 70,
                 subItems: [
                     {
                         id: 71,
@@ -479,140 +498,140 @@ export const superAdminMenu: MenuItem[] = [
     },
     // Technical Access
     {
-        id: 76,
+        id: 79,
         label: 'Technical Access',
         icon: 'ki-filled ki-shield',
         subItems: [
             {
-                id: 77,
+                id: 80,
                 label: 'Support PIN System',
                 link: '/super-admin/security/pin',
-                parentId: 76
+                parentId: 79
             },
             {
-                id: 78,
+                id: 81,
                 label: 'Temporary Client Access',
                 link: '/super-admin/security/temp-access',
-                parentId: 76
+                parentId: 79
             }
         ]
     },
     // Reviews & Feedback
     {
-        id: 79,
+        id: 82,
         label: 'Reviews & Feedback',
         icon: 'ki-filled ki-star',
         subItems: [
             {
-                id: 80,
+                id: 83,
                 label: 'Agency Reviews',
                 link: '/super-admin/reviews/agencies',
-                parentId: 79
+                parentId: 82
             },
             {
-                id: 81,
+                id: 84,
                 label: 'Influencer Reviews',
                 link: '/super-admin/reviews/influencers',
-                parentId: 79
+                parentId: 82
             },
             {
-                id: 82,
+                id: 85,
                 label: 'System Feedback',
                 link: '/super-admin/reviews/system-feedback',
-                parentId: 79
+                parentId: 82
             }
         ]
     },
     // Transactions & Payments
     {
-        id: 83,
+        id: 86,
         label: 'Transactions & Payments',
         icon: 'ki-filled ki-cheque',
         subItems: [
             {
-                id: 84,
+                id: 87,
                 label: 'Subscription Payments',
                 link: '/super-admin/payments/subscriptions',
-                parentId: 83
+                parentId: 86
             },
             {
-                id: 85,
+                id: 88,
                 label: 'Credit Purchases',
                 link: '/super-admin/payments/credits',
-                parentId: 83
+                parentId: 86
             },
             {
-                id: 86,
+                id: 89,
                 label: 'Payouts',
-                parentId: 83,
+                parentId: 86,
                 subItems: [
                     {
-                        id: 87,
+                        id: 90,
                         label: 'Influencer Payouts',
                         link: '/super-admin/payments/payouts/influencers',
-                        parentId: 86
+                        parentId: 89
                     },
                     {
-                        id: 88,
+                        id: 91,
                         label: 'Agency Payouts',
                         link: '/super-admin/payments/payouts/agencies',
-                        parentId: 86
+                        parentId: 89
                     }
                 ]
             },
             {
-                id: 89,
+                id: 92,
                 label: 'Refund Requests',
                 link: '/super-admin/payments/refunds',
-                parentId: 83
+                parentId: 86
             },
             {
-                id: 90,
+                id: 93,
                 label: 'Transaction Logs',
                 link: '/super-admin/payments/transactions-log',
-                parentId: 83
+                parentId: 86
             }
         ]
     },
     // Reports & Analytics Section
     {
-        id: 91,
+        id: 94,
         label: 'Reports & Analytics',
         isTitle: true,
     },
     {
-        id: 92,
+        id: 95,
         label: 'Reports',
         icon: 'ki-filled ki-chart-line-up',
         subItems: [
             {
-                id: 93,
+                id: 96,
                 label: 'Agency Reports',
                 link: '/super-admin/reports/agencies',
-                parentId: 92
-            },
-            {
-                id: 94,
-                label: 'Influencer Reports',
-                link: '/super-admin/reports/influencers',
-                parentId: 92
-            },
-            {
-                id: 95,
-                label: 'Subscription Reports',
-                link: '/super-admin/reports/subscriptions',
-                parentId: 92
-            },
-            {
-                id: 96,
-                label: 'Revenue Reports',
-                link: '/super-admin/reports/revenue',
-                parentId: 92
+                parentId: 95
             },
             {
                 id: 97,
+                label: 'Influencer Reports',
+                link: '/super-admin/reports/influencers',
+                parentId: 95
+            },
+            {
+                id: 98,
+                label: 'Subscription Reports',
+                link: '/super-admin/reports/subscriptions',
+                parentId: 95
+            },
+            {
+                id: 99,
+                label: 'Revenue Reports',
+                link: '/super-admin/reports/revenue',
+                parentId: 95
+            },
+            {
+                id: 100,
                 label: 'Platform Usage',
-                parentId: 92,
+                parentId: 95,
                 subItems: [
                     {
                         id: 98,
@@ -662,129 +681,129 @@ export const superAdminMenu: MenuItem[] = [
     },
     // Logs & Monitoring Section
     {
-        id: 105,
+        id: 108,
         label: 'Logs & Monitoring',
         isTitle: true,
     },
     {
-        id: 106,
+        id: 109,
         label: 'Logs & Monitoring',
         icon: 'ki-filled ki-note-2',
         subItems: [
             {
-                id: 107,
+                id: 110,
                 label: 'Activity Logs',
                 link: '/super-admin/logs/activity',
-                parentId: 106
-            },
-            {
-                id: 108,
-                label: 'Login Logs',
-                link: '/super-admin/logs/login',
-                parentId: 106
-            },
-            {
-                id: 109,
-                label: 'Email/SMS Logs',
-                link: '/super-admin/logs/email-sms',
-                parentId: 106
-            },
-            {
-                id: 110,
-                label: 'API Logs',
-                link: '/super-admin/logs/api',
-                parentId: 106
+                parentId: 109
             },
             {
                 id: 111,
+                label: 'Login Logs',
+                link: '/super-admin/logs/login',
+                parentId: 109
+            },
+            {
+                id: 112,
+                label: 'Email/SMS Logs',
+                link: '/super-admin/logs/email-sms',
+                parentId: 109
+            },
+            {
+                id: 113,
+                label: 'API Logs',
+                link: '/super-admin/logs/api',
+                parentId: 109
+            },
+            {
+                id: 114,
                 label: 'Error Tracking',
                 link: '/super-admin/logs/errors',
-                parentId: 106
+                parentId: 109
             }
         ]
     },
     // Automation Engine Section
     {
-        id: 112,
+        id: 115,
         label: 'Automation Engine',
         isTitle: true,
     },
     {
-        id: 113,
+        id: 116,
         label: 'Automation Engine',
         icon: 'ki-filled ki-rocket',
         subItems: [
             {
-                id: 114,
+                id: 117,
                 label: 'Auto Subscription Emails',
                 link: '/super-admin/automation/subscription-emails',
-                parentId: 113
+                parentId: 116
             },
             {
-                id: 115,
+                id: 118,
                 label: 'Auto Lead Assignment',
                 link: '/super-admin/automation/lead-assignment',
-                parentId: 113
+                parentId: 116
             },
             {
-                id: 116,
+                id: 119,
                 label: 'Auto Ticket Assignment',
                 link: '/super-admin/automation/ticket-assignment',
-                parentId: 113
+                parentId: 116
             },
             {
-                id: 117,
+                id: 120,
                 label: 'Auto Reminder System',
                 link: '/super-admin/automation/reminders',
-                parentId: 113
+                parentId: 116
             }
         ]
     },
     // White Labeling Section
     {
-        id: 118,
+        id: 121,
         label: 'White Labeling',
         isTitle: true,
     },
     {
-        id: 119,
+        id: 122,
         label: 'White Labeling',
         icon: 'ki-filled ki-brush',
         subItems: [
             {
-                id: 120,
+                id: 123,
                 label: 'Custom Domain',
                 link: '/super-admin/branding/domain',
-                parentId: 119
+                parentId: 122
             },
             {
-                id: 121,
+                id: 124,
                 label: 'Custom Logo',
                 link: '/super-admin/branding/logo',
-                parentId: 119
+                parentId: 122
             },
             {
-                id: 122,
+                id: 125,
                 label: 'Theme Colors',
                 link: '/super-admin/branding/theme',
-                parentId: 119
+                parentId: 122
             },
             {
-                id: 123,
+                id: 126,
                 label: 'Custom Email Sender',
                 link: '/super-admin/branding/email-sender',
-                parentId: 119
+                parentId: 122
             }
         ]
     },
     // Quick Access Section
     {
-        id: 124,
+        id: 127,
         label: 'Quick Access',
         isTitle: true,
     },
     {
-        id: 125,
+        id: 128,
         label: 'Switch to Dashboard',
         icon: 'ki-filled ki-switch',
         link: '/dashboard'
