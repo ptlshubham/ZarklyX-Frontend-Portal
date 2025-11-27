@@ -1,1 +1,255 @@
-<p>premium-features works!</p>
+<div class="kt-container-fixed">
+    <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+            <h1 class="text-xl font-medium leading-none text-mono">
+                Premium Features
+            </h1>
+            <div class="flex items-center gap-2 text-sm font-normal text-secondary-foreground">
+                Manage and organize premium features
+            </div>
+        </div>
+        <div class="flex items-center gap-2.5">
+            <a class="kt-btn kt-btn-outline" href="#">
+                Import CSV
+            </a>
+            <a class="kt-btn kt-btn-primary" data-kt-modal-toggle="#category_modal">
+                Add Premium Feature
+            </a>
+        </div>
+    </div>
+</div>
+<!-- End of Container -->
+<!-- Container -->
+<div class="kt-container-fixed">
+    <div class="grid gap-5 lg:gap-7.5">
+        <div class="kt-card kt-card-grid min-w-full">
+            <div class="kt-card-header flex-wrap gap-2">
+                <h3 class="kt-card-title text-sm">
+                    Showing 10 of 100 users
+                </h3>
+                <div class="flex flex-wrap gap-2 lg:gap-5">
+                    <div class="flex">
+                        <label class="kt-input">
+                            <i class="ki-filled ki-magnifier">
+                            </i>
+                            <input placeholder="Search users" type="text" value="" />
+                        </label>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5">
+                        <select class="kt-select w-36" data-kt-select="true"
+                            data-kt-select-placeholder="Select a status">
+                            <option value="1">
+                                Active
+                            </option>
+                            <option value="2">
+                                Disabled
+                            </option>
+                            <option value="2">
+                                Pending
+                            </option>
+                        </select>
+                        <select class="kt-select w-36" data-kt-select="true" data-kt-select-placeholder="Select a sort">
+                            <option value="1">
+                                Latest
+                            </option>
+                            <option value="2">
+                                Older
+                            </option>
+                            <option value="3">
+                                Oldest
+                            </option>
+                        </select>
+                        <button class="kt-btn kt-btn-outline kt-btn-primary">
+                            <i class="ki-filled ki-setting-4">
+                            </i>
+                            Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-card-content">
+                <div class="grid" data-kt-datatable="true" data-kt-datatable-page-size="10">
+                    <div class="kt-scrollable-x-auto">
+                        <table class="kt-table table-auto kt-table-border" data-kt-datatable-table="true">
+                            <thead>
+                                <tr>
+                                    <th class="w-[60px] text-center">
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-check="true"
+                                            type="checkbox" />
+                                    </th>
+                                    <th class="min-w-[200px]">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Feature Name
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="min-w-[165px]">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Icon Name
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="min-w-[100px]">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Status
+                                            </span>
+                                            <span class="kt-table-col-sort">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[60px]">
+                                        <span class="kt-table-col">
+                                            <span class="kt-table-col-label">
+                                                Action
+                                            </span>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <input class="kt-checkbox kt-checkbox-sm" data-kt-datatable-row-check="true"
+                                            type="checkbox" value="1" />
+                                    </td>
+                                    <td>
+                                        <div class="flex items-center gap-2.5">
+                                            <i class="ki-filled ki-pencil">
+                                            </i>
+                                            <a class="text-sm font-medium text-mono hover:text-primary" href="#">
+                                                Tyler Hero
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                    <td class="font-normal text-foreground">
+                                        Miami, FL
+                                    </td>
+                                    <td>
+                                        <input class="kt-switch kt-switch-sm" name="check" type="checkbox" value="1" />
+                                    </td>
+                                    <td>
+                                        <div class="kt-menu" data-kt-menu="true">
+                                            <div class="kt-menu-item" data-kt-menu-item-offset="0, 10px"
+                                                data-kt-menu-item-placement="bottom-end"
+                                                data-kt-menu-item-placement-rtl="bottom-start"
+                                                data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click">
+                                                <button
+                                                    class="kt-menu-toggle kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost">
+                                                    <i class="ki-filled ki-dots-vertical text-lg">
+                                                    </i>
+                                                </button>
+                                                <div class="kt-menu-dropdown kt-menu-default w-full max-w-[175px]"
+                                                    data-kt-menu-dismiss="true">
+                                                    <div class="kt-menu-item">
+                                                        <a class="kt-menu-link" href="#">
+                                                            <span class="kt-menu-icon">
+                                                                <i class="ki-filled ki-pencil">
+                                                                </i>
+                                                            </span>
+                                                            <span class="kt-menu-title">
+                                                                Edit
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="kt-menu-item">
+                                                        <a class="kt-menu-link" href="#">
+                                                            <span class="kt-menu-icon">
+                                                                <i class="ki-filled ki-trash">
+                                                                </i>
+                                                            </span>
+                                                            <span class="kt-menu-title">
+                                                                Remove
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
+                        <div class="flex items-center gap-2 order-2 md:order-1">
+                            Show
+                            <select class="kt-select w-16" data-kt-datatable-size="true" data-kt-select=""
+                                name="perpage">
+                            </select>
+                            per page
+                        </div>
+                        <div class="flex items-center gap-4 order-1 md:order-2">
+                            <span data-kt-datatable-info="true">
+                            </span>
+                            <div class="kt-datatable-pagination" data-kt-datatable-pagination="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="kt-modal" data-kt-modal="true" id="category_modal">
+    <div class="kt-modal-content max-w-[500px] top-5 lg:top-[15%]">
+        <div class="kt-modal-header">
+            <h3 class="kt-modal-title">
+                Premium Feature Settings
+            </h3>
+            <button class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost shrink-0" data-kt-modal-dismiss="true">
+                <i class="ki-filled ki-cross">
+                </i>
+            </button>
+        </div>
+        <div class="kt-modal-body grid gap-5 px-0 py-5">
+
+            <div class="flex flex-col px-5 gap-2.5">
+                <div class="flex flex-center gap-1">
+                    <label class="text-mono font-semibold text-sm">
+                        Feature Name
+                    </label>
+                </div>
+                <input class="kt-input" type="text" placeholder="Enter Feature Name" />
+            </div>
+            <div class="flex flex-col px-5 gap-2.5">
+                <div class="flex flex-center gap-1">
+                    <label class="text-mono font-semibold text-sm">
+                        Icon Name
+                    </label>
+                    <i class="ki-filled ki-information-2 text-muted-foreground text-sm"
+                        data-kt-tooltip="#popover_content" data-kt-tooltip-trigger="hover"
+                        data-kt-tooltip-placement="bottom-start">
+                    </i>
+                </div>
+                <div id="popover_content" class="kt-popover max-w-56">
+                    <div class="kt-popover-header">Icon Selection Guide</div>
+                    <div class="kt-popover-content text-justify">
+                        Visit <a href="https://keenthemes.com/keenicons" target="_blank"
+                            class="kt-link">keenthemes.com/keenicons</a>, browse the available icons, click preview,
+                        copy the icon name, and paste it in the field below.
+                    </div>
+                </div>
+                <input class="kt-input" type="text" placeholder="Paste Your Icon Name Here" />
+            </div>
+            <div class="flex flex-col px-5 gap-4">
+                <div class="flex justify-end">
+                    <button class="kt-btn kt-btn-destructive kt-btn-outline mr-3" data-kt-modal-dismiss="true">
+                        Cancel
+                    </button>
+                    <button class="kt-btn kt-btn-primary">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,7 +23,7 @@ export const SuperAdminRoutes: Routes = [
         ]
     },
     {
-        path: 'agency',
+        path: 'agencies',
         data: { title: 'Super Admin Panel', breadcrumb: 'Super Admin', roles: ['super-admin'] },
         children: [
             {
