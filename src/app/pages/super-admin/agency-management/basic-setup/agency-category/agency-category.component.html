@@ -12,7 +12,7 @@
             <!-- <a class="kt-btn kt-btn-outline">
                 Import CSV
             </a> -->
-            <a class="kt-btn kt-btn-primary" data-kt-modal-toggle="#category_modal">
+            <a class="kt-btn kt-btn-primary" (click)="openAddCategoryModal()">
                 Add Category
             </a>
         </div>
@@ -142,7 +142,7 @@
                                                 <div class="kt-menu-dropdown kt-menu-default w-full max-w-[175px]"
                                                     data-kt-menu-dismiss="true">
                                                     <div class="kt-menu-item">
-                                                        <a class="kt-menu-link">
+                                                        <a class="kt-menu-link" (click)="editCategory(category)">
                                                             <span class="kt-menu-icon">
                                                                 <i class="ki-filled ki-pencil">
                                                                 </i>
@@ -176,13 +176,13 @@
                         class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
                         <div class="flex items-center gap-2 order-2 md:order-1">
                             Show
-                            <select class="kt-select w-16" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
-                                <option [value]="5">5</option>
-                                <option [value]="10">10</option>
-                                <option [value]="25">25</option>
-                                <option [value]="50">50</option>
-                                <option [value]="75">75</option>
-                                <option [value]="100">100</option>
+                            <select class="kt-select w-16" [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange()" [ngModelOptions]="{standalone: true}">
+                                <option [ngValue]="5">5</option>
+                                <option [ngValue]="10">10</option>
+                                <option [ngValue]="25">25</option>
+                                <option [ngValue]="50">50</option>
+                                <option [ngValue]="75">75</option>
+                                <option [ngValue]="100">100</option>
                             </select>
                             per page
                         </div>
@@ -271,8 +271,12 @@
                             Cancel
                         </button>
                         <button class="kt-btn kt-btn-primary" type="submit" [disabled]="addCategoryForm.invalid"
-                            (click)="addCategory()">
+                            (click)="submitCategory()" *ngIf="!isUpdateMode">
                             Save
+                        </button>
+                        <button class="kt-btn kt-btn-primary" type="submit" [disabled]="addCategoryForm.invalid"
+                            (click)="updateCategoryDetails()" *ngIf="isUpdateMode">
+                            Update
                         </button>
                     </div>
                 </div>

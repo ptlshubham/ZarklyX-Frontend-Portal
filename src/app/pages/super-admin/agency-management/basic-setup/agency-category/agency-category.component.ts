@@ -25,7 +25,8 @@ export class AgencyCategoryComponent implements OnInit {
 
   addCategoryForm!: FormGroup;
   submitted = false;
-
+  isUpdateMode = false;
+  updateCategoryId: any = null;
   constructor(
     private agencyManagementService: AgencyManagementService,
     private fb: FormBuilder,
@@ -76,13 +77,12 @@ export class AgencyCategoryComponent implements OnInit {
     this.refreshPagination();
   }
 
-  onPageSizeChange(newSize: number) {
-    this.pageSize = newSize;
+  onPageSizeChange() {
     this.page = 1;
     this.refreshPagination();
   }
 
-  addCategory() {
+  submitCategory() {
     this.submitted = true;
     if (this.addCategoryForm.invalid) {
       return;
@@ -160,5 +160,51 @@ export class AgencyCategoryComponent implements OnInit {
     this.collectionSize = this.filteredCategories.length;
     this.page = 1;
     this.refreshPagination();
+  }
+  openAddCategoryModal() {
+    this.isUpdateMode = false;
+    this.updateCategoryId = null;
+    this.addCategoryForm.reset();
+    this.modalService.open('category_modal');
+  }
+
+  editCategory(category: any) {
+    this.isUpdateMode = true;
+    this.updateCategoryId = category.id;
+    // Implement edit functionality here
+    this.addCategoryForm.patchValue({
+      name: category.name,
+      icon: category.icon
+    });
+    this.modalService.open('category_modal');
+  }
+  updateCategoryDetails() {
+    this.submitted = true;
+    if (this.addCategoryForm.invalid) {
+      return;
+    }
+    const updateData = {
+      id: this.updateCategoryId,
+      ...this.addCategoryForm.value
+    };
+
+    this.agencyManagementService.updateCategoty(updateData).subscribe({
+      next: res => {
+        if (res.success) {
+          this.addCategoryForm.reset();
+          this.submitted = false;
+          this.getAllCategories();
+          this.modalService.close('category_modal');
+          this.toastService.success('Category updated successfully!', {
+            position: 'top-end',
+          });
+        }
+      },
+      error: (res: any) => {
+        this.toastService.error(res.error.message, {
+          position: 'top-end',
+        });
+      }
+    });
   }
 }
