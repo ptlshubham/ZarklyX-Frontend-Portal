@@ -45,5 +45,33 @@ export const agencyRoutes: Routes = [
             breadcrumb: 'Settings',
             roles: ['admin']
         }
-    }
+    },
+    {
+        path: 'agency-clients',
+        data: {
+            title: 'agency-clients',
+            breadcrumb: 'agency-clients',
+            roles: ['user', 'admin']
+        },
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('./agency-client/agencyClient.routing').then(m => m.agencyClientRoutes)
+            }
+        ]
+    },
+    {
+        path: 'agency-employee',
+        data: {
+            title: 'agency-employee',
+            breadcrumb: 'agency-employee',
+            roles: ['user', 'admin']
+        },
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('./agency-employee/agency-employee.routing').then(m => m.agencyEmployeeRoutes)
+            }
+        ]
+    },
 ];
