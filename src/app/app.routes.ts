@@ -45,11 +45,10 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./pages/agency/profile/profile.component').then(c => c.ProfileComponent)
+        loadChildren: () => import('./pages/agency/profile/profile.routing').then(m => m.profileRoutes)
       }
     ]
   },
-
   // Influencer Routes with Main Layout - All influencer features in one place
   {
     path: 'influencer',
@@ -78,6 +77,19 @@ export const routes: Routes = [
     ]
   },
 
+  // Agency Routes with Main Layout - All agency features in one place
+  {
+    path: 'agency',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { title: 'agency Panel', breadcrumb: 'agency', roles: ['user', 'admin'] },
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./pages/agency/agency.routing').then(m => m.agencyRoutes)
+      }
+    ]
+  },
   // Unauthorized Access
   {
     path: 'unauthorized',

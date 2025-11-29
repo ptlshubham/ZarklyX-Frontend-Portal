@@ -9,7 +9,7 @@ export const agencyMenu: MenuItem[] = [
         icon: 'ki-filled ki-element-11',
         link: '/dashboard'
     },
-    
+
     // Authentication & Account Section
     {
         id: 2,
@@ -69,13 +69,13 @@ export const agencyMenu: MenuItem[] = [
             {
                 id: 11,
                 label: 'Add New Client',
-                link: '/agency/clients/add',
+                link: '/agency/agency-clients/add-client',
                 parentId: 10
             },
             {
                 id: 12,
                 label: 'Client List',
-                link: '/agency/clients/list',
+                link: '/agency/agency-clients/client-list',
                 parentId: 10
             },
             {
@@ -119,7 +119,7 @@ export const agencyMenu: MenuItem[] = [
             {
                 id: 19,
                 label: 'Add Employee',
-                link: '/agency/employees/add',
+                link: '/agency/agency-employee/add-employee',
                 parentId: 17
             },
             {

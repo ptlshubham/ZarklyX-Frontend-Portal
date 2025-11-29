@@ -57,43 +57,51 @@ export const authRoutes: Routes = [
     {
         path: 'signup',
         loadComponent: () => import('./agency/signup/signup.component').then(c => c.SignupComponent),
-        data:{
+        data: {
+            title: 'Sign Up',
+            breadcrumb: 'Sign Up'
+        }
+    },
+    {
+        path: 'signup/client',
+        loadComponent: () => import('./client/client-signup/client-signup.component').then(c => c.ClientSignupComponent),
+        data: {
             title: 'Sign Up',
             breadcrumb: 'Sign Up'
         }
     },
 ]
 
-    // Add more auth routes here as you create components:
-    // {
-    //   path: 'register',
-    //   loadComponent: () => import('./agency/register/register.component').then(c => c.RegisterComponent),
-    //   data: {
-    //     title: 'Agency Registration',
-    //     breadcrumb: 'Register'
-    //   }
-    // },
-    // {
-    //   path: 'forgot-password',
-    //   loadComponent: () => import('./common/forgot-password/forgot-password.component').then(c => c.ForgotPasswordComponent),
-    //   data: {
-    //     title: 'Forgot Password',
-    //     breadcrumb: 'Forgot Password'
-    //   }
-    // },
-    // {
-    //   path: 'reset-password',
-    //   loadComponent: () => import('./common/reset-password/reset-password.component').then(c => c.ResetPasswordComponent),
-    //   data: {
-    //     title: 'Reset Password',
-    //     breadcrumb: 'Reset Password'
-    //   }
-    // }
-    // {
-    //   path: 'verify-email',
-    //   loadComponent: () => import('./common/verify-email/verify-email.component').then(c => c.VerifyEmailComponent),
-    //   data: {
-    //     title: 'Verify Email',
-    //     breadcrumb: 'Verify Email'
-    //   }
-    // }
+// Add more auth routes here as you create components:
+// {
+//   path: 'register',
+//   loadComponent: () => import('./agency/register/register.component').then(c => c.RegisterComponent),
+//   data: {
+//     title: 'Agency Registration',
+//     breadcrumb: 'Register'
+//   }
+// },
+// {
+//   path: 'forgot-password',
+//   loadComponent: () => import('./common/forgot-password/forgot-password.component').then(c => c.ForgotPasswordComponent),
+//   data: {
+//     title: 'Forgot Password',
+//     breadcrumb: 'Forgot Password'
+//   }
+// },
+// {
+//   path: 'reset-password',
+//   loadComponent: () => import('./common/reset-password/reset-password.component').then(c => c.ResetPasswordComponent),
+//   data: {
+//     title: 'Reset Password',
+//     breadcrumb: 'Reset Password'
+//   }
+// }
+// {
+//   path: 'verify-email',
+//   loadComponent: () => import('./common/verify-email/verify-email.component').then(c => c.VerifyEmailComponent),
+//   data: {
+//     title: 'Verify Email',
+//     breadcrumb: 'Verify Email'
+//   }
+// }
