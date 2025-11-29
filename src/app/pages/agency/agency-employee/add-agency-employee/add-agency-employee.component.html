@@ -1,0 +1,540 @@
+<!-- <div class="kt-container-fixed">
+    <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+            <h1 class="text-xl font-medium leading-none text-mono">Add Employee</h1>
+            <div class="flex items-center gap-2 text-sm font-normal text-secondary-foreground">Create and manage
+                employee records</div>
+        </div>
+    </div>
+</div> -->
+<div class="kt-container-fixed">
+    <div class="kt-card">
+        <div class="kt-card-header">
+            <h3 class="kt-card-title">Add Employee</h3>
+            <button class="kt-btn kt-btn-destructive kt-btn-outline " data-kt-modal-dismiss="true">
+                Back
+            </button>
+
+        </div>
+        <div class="kt-card-content">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
+                    <div class="col-span-1">
+                        <div class="grid gap-5 lg:gap-7.5">
+                            <!-- Personal Information -->
+                            <div class="kt-card min-w-full">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Personal Information</h3>
+                                </div>
+                                <div class="kt-card-content grid gap-4">
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Full Name<span class="text-red-500">
+                                                    *</span></label>
+                                            <input class="kt-input" type="text" formControlName="fullName"
+                                                placeholder="Enter full name"
+                                                [class.kt-input-error]="f['fullName'].invalid && (f['fullName'].touched || submitted)"
+                                                [class.border-red-500]="f['fullName'].invalid && (f['fullName'].touched || submitted)" />
+                                            <div *ngIf="f['fullName'].invalid && (f['fullName'].touched || submitted)"
+                                                class="kt-form-message">Full name is required</div>
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Date of Birth<span class="text-red-500">
+                                                    *</span></label>
+                                            <input class="kt-input" type="date" formControlName="dob"
+                                                placeholder="Select date of birth"
+                                                [class.kt-input-error]="f['dob'].invalid && (f['dob'].touched || submitted)"
+                                                [class.border-red-500]="f['dob'].invalid && (f['dob'].touched || submitted)" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Gender<span class="text-red-500">
+                                                    *</span></label>
+                                            <select #genderSelect class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true"
+                                                data-kt-select-placeholder="Select gender"
+                                                [attr.data-kt-select-config]="ktConfig" formControlName="gender"
+                                                [class.kt-input-error]="f['gender'].invalid && (f['gender'].touched || submitted)"
+                                                [class.border-red-500]="f['gender'].invalid && (f['gender'].touched || submitted)">
+                                                <option value="">Select Gender</option>
+                                                <option *ngFor="let g of genders" [value]="g">{{g}}</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Nationality</label>
+                                            <select #nationalitySelect class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true" formControlName="nationality"
+                                                [attr.data-kt-select-config]="ktConfig">
+                                                <option value="">Select nationality</option>
+                                                <option *ngFor="let c of countries" [value]="c.name">{{c.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Marital Status</label>
+                                            <select #maritalStatusSelect class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true"
+                                                data-kt-select-placeholder="Select marital status"
+                                                [attr.data-kt-select-config]="ktConfig" formControlName="maritalStatus">
+                                                <option value="">Select marital status</option>
+                                                <option *ngFor="let m of maritalStatuses" [value]="m">{{m}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Blood Group</label>
+                                            <select #bloodgroupSelect class="kt-select" formControlName="bloodGroup">
+                                                <option value="">Select blood group</option>
+                                                <option *ngFor="let b of bloodGroups" [value]="b">{{b}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Contact Number<span class="text-red-500">
+                                                    *</span></label>
+                                            <input type="tel" class="kt-input" formControlName="contactNumber"
+                                                placeholder="Enter contact number"
+                                                [class.kt-input-error]="f['contactNumber'].invalid && (f['contactNumber'].touched || submitted)"
+                                                [class.border-red-500]="f['contactNumber'].invalid && (f['contactNumber'].touched || submitted)" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Email ID<span class="text-red-500">
+                                                    *</span></label>
+                                            <input type="email" class="kt-input" formControlName="email"
+                                                placeholder="Enter email"
+                                                [class.kt-input-error]="f['email'].invalid && (f['email'].touched || submitted)"
+                                                [class.border-red-500]="f['email'].invalid && (f['email'].touched || submitted)" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Emergency Contact Name</label>
+                                            <input class="kt-input" type="text" formControlName="emergencyContactName"
+                                                placeholder="Enter emergency contact name" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Emergency Contact Number</label>
+                                            <input class="kt-input" type="tel" formControlName="emergencyContactNumber"
+                                                placeholder="Enter emergency contact number" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-full">
+                                            <label class="kt-form-label">Relationship with Emergency Contact</label>
+                                            <input class="kt-input" type="text"
+                                                formControlName="emergencyContactRelationship"
+                                                placeholder="Enter relationship with emergency contact" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col gap-1">
+                                        <label class="kt-form-label">Permanent Address<span class="text-red-500">
+                                                *</span></label>
+                                        <textarea class="kt-textarea" rows="3" formControlName="permanentAddress"
+                                            placeholder="Enter permanent address"></textarea>
+                                    </div>
+
+                                    <div class="flex flex-col gap-1">
+                                        <label class="kt-form-label">Current Address</label>
+                                        <textarea class="kt-textarea" rows="3" formControlName="currentAddress"
+                                            placeholder="Enter current address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Identity Verification -->
+                            <div class="kt-card min-w-full">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Identity Verification</h3>
+                                </div>
+                                <div class="kt-card-content grid gap-4">
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                                        <div class="flex flex-col gap-1">
+                                            <label class="kt-form-label">Aadhar Number</label>
+                                            <input class="kt-input" type="text" formControlName="aadharNumber"
+                                                placeholder="Enter Aadhar number" />
+                                        </div>
+                                        <div class="flex flex-col gap-1">
+                                            <label class="kt-form-label">PAN Number</label>
+                                            <input class="kt-input" type="text" formControlName="panNumber"
+                                                placeholder="Enter PAN number" />
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                                        <div class="flex flex-col gap-1">
+                                            <label class="kt-form-label">Passport Number</label>
+                                            <input class="kt-input" type="text" formControlName="passportNumber"
+                                                placeholder="Enter passport number" />
+                                        </div>
+                                        <div class="flex flex-col gap-1">
+                                            <label class="kt-form-label">Driving License</label>
+                                            <input class="kt-input" type="text" formControlName="drivingLicenseNumber"
+                                                placeholder="Enter driving license number" />
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <label class="kt-form-label">Voter ID</label>
+                                        <input class="kt-input" type="text" formControlName="voterId"
+                                            placeholder="Enter Voter ID" />
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <label class="kt-form-label">Aadhar/PAN Document Upload</label>
+                                        <input type="file" class="kt-input" title="Upload Aadhar/PAN document" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!-- Work & Experience -->
+                            <div class="kt-card min-w-full">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Work & Experience Details</h3>
+                                </div>
+                                <div class="kt-card-content grid gap-4">
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Previous Company Name</label>
+                                            <input class="kt-input" type="text" formControlName="previousCompany"
+                                                placeholder="Enter previous company" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Total Experience (years)</label>
+                                            <input class="kt-input" type="number" step="0.1"
+                                                formControlName="totalExperience"
+                                                placeholder="Enter experience in years" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Last CTC</label>
+                                            <input class="kt-input" type="text" formControlName="lastCTC"
+                                                placeholder="Enter last CTC" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Skills</label>
+                                            <input class="kt-input" type="text" formControlName="skills"
+                                                placeholder="Comma separated" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-full">
+                                            <label class="kt-form-label">Resume Upload</label>
+                                            <input type="file" class="kt-input" title="Upload resume" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- System & Access Details -->
+                            <div class="kt-card min-w-full">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">System & Access Details</h3>
+                                </div>
+                                <div class="kt-card-content grid gap-4">
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Official Email ID</label>
+                                            <input class="kt-input" type="email" formControlName="officialEmail"
+                                                placeholder="Enter official email" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Email Password Delivered</label>
+                                            <select #emailPasswordDelevierdSelect class="kt-select"
+                                                formControlName="emailPasswordDelivered">
+                                                <option value="">Select employment type</option>
+                                                <option [value]="true">Yes</option>
+                                                <option [value]="false">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">System/Laptop Assigned</label>
+                                            <input class="kt-input" type="text" formControlName="systemAssigned"
+                                                placeholder="Enter system / laptop assigned" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Asset ID</label>
+                                            <input class="kt-input" type="text" formControlName="assetId"
+                                                placeholder="Enter asset ID" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center gap-1 w-1/2">
+                                            <label class="kt-form-label mb-0">CRM</label>
+                                            <input type="checkbox" class="kt-switch" formControlName="crmAccess"
+                                                title="CRM Access" />
+                                        </div>
+                                        <div class="flex items-center gap-1 w-1/2">
+                                            <label class="kt-form-label mb-0">HRMS</label>
+                                            <input type="checkbox" class="kt-switch" formControlName="hrmsAccess"
+                                                title="HRMS Access" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center gap-1 w-1/2">
+                                            <label class="kt-form-label mb-0">Drive Access</label>
+                                            <input type="checkbox" class="kt-switch" formControlName="driveAccess"
+                                                title="Drive Access" />
+                                        </div>
+                                        <div class="flex items-center gap-1 w-1/2">
+                                            <label class="kt-form-label mb-0">Admin Tools</label>
+                                            <input type="checkbox" class="kt-switch" formControlName="adminToolsAccess"
+                                                title="Admin Tools Access" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center gap-1 w-1/2">
+                                            <label class="kt-form-label mb-0">Access Card / ID Card Issued</label>
+                                            <input type="checkbox" class="kt-switch" formControlName="accessCardIssued"
+                                                title="Access Card Issued" />
+                                        </div>
+                                        <div class="flex items-center gap-1 w-1/2">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Right column: progress and summary -->
+                    <div class="col-span-1">
+                        <div class="grid gap-5 lg:gap-7.5">
+                            <div class="kt-card">
+                                <div class="kt-card-content lg:py-7.5">
+                                    <div class="flex flex-col items-stretch gap-5 lg:gap-7.5">
+                                        <div class="flex items-center gap-2 justify-between">
+                                            <div class="flex flex-col gap-1">
+                                                <p class="text-sm text-secondary-foreground">Employee setup progress and
+                                                    quick
+                                                    actions</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center flex-wrap gap-2 lg:gap-5">
+                                            <div
+                                                class="grid grid-cols-1 gap-1.5 border border-dashed border-input shrink-0 rounded-md px-3.5 py-2 min-w-24 max-w-auto">
+                                                <span class="text-mono text-base leading-none font-medium"> 0% </span>
+                                                <span class="text-secondary-foreground text-sm">Form Completed</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="flex flex-col gap-3.5">
+                                            <span class="text-sm text-secondary-foreground">Overall Progress</span>
+                                            <div class="kt-progress kt-progress-primary">
+                                                <div class="kt-progress-indicator"
+                                                    style="width: 0%; background-color:#3b82f6;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Employment Details -->
+                            <div class="kt-card min-w-full">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Employment Details</h3>
+                                </div>
+                                <div class="kt-card-content grid gap-4">
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Employee ID<span class="text-red-500">
+                                                    *</span></label>
+                                            <input class="kt-input" type="text" formControlName="employeeId"
+                                                placeholder="Enter employee ID" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Department</label>
+                                            <select #departmentSelect class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true" formControlName="department"
+                                                [attr.data-kt-select-config]="ktConfig">
+                                                <option value="">Select Department</option>
+                                                <option *ngFor="let d of departments" [value]="d">{{d}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Designation / Job Title</label>
+                                            <input class="kt-input" type="text" formControlName="designation"
+                                                placeholder="Enter designation / job title" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Date of Joining</label>
+                                            <input class="kt-input" type="date" formControlName="dateOfJoining"
+                                                placeholder="Select date of joining" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Employment Type</label>
+                                            <select #employmentTypeSelect class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true" formControlName="employmentType"
+                                                [attr.data-kt-select-config]="ktConfig">
+                                                <option value="">Select employment type</option>
+                                                <option *ngFor="let et of employmentTypes" [value]="et">{{et}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Work Location</label>
+                                            <input class="kt-input" type="text" formControlName="workLocation"
+                                                placeholder="Enter work location" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Reporting Manager</label>
+                                            <input class="kt-input" type="text" formControlName="reportingManager"
+                                                placeholder="Enter reporting manager" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Employee Status</label>
+                                            <select #employeeStatusSelect class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true" formControlName="employeeStatus"
+                                                [attr.data-kt-select-config]="ktConfig">
+                                                <option value="">Select employee status</option>
+                                                <option *ngFor="let s of employeeStatuses" [value]="s">{{s}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Banking & Payroll -->
+                            <div class="kt-card min-w-full">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Banking & Payroll Details</h3>
+                                </div>
+                                <div class="kt-card-content grid gap-4">
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Account Holder Name</label>
+                                            <input class="kt-input" type="text" formControlName="accountHolderName"
+                                                placeholder="Enter account holder name" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Bank Name</label>
+                                            <input class="kt-input" type="text" formControlName="bankName"
+                                                placeholder="Enter bank name" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Branch Name</label>
+                                            <input class="kt-input" type="text" formControlName="branchName"
+                                                placeholder="Enter branch name" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Account Number</label>
+                                            <input class="kt-input" type="text" formControlName="accountNumber"
+                                                placeholder="Enter account number" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">IFSC Code</label>
+                                            <input class="kt-input" type="text" formControlName="ifscCode"
+                                                placeholder="Enter IFSC code" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Payment Mode</label>
+                                            <select #paymentModeSelect class="kt-select" formControlName="paymentMode">
+                                                <option value="">Select payment mode</option>
+                                                <option>Bank Transfer</option>
+                                                <option>UPI</option>
+                                                <option>Cash</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">PF Number</label>
+                                            <input class="kt-input" type="text" formControlName="pfNumber"
+                                                placeholder="Enter PF number" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">UAN Number</label>
+                                            <input class="kt-input" type="text" formControlName="uanNumber"
+                                                placeholder="Enter UAN number" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- HR & Compliance -->
+                            <div class="kt-card min-w-full">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">HR & Compliance Details</h3>
+                                </div>
+                                <div class="kt-card-content grid gap-4">
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Probation Period</label>
+                                            <input class="kt-input" type="text" formControlName="probationPeriod"
+                                                placeholder="e.g. 3 months" />
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Confirmation Date</label>
+                                            <input class="kt-input" type="date" formControlName="confirmationDate" />
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Work Shift</label>
+                                            <select #worksheetSelect class="kt-select" formControlName="workShift">
+                                                <option value="">Select work shift</option>
+                                                <option>General</option>
+                                                <option>Day</option>
+                                                <option>Night</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col gap-1 w-1/2">
+                                            <label class="kt-form-label">Attendance Type</label>
+                                            <select #attendanceTypeSelect class="kt-select"
+                                                formControlName="attendanceType">
+                                                <option value="">Select attendance type</option>
+                                                <option>Biometric</option>
+                                                <option>Manual</option>
+                                                <option>App-based</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center gap-1">
+                                            <label class="kt-form-label mb-0">NDA/Agreement Signed</label>
+                                            <input type="checkbox" class="kt-switch" formControlName="ndaSigned"
+                                                title="NDA / Agreement Signed" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="flex justify-end">
+                <button type="submit" class="kt-btn kt-btn-primary">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
