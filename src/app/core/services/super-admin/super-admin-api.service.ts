@@ -25,6 +25,10 @@ export class SuperAdminApiService {
     public static AddCategoryURL: string = SuperAdminApiService.HOST_URL + '/category/addCategory';
     public static UpdateCategoryByIdURL: string = SuperAdminApiService.HOST_URL + '/category/updateCategoryById';
     public static RemoveCategoryByIdURL: string = SuperAdminApiService.HOST_URL + '/category/removeById/';
-
-
+    
+    // Premium Features Crud Operation
+    public static GetAllPremiumFeaturesURL: string = SuperAdminApiService.HOST_URL + '/premiumModule/getAllPremiumModule';
+    public static AddPremiumFeaturesURL: string = SuperAdminApiService.HOST_URL + '/PremiumModule/addPremiumModule';
+    public static UpdatePremiumFeaturesByIdURL: string = SuperAdminApiService.HOST_URL + '/premiumModule/updatePremiumModuleById';
+    public static RemovePremiumFeaturesByIdURL: string = SuperAdminApiService.HOST_URL + '/PremiumModule/removeById/';
 }

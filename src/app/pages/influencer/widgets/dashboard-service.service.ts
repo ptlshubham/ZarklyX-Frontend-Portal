@@ -74,7 +74,6 @@ export class DashboardServiceService {
   ]);
 
   isEditable = signal<boolean>(false);
-  isHeaderToggleOpen = signal<boolean>(false);
 
   addedWidgets = signal<Widgets[]>([]);
 

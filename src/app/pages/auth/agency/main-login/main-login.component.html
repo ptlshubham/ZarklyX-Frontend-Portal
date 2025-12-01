@@ -133,7 +133,7 @@
                         </span>
                         @if(resendTimer == 0){
                         <a class="text-2sm kt-link" (click)="resendOtp()">
-                            Resend
+                            {{otpResendLoading ? 'Resending...' : 'Resend'}}
                         </a>
                         }
                     </div>

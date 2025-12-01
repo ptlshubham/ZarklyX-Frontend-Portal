@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AgencyManagementService } from '../../../../../core/services/super-admin/agency-management.service';
 import { ToastService } from '../../../../../core/services/toast.service';
 import { ModalService } from '../../../../../core/services/modal.service';
 import { SearchService } from '../../../../../core/services/search.service';
+import { SignupSetting } from '../../../../../core/services/super-admin/signup-setting.service';
 
 @Component({
   selector: 'app-agency-category',
@@ -28,7 +28,7 @@ export class AgencyCategoryComponent implements OnInit {
   isUpdateMode = false;
   updateCategoryId: any = null;
   constructor(
-    private agencyManagementService: AgencyManagementService,
+    private signupSetting: SignupSetting,
     private fb: FormBuilder,
     private toastService: ToastService,
     private modalService: ModalService,
@@ -47,7 +47,7 @@ export class AgencyCategoryComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.agencyManagementService.getAllCategory().subscribe({
+    this.signupSetting.getAllCategory().subscribe({
       next: res => {
         this.categories = (res.data || []).map((category: any, index: number) => ({
           ...category,
@@ -88,7 +88,7 @@ export class AgencyCategoryComponent implements OnInit {
       return;
     }
 
-    this.agencyManagementService.addCategory(this.addCategoryForm.value).subscribe({
+    this.signupSetting.addCategory(this.addCategoryForm.value).subscribe({
       next: res => {
         if (res.success) {
           this.addCategoryForm.reset();
@@ -109,7 +109,7 @@ export class AgencyCategoryComponent implements OnInit {
   }
 
   removeCategoryId(id: any) {
-    this.agencyManagementService.removeCategoryUsingId(id).subscribe({
+    this.signupSetting.removeCategoryUsingId(id).subscribe({
       next: (res: any) => {
         if (res.success === true) {
           this.getAllCategories();
@@ -132,7 +132,7 @@ export class AgencyCategoryComponent implements OnInit {
       id: id,
       isActive: newStatus
     };
-    this.agencyManagementService.updateCategoty(updateData).subscribe({
+    this.signupSetting.updateCategoty(updateData).subscribe({
       next: (res: any) => {
         this.getAllCategories();
 
@@ -188,7 +188,7 @@ export class AgencyCategoryComponent implements OnInit {
       ...this.addCategoryForm.value
     };
 
-    this.agencyManagementService.updateCategoty(updateData).subscribe({
+    this.signupSetting.updateCategoty(updateData).subscribe({
       next: res => {
         if (res.success) {
           this.addCategoryForm.reset();

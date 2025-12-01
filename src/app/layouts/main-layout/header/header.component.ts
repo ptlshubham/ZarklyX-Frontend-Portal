@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { DashboardServiceService } from '../../../pages/infulencer/widgets/dashboard-service.service';
-import { WidgetsComponent } from "../../../pages/infulencer/widgets/widgets/widgets.component";
+import { WidgetsComponent } from '../../../pages/influencer/widgets/widgets/widgets.component';
+import { DashboardServiceService } from '../../../pages/influencer/widgets/dashboard-service.service';
 
 @Component({
   selector: '[app-header]',

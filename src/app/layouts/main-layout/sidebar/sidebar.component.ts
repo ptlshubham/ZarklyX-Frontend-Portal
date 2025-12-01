@@ -76,7 +76,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     // const userRole = this.authService.getUserRole();
     
     // For now, we'll detect role based on current URL
-    debugger
+    // debugger
     const url = this.router.url;
     let role: UserRole = UserRole.AGENCY;
 

@@ -68,7 +68,9 @@ export class AuthService {
 
   login(credentials: any, userType: 'main' | 'influencer' | 'super-admin'): Observable<any> {
     // Mock login - replace with actual API call
-    // return this.httpClient.post(ApiService.mainLoginURL, credentials);
+    if(userType == 'main')
+      return this.httpClient.post(ApiService.MainLoginURL, credentials);
+    
     return new Observable(observer => {
       setTimeout(() => {
         if (this.validateCredentials(credentials, userType)) {
@@ -84,32 +86,36 @@ export class AuthService {
     });
   }
 
-  registerAcoount(data: any):Observable<any> {
-    return this.httpClient.post(ApiService.registerUserURL, data);
+  verifyLoginOtp(credentials: any): Observable<any>{
+    return this.httpClient.post(ApiService.VerifyLoginOtpURL, credentials);
+  }
+
+  registerAccount(data: any):Observable<any> {
+    return this.httpClient.post(ApiService.RegisterUserURL, data);
   }
 
   verifyRegisterOtp(data:any){
-    return this.httpClient.post(ApiService.verifyRegisterOtpURL, data);
+    return this.httpClient.post(ApiService.VerifyRegisterOtpURL, data);
   }
   
   resendOtp(data:any){
-    return this.httpClient.post(ApiService.resendOtpURL, data)
+    return this.httpClient.post(ApiService.ResendOtpURL, data)
   }
 
   registerCategory(data:any){
-    return this.httpClient.post(ApiService.registerCategoryURL, data);
+    return this.httpClient.post(ApiService.RegisterCategoryURL, data);
   }
   
   registerUserType(data:any){
-    return this.httpClient.post(ApiService.registerUserTypeURL, data);
+    return this.httpClient.post(ApiService.RegisterUserTypeURL, data);
   }
 
   registerCompanyDetails(data:any){
-    return this.httpClient.post(ApiService.registerCompanyDetailsURL, data)
+    return this.httpClient.post(ApiService.RegisterCompanyDetailsURL, data)
   }
 
   registerFinalStep(data:any){
-    return this.httpClient.post(ApiService.registerFinalStepURL, data);
+    return this.httpClient.post(ApiService.RegisterFinalStepURL, data);
   }
 
   logout(): void {
@@ -121,6 +127,9 @@ export class AuthService {
     localStorage.removeItem('user_username');
     localStorage.removeItem('user_admin_id');
     localStorage.removeItem('user_permissions');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('company_id');
+    localStorage.removeItem('dashboard_widgets');
 
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);

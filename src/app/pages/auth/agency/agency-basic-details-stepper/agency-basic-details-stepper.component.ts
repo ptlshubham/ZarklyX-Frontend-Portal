@@ -8,6 +8,7 @@ import { AuthService, User } from '../../../../core/services/auth.service';
 import { BaseAuthComponent } from '../../base-auth.component';
 import moment from 'moment-timezone';
 import { Country, ICountry } from 'country-state-city';
+import { SignupSetting } from '../../../../core/services/super-admin/signup-setting.service';
 declare const KTSelect: any;
 
 @Component({
@@ -26,7 +27,10 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   isLoading = false;
   submitted = false;
 
+  errorMessage = '';
+
   private userId: string = '';
+  private companyId = undefined;
 
   agencyForm!: FormGroup;
 
@@ -35,23 +39,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   private selectedTimezone: any;
 
   // Step 1 data - Business Areas
-  businessAreaOptions = [
-    { value: 'Advertising', label: 'Advertising', icon: 'ki-rocket' },
-    { value: 'Architecture', label: 'Architecture', icon: 'ki-home-2' },
-    { value: 'Culture', label: 'Culture', icon: 'ki-book-open' },
-    { value: 'Fashion', label: 'Fashion', icon: 'ki-star' },
-    { value: 'Food', label: 'Food', icon: 'ki-cup' },
-    { value: 'Healthcare', label: 'Healthcare', icon: 'ki-heart' },
-    { value: 'Insurance', label: 'Insurance', icon: 'ki-shield-tick' },
-    { value: 'Life-science', label: 'Life Science', icon: 'ki-flask' },
-    { value: 'Media', label: 'Media', icon: 'ki-satellite' },
-    { value: 'Ngos', label: 'NGOs', icon: 'ki-people' },
-    { value: 'Sports', label: 'Sports', icon: 'ki-medal-star' },
-    { value: 'Technology', label: 'Technology', icon: 'ki-setting' },
-    { value: 'Tourism', label: 'Tourism', icon: 'ki-map' },
-    { value: 'Other', label: 'Other', icon: 'ki-category' },
-
-  ];
+  businessAreaOptions: any[] = [];
 
   accountTypeOptions = [
     { value: 'organization', label: 'Agency/Industry', icon: 'ki-office-bag', description: 'For businesses and organizations' },
@@ -68,32 +56,28 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
     { value: '50+', label: '50+' }
   ];
 
-  moduleOptions = [
-    { value: 'Accounting', label: 'Accounting', icon: 'ki-calculator', description: 'Financial management and bookkeeping' },
-    { value: 'Email-Marketing', label: 'Email Marketing', icon: 'ki-sms', description: 'Email campaign management' },
-    { value: 'Human-Resource', label: 'Human Resource', icon: 'ki-badge', description: 'HR and employee management' },
-    { value: 'IT-Management', label: 'IT Management', icon: 'ki-technology-2', description: 'IT infrastructure management' },
-    { value: 'Sales-Marketing', label: 'Sales and Marketing', icon: 'ki-chart-line', description: 'Sales and marketing tools' },
-    { value: 'Social', label: 'Social', icon: 'ki-messages', description: 'Social media management' },
-    { value: 'Tickets', label: 'Tickets', icon: 'ki-burger-menu-2', description: 'Manage customer support tickets' }
-  ];
+  moduleOptions: any[] = [];
 
   constructor(
     public router: Router,
     public authService: AuthService,
     private formBuilder: FormBuilder,
     renderer: Renderer2,
-    @Inject(DOCUMENT) document: Document
+    @Inject(DOCUMENT) document: Document,
+    private signupSetting: SignupSetting,
   ) {
     super(renderer, document);
 
     this.checkUserId();
     this.initializeForm();
     this.initializeCountriesAndTimezones();
+    this.getAllCategories();
+    // get all premium feature
+    this.getAllPremiumFeatures();
   }
 
   private checkUserId() {
-    const storedUserId = localStorage.getItem('userId');
+    const storedUserId = localStorage.getItem('user_id');
 
     if (!storedUserId) {
       this.router.navigate(['/auth/signup']);
@@ -107,8 +91,8 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
     this.agencyForm = this.formBuilder.group({
       businessArea: ['', Validators.required],
       accountType: ['', Validators.required],
-      companyName: ['', Validators.required],
-      website: ['', [Validators.pattern(/^https?:\/\/.+/)]],
+      companyName: ['', [Validators.required, Validators.pattern(/^[A-Za-z ]+$/)]],
+      website: ['', [Validators.pattern(/^(https:\/\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=%]+|www\.[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=%]+)$/)]],
       country: ['', Validators.required],
       timezone: ['', Validators.required],
       client: ['', Validators.required],
@@ -176,6 +160,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   }
 
   nextStep() {
+    this.errorMessage = '';
     if (this.currentStep === 1) {
       if (!this.agencyForm.get('businessArea')?.value) {
         return;
@@ -186,6 +171,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
         return;
       }
       this.registerUserType();
+      this.initializeSelects();
     } else if (this.currentStep === 3) {
       if (!this.agencyForm.get('companyName')?.valid || !this.agencyForm.get('country')?.valid || !this.agencyForm.get('timezone')?.valid) {
         return;
@@ -221,6 +207,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       },
       error: (err) => {
         this.isLoading = false;
+        this.errorMessage = err.error.message;
       }
     })
   }
@@ -239,6 +226,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       },
       error: (err) => {
         this.isLoading = false;
+        this.errorMessage = err.error.message
       }
     })
   }
@@ -248,16 +236,21 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
     const companyDeatilsForm = this.agencyForm.value;
     const payload = {
       userId: this.userId,
+      companyId: localStorage.getItem('company_id'),
       companyName: companyDeatilsForm.companyName,
       website: companyDeatilsForm.website,
       country: companyDeatilsForm.country,
       timezone: companyDeatilsForm.timezone,
     }
 
+    console.log(payload);
+
     this.authService.registerCompanyDetails(payload).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res) {
           this.isLoading = false;
+          localStorage.setItem('company_id', res.data.companyId)
+          console.log(res)
           this.currentStep = 4;
         } else {
           this.isLoading = false;
@@ -265,6 +258,8 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       },
       error: (err) => {
         this.isLoading = false;
+        console.log(err);
+        this.errorMessage = err.error.message;
       }
     })
   }
@@ -277,56 +272,51 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       noOfClientsRange: companyDeatilsForm.client,
       selectedModules: companyDeatilsForm.selectedModules
     }
-    const dummyMainUser = {
-      email: 'mainuser@example.com',
-      username: 'main_user',
-      adminId: '',
-      roles: ['user'],
-      userType: 'main'
-    };
 
     this.authService.registerFinalStep(payload).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res) {
           this.isLoading = false;
+          console.log(res);
 
-          this.router.navigate(['/dashboard']);
-          localStorage.setItem('auth_token', `${dummyMainUser.userType}-token-${Date.now()}`);
-          localStorage.setItem('user_roles', JSON.stringify(dummyMainUser.roles));
-          localStorage.setItem('user_type', dummyMainUser.userType);
-          localStorage.setItem('user_email', dummyMainUser.email);
-
-          if (dummyMainUser.username) {
-            localStorage.setItem('user_username', dummyMainUser.username);
-          }
-
-          if (dummyMainUser.adminId) {
-            localStorage.setItem('user_admin_id', dummyMainUser.adminId);
-          }
-
-          const permissionMap: any = {
-            'user': ['read:dashboard', 'read:profile'],
-            'influencer': ['read:dashboard', 'read:profile', 'manage:content', 'read:analytics'],
-            'admin': ['read:dashboard', 'read:users', 'write:users', 'read:reports'],
-            'super-admin': ['*']
-          };
-
-          let permissions = new Set<string>();
-          dummyMainUser.roles.forEach((role: string) => {
-            if (permissionMap[role]) {
-              permissionMap[role].forEach((p: string) => permissions.add(p));
-            }
-          });
-
-          localStorage.setItem('user_permissions', JSON.stringify([...permissions]));
-
-          // Redirect
+          localStorage.setItem('auth_token', res.data.token);
+          localStorage.setItem('user_roles', JSON.stringify(['admin']));
+          localStorage.setItem('user_type', 'main');
           this.router.navigate(['/dashboard']);
         }
       },
       error: (err) => {
         this.isLoading = false;
+        console.log(err)
       }
+    });
+  }
+
+  getAllCategories() {
+    this.signupSetting.getAllCategory().subscribe({
+      next: res => {
+        const activeCategories = res.data.filter((item: any) => item.isActive === 1);
+        this.businessAreaOptions = activeCategories.map((item: any) => ({
+          value: item.id,
+          label: item.name,
+          icon: item.icon ? 'ki-' + item.icon : ""
+        }));
+      },
+      error: err => console.error(err)
+    });
+  }
+
+  getAllPremiumFeatures() {
+    this.signupSetting.getAllPremiumFeatures().subscribe({
+      next: res => {
+        const activeModule = res.data.filter((item: any) => item.isActive === 1);
+        this.moduleOptions = activeModule.map((item: any) => ({
+          value: item.id,
+          label: item.name,
+          icon: 'ki-' + item.icon
+        }))
+      },
+      error: err => console.error(err)
     });
   }
 

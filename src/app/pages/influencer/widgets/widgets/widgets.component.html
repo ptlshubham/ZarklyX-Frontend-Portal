@@ -1,6 +1,6 @@
-<div class="widget-container" [class.swing]="isEditable()">
+<div class="widget-container" [class.swing]="isEditable() && !isInHeader">
     <!-- for dev comment below button more more config -->
-    @if(isEditable()){
+    @if(isEditable() && !isInHeader){
     <button class="delete-btn" (click)="deleteWidget()"><span class="kt-menu-icon text-red-300 hover:text-red-500 transition text-xl">
             <i class="ki-filled ki-trash">
             </i>

@@ -20,15 +20,16 @@ export class ApiService {
   }
 
   // company register URL
-  public static registerUserURL:string = ApiService.HOST_URL + '/user/register/start';
-  public static verifyRegisterOtpURL:string = ApiService.HOST_URL + '/user/register/verify-otp';
-  public static registerCategoryURL:string = ApiService.HOST_URL + '/user/register/categories'; // step 1
-  public static registerUserTypeURL:string = ApiService.HOST_URL + '/user/register/user-type'; // step 2
-  public static registerCompanyDetailsURL:string = ApiService.HOST_URL + '/user/register/company'; // step 3
-  public static registerFinalStepURL:string = ApiService.HOST_URL + '/user/register/final'; // step 4& 5
-  public static resendOtpURL:string = ApiService.HOST_URL + '/otp/resend-otp'
+  public static RegisterUserURL:string = ApiService.HOST_URL + '/user/register/start';
+  public static VerifyRegisterOtpURL:string = ApiService.HOST_URL + '/user/register/verify-otp';
+  public static RegisterCategoryURL:string = ApiService.HOST_URL + '/user/register/categories'; // step 1
+  public static RegisterUserTypeURL:string = ApiService.HOST_URL + '/user/register/user-type'; // step 2
+  public static RegisterCompanyDetailsURL:string = ApiService.HOST_URL + '/user/register/company'; // step 3
+  public static RegisterFinalStepURL:string = ApiService.HOST_URL + '/user/register/final'; // step 4& 5
+  public static ResendOtpURL:string = ApiService.HOST_URL + '/otp/resend-otp'
   
   // main login urls
-  public static mainLoginURL : string = ApiService.HOST_URL + '/user/login'
+  public static MainLoginURL : string = ApiService.HOST_URL + '/user/login'
+  public static VerifyLoginOtpURL : string = ApiService.HOST_URL + '/user/login/verify-otp'
 
 }

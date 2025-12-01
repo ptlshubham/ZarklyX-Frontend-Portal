@@ -1,4 +1,4 @@
-import { Component, inject, input, signal, Type } from '@angular/core';
+import { Component, inject, Input, input, signal, Type } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { DashboardServiceService, Widgets } from '../dashboard-service.service';
 
@@ -15,6 +15,7 @@ import { DashboardServiceService, Widgets } from '../dashboard-service.service';
 })
 export class WidgetsComponent {
   data = input.required<Widgets>();
+  @Input() isInHeader: boolean = false;
   showOptions = signal(false);
   dashboard = inject(DashboardServiceService);
 

@@ -142,7 +142,8 @@
 
                 <div class="flex flex-col gap-1">
                     <label class="kt-form-label font-normal text-mono">
-                        Password
+                        Password<span class="text-red-500"> *
+                        </span>
                     </label>
                     <div class="kt-input" data-kt-toggle-password="true">
                         <input name="user_password" placeholder="Enter Password"
@@ -177,7 +178,8 @@
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="kt-form-label font-normal text-mono">
-                        Confirm Password
+                        Confirm Password<span class="text-red-500"> *
+                        </span>
                     </label>
                     <div class="kt-input" data-kt-toggle-password="true">
                         <input name="user_password" placeholder="Re-enter Password"
@@ -312,7 +314,7 @@
                     </span>
                     @if(resendTimer == 0){
                     <a class="text-2sm kt-link" (click)="resendOtp()">
-                        Resend
+                        {{otpResendLoading ? 'Resending...' : 'Resend'}}
                     </a>
                     }
                 </div>

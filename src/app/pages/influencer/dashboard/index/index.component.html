@@ -9,14 +9,14 @@
 			</h1>
 		</div>
 		<div class="flex items-center gap-2.5">
-			@if(!editMode){
-			<button (click)="toggleEditMode()" [disabled]="widgetsService.addedWidgets().length === 0">
-				<i class="ki-filled ki-notepad-edit text-xl">
+			@if(editMode && widgetsService.addedWidgets().length !== 0){
+			<button (click)="toggleEditMode()">
+				<i class="ki-filled ki-copy-success text-xl">
 				</i>
 			</button>
 			}@else{
-			<button (click)="toggleEditMode()">
-				<i class="ki-filled ki-copy-success text-xl">
+			<button (click)="toggleEditMode()" [disabled]="widgetsService.addedWidgets().length === 0">
+				<i class="ki-filled ki-notepad-edit text-xl">
 				</i>
 			</button>
 			}

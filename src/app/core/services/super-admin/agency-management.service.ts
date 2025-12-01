@@ -10,17 +10,4 @@ import { Injectable } from "@angular/core";
 export class AgencyManagementService {
     constructor(private httpClient: HttpClient) { }
 
-    getAllCategory(): Observable<any> {
-        return this.httpClient.get(SuperAdminApiService.GetAllCategoryURL);
-    }
-    addCategory(data: any): Observable<any> {
-        return this.httpClient.post(SuperAdminApiService.AddCategoryURL, data);
-    }
-    updateCategoty(data: any): Observable<any> {
-        debugger
-        return this.httpClient.post(SuperAdminApiService.UpdateCategoryByIdURL, data);
-    }
-    removeCategoryUsingId(id: any) {
-        return this.httpClient.get(SuperAdminApiService.RemoveCategoryByIdURL + id);
-    }
 }

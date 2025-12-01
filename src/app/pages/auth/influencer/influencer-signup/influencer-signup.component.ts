@@ -298,17 +298,17 @@ export class InfluencerSignUpComponent extends BaseAuthComponent {
     inputs.forEach((input) => input.disabled = true);
 
     if (otp === '123456') {
-      this.authService.registerAcoount(this.signupForm.value).subscribe(isCreated => {
-        if (isCreated) {
-          this.router.navigate(['/auth/influencer-details']);
-          return;
-        } else {
-          // this.errorMessage = 'Invalid OTP!';
-          this.isLoading = false;
+      // this.authService.registerAcoount(this.signupForm.value).subscribe(isCreated => {
+      //   if (isCreated) {
+      //     this.router.navigate(['/auth/influencer-details']);
+      //     return;
+      //   } else {
+      //     // this.errorMessage = 'Invalid OTP!';
+      //     this.isLoading = false;
 
-          inputs.forEach((input) => input.disabled = false);
-        }
-      });
+      //     inputs.forEach((input) => input.disabled = false);
+      //   }
+      // });
     } else {
       this.errorMessage = 'Invalid OTP';
       this.isLoading = false;
