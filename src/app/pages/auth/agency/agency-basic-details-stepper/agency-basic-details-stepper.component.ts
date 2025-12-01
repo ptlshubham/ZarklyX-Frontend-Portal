@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService, User } from '../../../../core/services/auth.service';
 import { BaseAuthComponent } from '../../base-auth.component';
 import moment from 'moment-timezone';
 import { Country, ICountry } from 'country-state-city';
+import { SignupSetting } from '../../../../core/services/super-admin/signup-setting.service';
 declare const KTSelect: any;
 
 @Component({
@@ -26,6 +27,11 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   isLoading = false;
   submitted = false;
 
+  errorMessage = '';
+
+  private userId: string = '';
+  private companyId = undefined;
+
   agencyForm!: FormGroup;
 
   // Store KTSelect instances
@@ -33,27 +39,11 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   private selectedTimezone: any;
 
   // Step 1 data - Business Areas
-  businessAreaOptions = [
-    { value: 'Advertising', label: 'Advertising', icon: 'ki-rocket' },
-    { value: 'Architecture', label: 'Architecture', icon: 'ki-home-2' },
-    { value: 'Culture', label: 'Culture', icon: 'ki-book-open' },
-    { value: 'Fashion', label: 'Fashion', icon: 'ki-star' },
-    { value: 'Food', label: 'Food', icon: 'ki-cup' },
-    { value: 'Healthcare', label: 'Healthcare', icon: 'ki-heart' },
-    { value: 'Insurance', label: 'Insurance', icon: 'ki-shield-tick' },
-    { value: 'Life-science', label: 'Life Science', icon: 'ki-flask' },
-    { value: 'Media', label: 'Media', icon: 'ki-satellite' },
-    { value: 'Ngos', label: 'NGOs', icon: 'ki-people' },
-    { value: 'Sports', label: 'Sports', icon: 'ki-medal-star' },
-    { value: 'Technology', label: 'Technology', icon: 'ki-setting' },
-    { value: 'Tourism', label: 'Tourism', icon: 'ki-map' },
-    { value: 'Other', label: 'Other', icon: 'ki-category' },
-
-  ];
+  businessAreaOptions: any[] = [];
 
   accountTypeOptions = [
-    { value: 'Agency', label: 'Agency/Industry', icon: 'ki-office-bag', description: 'For businesses and organizations' },
-    { value: 'Freelancer', label: 'Freelancer', icon: 'ki-user', description: 'For individual professionals' }
+    { value: 'organization', label: 'Agency/Industry', icon: 'ki-office-bag', description: 'For businesses and organizations' },
+    { value: 'freelancer', label: 'Freelancer', icon: 'ki-user', description: 'For individual professionals' }
   ];
 
   countries: string[] = [];
@@ -66,34 +56,43 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
     { value: '50+', label: '50+' }
   ];
 
-  moduleOptions = [
-    { value: 'Accounting', label: 'Accounting', icon: 'ki-calculator', description: 'Financial management and bookkeeping' },
-    { value: 'Email-Marketing', label: 'Email Marketing', icon: 'ki-sms', description: 'Email campaign management' },
-    { value: 'Human-Resource', label: 'Human Resource', icon: 'ki-badge', description: 'HR and employee management' },
-    { value: 'IT-Management', label: 'IT Management', icon: 'ki-technology-2', description: 'IT infrastructure management' },
-    { value: 'Sales-Marketing', label: 'Sales and Marketing', icon: 'ki-chart-line', description: 'Sales and marketing tools' },
-    { value: 'Social', label: 'Social', icon: 'ki-messages', description: 'Social media management' },
-    { value: 'Tickets', label: 'Tickets', icon: 'ki-burger-menu-2', description: 'Manage customer support tickets' }
-  ];
+  moduleOptions: any[] = [];
 
   constructor(
     public router: Router,
     public authService: AuthService,
     private formBuilder: FormBuilder,
     renderer: Renderer2,
-    @Inject(DOCUMENT) document: Document
+    @Inject(DOCUMENT) document: Document,
+    private signupSetting: SignupSetting,
   ) {
     super(renderer, document);
+
+    this.checkUserId();
     this.initializeForm();
     this.initializeCountriesAndTimezones();
+    this.getAllCategories();
+    // get all premium feature
+    this.getAllPremiumFeatures();
+  }
+
+  private checkUserId() {
+    const storedUserId = localStorage.getItem('user_id');
+
+    if (!storedUserId) {
+      this.router.navigate(['/auth/signup']);
+      return;
+    }
+
+    this.userId = storedUserId;
   }
 
   private initializeForm(): void {
     this.agencyForm = this.formBuilder.group({
       businessArea: ['', Validators.required],
       accountType: ['', Validators.required],
-      companyName: ['', Validators.required],
-      website: ['', [Validators.pattern(/^https?:\/\/.+/)]],
+      companyName: ['', [Validators.required, Validators.pattern(/^[A-Za-z ]+$/)]],
+      website: ['', [Validators.pattern(/^(https:\/\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=%]+|www\.[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=%]+)$/)]],
       country: ['', Validators.required],
       timezone: ['', Validators.required],
       client: ['', Validators.required],
@@ -161,22 +160,23 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   }
 
   nextStep() {
+    this.errorMessage = '';
     if (this.currentStep === 1) {
       if (!this.agencyForm.get('businessArea')?.value) {
         return;
       }
-      this.currentStep = 2;
+      this.registerCategory();
     } else if (this.currentStep === 2) {
       if (!this.agencyForm.get('accountType')?.value) {
         return;
       }
-      this.currentStep = 3;
+      this.registerUserType();
       this.initializeSelects();
     } else if (this.currentStep === 3) {
       if (!this.agencyForm.get('companyName')?.valid || !this.agencyForm.get('country')?.valid || !this.agencyForm.get('timezone')?.valid) {
         return;
       }
-      this.currentStep = 4;
+      this.registerCompanyDetails();
     } else if (this.currentStep === 4) {
       if (!this.agencyForm.get('client')?.value) {
         return;
@@ -192,6 +192,132 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
         this.initializeSelects();
       }
     }
+  }
+
+  registerCategory() {
+    this.isLoading = true;
+    this.authService.registerCategory({ category: this.agencyForm.get('businessArea')?.value, userId: this.userId }).subscribe({
+      next: (res) => {
+        if (res) {
+          this.isLoading = false;
+          this.currentStep = 2;
+        } else {
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error.message;
+      }
+    })
+  }
+
+  registerUserType() {
+    this.isLoading = true;
+    this.authService.registerUserType({ userType: this.agencyForm.get('accountType')?.value, userId: this.userId }).subscribe({
+      next: (res) => {
+        if (res) {
+          this.isLoading = false;
+          this.currentStep = 3;
+          this.initializeSelects();
+        } else {
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error.message
+      }
+    })
+  }
+
+  registerCompanyDetails() {
+    this.isLoading = true;
+    const companyDeatilsForm = this.agencyForm.value;
+    const payload = {
+      userId: this.userId,
+      companyId: localStorage.getItem('company_id'),
+      companyName: companyDeatilsForm.companyName,
+      website: companyDeatilsForm.website,
+      country: companyDeatilsForm.country,
+      timezone: companyDeatilsForm.timezone,
+    }
+
+    console.log(payload);
+
+    this.authService.registerCompanyDetails(payload).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.isLoading = false;
+          localStorage.setItem('company_id', res.data.companyId)
+          console.log(res)
+          this.currentStep = 4;
+        } else {
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.log(err);
+        this.errorMessage = err.error.message;
+      }
+    })
+  }
+
+  registerFinalStep() {
+    this.isLoading = true;
+    const companyDeatilsForm = this.agencyForm.value;
+    const payload = {
+      userId: this.userId,
+      noOfClientsRange: companyDeatilsForm.client,
+      selectedModules: companyDeatilsForm.selectedModules
+    }
+
+    this.authService.registerFinalStep(payload).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.isLoading = false;
+          console.log(res);
+
+          localStorage.setItem('auth_token', res.data.token);
+          localStorage.setItem('user_roles', JSON.stringify(['admin']));
+          localStorage.setItem('user_type', 'main');
+          this.router.navigate(['/dashboard']);
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.log(err)
+      }
+    });
+  }
+
+  getAllCategories() {
+    this.signupSetting.getAllCategory().subscribe({
+      next: res => {
+        const activeCategories = res.data.filter((item: any) => item.isActive === 1);
+        this.businessAreaOptions = activeCategories.map((item: any) => ({
+          value: item.id,
+          label: item.name,
+          icon: item.icon ? 'ki-' + item.icon : ""
+        }));
+      },
+      error: err => console.error(err)
+    });
+  }
+
+  getAllPremiumFeatures() {
+    this.signupSetting.getAllPremiumFeatures().subscribe({
+      next: res => {
+        const activeModule = res.data.filter((item: any) => item.isActive === 1);
+        this.moduleOptions = activeModule.map((item: any) => ({
+          value: item.id,
+          label: item.name,
+          icon: 'ki-' + item.icon
+        }))
+      },
+      error: err => console.error(err)
+    });
   }
 
   isStepValid(): boolean {
@@ -255,11 +381,6 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       return;
     }
     this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-      setTimeout(() => {
-        this.router.navigate(['/dashboard']);
-      }, 1000);
-    }, 1500);
+    this.registerFinalStep()
   }
 }

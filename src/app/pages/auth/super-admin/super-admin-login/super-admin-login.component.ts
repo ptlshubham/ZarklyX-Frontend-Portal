@@ -1,5 +1,5 @@
 import { Component, Renderer2, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
@@ -9,7 +9,7 @@ import { BaseAuthComponent } from '../../base-auth.component';
 @Component({
   selector: 'app-super-admin-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   styleUrls: ['../../auth-layout.scss', './super-admin-login.component.scss'],
   templateUrl: './super-admin-login.component.html'
 })
@@ -132,6 +132,31 @@ export class SuperAdminLoginComponent extends BaseAuthComponent {
     }
   }
 
+  onOtpPaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pasted = event.clipboardData?.getData('text') ?? '';
+    const digits = pasted.replace(/\D/g, '').slice(0, 6);
+
+    if (!digits) return;
+
+    digits.split('').forEach((digit, idx) => {
+      const input = document.querySelector<HTMLInputElement>(`input[name="code_${idx}"]`);
+      if (input) {
+        input.value = digit;
+        this.otpValues[idx] = digit;
+      }
+    });
+
+    const lastIndex = digits.length - 1;
+    const lastInput = document.querySelector<HTMLInputElement>(`input[name="code_${lastIndex}"]`);
+    lastInput?.focus();
+
+    if (digits.length === 6) {
+      this.submitOtp();
+    }
+  }
+
   startOtpTimer(): void {
     this.resendTimer = 60;
     if (this.otpInterval) clearInterval(this.otpInterval);
@@ -195,7 +220,11 @@ export class SuperAdminLoginComponent extends BaseAuthComponent {
     this.startOtpTimer();
   }
 
-  switchLoginType(type: 'influencer' | 'super-admin') {
+  switchLoginType(type: 'influencer' | '/') {
     this.router.navigate(['/auth/login', type]);
+  }
+
+  isOtpComplete(): boolean {
+    return this.otpValues.length === 6 && this.otpValues.every(v => /^[0-9]$/.test(v));
   }
 }

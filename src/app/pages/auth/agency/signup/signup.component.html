@@ -139,6 +139,83 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="kt-form-label font-normal text-mono">
+                        Password<span class="text-red-500"> *
+                        </span>
+                    </label>
+                    <div class="kt-input" data-kt-toggle-password="true">
+                        <input name="user_password" placeholder="Enter Password"
+                            [type]="showPassword ? 'text' : 'password'" value="" formControlName="password">
+                        <button class="kt-btn kt-btn-sm kt-btn-ghost kt-btn-icon bg-transparent! -me-1.5"
+                            data-kt-toggle-password-trigger="true" type="button" (click)="showPassword = !showPassword">
+
+                            @if (!showPassword) {
+                            <span class="">
+                                <i class="ki-filled ki-eye text-muted-foreground">
+                                </i>
+                            </span>
+                            }
+                            @if (showPassword) {
+                            <span class="">
+                                <i class="ki-filled ki-eye-slash text-muted-foreground">
+                                </i>
+                            </span>
+                            }
+                        </button>
+                    </div>
+                    @if (f['password'].invalid && (f['password'].touched || submitted)) {
+                    <div class="kt-form-message">
+                        @if (f['password'].errors?.['required']) {
+                        Password is required
+                        }
+                        @if (f['password'].errors?.['minlength']) {
+                        Password must be at least 6 characters
+                        }
+                    </div>
+                    }
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="kt-form-label font-normal text-mono">
+                        Confirm Password<span class="text-red-500"> *
+                        </span>
+                    </label>
+                    <div class="kt-input" data-kt-toggle-password="true">
+                        <input name="user_password" placeholder="Re-enter Password"
+                            [type]="showConfirmPassword ? 'text' : 'password'" value=""
+                            formControlName="confirmPassword" />
+                        <button class="kt-btn kt-btn-sm kt-btn-ghost kt-btn-icon bg-transparent! -me-1.5"
+                            data-kt-toggle-password-trigger="true" type="button"
+                            (click)="showConfirmPassword = !showConfirmPassword">
+                            @if (!showConfirmPassword) {
+                            <span class="">
+                                <i class="ki-filled ki-eye text-muted-foreground">
+                                </i>
+                            </span>
+                            }
+                            @if (showConfirmPassword) {
+                            <span class="">
+                                <i class="ki-filled ki-eye-slash text-muted-foreground">
+                                </i>
+                            </span>
+                            }
+                        </button>
+                    </div>
+                    @if (f['confirmPassword'].invalid && (f['confirmPassword'].touched || submitted)) {
+                    <div class="kt-form-message">
+
+                        @if (f['confirmPassword'].errors?.['required']) {
+                        Confirm Password is required
+                        }
+
+                        @if (f['confirmPassword'].errors?.['passwordMismatch']) {
+                        Passwords do not match
+                        }
+
+                    </div>
+                    }
+                </div>
                 <!-- <div class="flex flex-col gap-1">
                     <label class="kt-form-label font-normal text-mono">User Type<span class="text-red-500"> * </span></label>
                     <select class="kt-select-display kt-select" name="userType">
@@ -154,6 +231,11 @@
                         I accept <a routerLink="" class="text-3sm kt-checkbox-label kt-link">Terms & Conditions</a>
                     </span></label>
 
+                @if(errorMessage){
+                <div class="flex items-center justify-center">
+                    <div class="kt-form-message">{{errorMessage}}</div>
+                </div>
+                }
                 <button class="kt-btn kt-btn-primary flex justify-center grow"
                     [disabled]="signupForm.invalid || !(this.signupForm.get('acceptTaC')?.value)">
                     @if (isLoading) {
@@ -221,17 +303,18 @@
                     <input
                         class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
                         style="width: 40px !important;" maxlength="1" type="text" name="code_{{ i }}"
-                        (keydown)="onOtpKeyDown($event, i)" (input)="onOtpInput($event, i)" />
+                        (keydown)="onOtpKeyDown($event, i)" (input)="onOtpInput($event, i)"
+                        (paste)="onOtpPaste($event)" />
                     }
                 </div>
-                
+
                 <div class="flex items-center justify-center">
                     <span class="text-2sm text-secondary-foreground me-1.5">
                         Didn’t receive a code? @if(resendTimer != 0){({{resendTimer}}s)}
                     </span>
                     @if(resendTimer == 0){
                     <a class="text-2sm kt-link" (click)="resendOtp()">
-                        Resend
+                        {{otpResendLoading ? 'Resending...' : 'Resend'}}
                     </a>
                     }
                 </div>

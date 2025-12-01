@@ -19,7 +19,17 @@ export class ApiService {
     })
   }
 
-
-  public static loginURL:string = ApiService.HOST_URL + '/keryar/DeleteTestimonial/';
+  // company register URL
+  public static RegisterUserURL:string = ApiService.HOST_URL + '/user/register/start';
+  public static VerifyRegisterOtpURL:string = ApiService.HOST_URL + '/user/register/verify-otp';
+  public static RegisterCategoryURL:string = ApiService.HOST_URL + '/user/register/categories'; // step 1
+  public static RegisterUserTypeURL:string = ApiService.HOST_URL + '/user/register/user-type'; // step 2
+  public static RegisterCompanyDetailsURL:string = ApiService.HOST_URL + '/user/register/company'; // step 3
+  public static RegisterFinalStepURL:string = ApiService.HOST_URL + '/user/register/final'; // step 4& 5
+  public static ResendOtpURL:string = ApiService.HOST_URL + '/otp/resend-otp'
+  
+  // main login urls
+  public static MainLoginURL : string = ApiService.HOST_URL + '/user/login'
+  public static VerifyLoginOtpURL : string = ApiService.HOST_URL + '/user/login/verify-otp'
 
 }

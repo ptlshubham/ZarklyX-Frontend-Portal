@@ -114,7 +114,7 @@
                         <input
                             class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
                             style="width: 40px !important;" maxlength="1" type="text" name="code_{{ i }}"
-                            (keydown)="onOtpKeyDown($event, i)" (input)="onOtpInput($event, i)" />
+                            (keydown)="onOtpKeyDown($event, i)" (input)="onOtpInput($event, i)" (paste)="onOtpPaste($event)" />
                         }
                     </div>
 
@@ -153,11 +153,11 @@
                 @else if(isOtpPage){
                 @if(isOtpPage && isLoading){
                 <button class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
-                    <span>Verifing Otp...</span>
+                    <span>Verifing...</span>
                 </button>}@else{
                 <button (click)="submitOtp()" class="kt-btn kt-btn-primary flex justify-center grow"
-                    [disabled]="isLoading">
-                    <span>Verify Otp</span>
+                    [disabled]="!isOtpComplete()">
+                    <span>Verify OTP</span>
                 </button>}
                 }
                 @else{
@@ -174,8 +174,7 @@
                         <button type="button" (click)="switchLoginType('influencer')" class="text-sm kt-link">Influencer
                             Login</button>
                         <span class="text-sm text-secondary-foreground">|</span>
-                        <button type="button" (click)="switchLoginType('super-admin')" class="text-sm kt-link">Super
-                            Admin</button>
+                        <a routerLink="/auth/login" class="text-sm kt-link">Back to main login</a>
                     </div>
                 </div>
             </form>

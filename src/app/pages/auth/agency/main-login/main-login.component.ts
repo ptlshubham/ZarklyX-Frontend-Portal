@@ -25,6 +25,9 @@ export class MainLoginComponent extends BaseAuthComponent {
     errorMessage = '';
     fieldTextType = false;
     isOtpPage = false;
+    otpResendLoading = false;
+
+    userId = '';
 
     // OTP
     otpValues: string[] = ['', '', '', '', '', ''];
@@ -40,13 +43,13 @@ export class MainLoginComponent extends BaseAuthComponent {
     ) {
         super(renderer, document);
         this.initializeForm();
+        authService.logout();
     }
 
     private initializeForm(): void {
         this.loginForm = this.formBuilder.group({
-            emailOrMobile: [
-                '', [Validators.required, Validators.pattern(/^(?:\+?\d{7,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]
-            ]
+            emailOrMobile: ['', [Validators.required, Validators.pattern(/^(?:\+?\d{7,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]],
+            password: ['', Validators.required],
         });
     }
 
@@ -55,34 +58,45 @@ export class MainLoginComponent extends BaseAuthComponent {
 
     onSubmit() {
         this.submitted = true;
+        if (this.loginForm.invalid) return;
+        this.errorMessage = '';
+        this.isLoading = true;
 
-        // stop here if form is invalid
-        if (this.loginForm.invalid) {
+        const input = this.loginForm.value.emailOrMobile;
+        let credentials: any = {
+            password: this.loginForm.value.password
+        };
+
+        if (/^\d+$/.test(input)) {
+            credentials.mobile = input;
+        }
+        else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)) {
+            credentials.email = input;
+        }
+        else {
+            this.isLoading = false;
+            this.errorMessage = 'Please enter a valid email or mobile number.';
             return;
         }
 
-        this.isLoading = true;
-        this.errorMessage = '';
+        console.log("Final Login Payload:", credentials);
 
-        const credentials = {
-            emailOrMobile: this.loginForm.value.emailOrMobile
-        };
-
-        setTimeout(() => {
-            this.isLoading = false;
-
-            this.startOtpTimer();
-            this.isOtpPage = true;
-            this.loginForm.get('emailOrMobile')?.disable();
-        }, 600);
+        this.authService.login(credentials, 'main').subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.isOtpPage = true;
+                this.userId = res.userId
+                this.startOtpTimer();
+                // Disable Inputs
+                this.loginForm.get('emailOrMobile')?.disable();
+                this.loginForm.get('password')?.disable();
+            },
+            error: err => {
+                this.isLoading = false;
+                this.errorMessage = err.error?.message || 'Login failed';
+            }
+        });
     }
-
-    /**
-     * Password Hide/Show
-     */
-    // toggleFieldTextType() {
-    //     this.fieldTextType = !this.fieldTextType;
-    // }
 
     switchLoginType(type: 'influencer' | 'super-admin') {
         this.router.navigate(['/auth/login', type]);
@@ -133,6 +147,31 @@ export class MainLoginComponent extends BaseAuthComponent {
         }
     }
 
+    onOtpPaste(event: ClipboardEvent) {
+        event.preventDefault();
+
+        const pasted = event.clipboardData?.getData('text') ?? '';
+        const digits = pasted.replace(/\D/g, '').slice(0, 6);
+
+        if (!digits) return;
+
+        digits.split('').forEach((digit, idx) => {
+            const input = document.querySelector<HTMLInputElement>(`input[name="code_${idx}"]`);
+            if (input) {
+                input.value = digit;
+                this.otpValues[idx] = digit;
+            }
+        });
+
+        const lastIndex = digits.length - 1;
+        const lastInput = document.querySelector<HTMLInputElement>(`input[name="code_${lastIndex}"]`);
+        lastInput?.focus();
+
+        if (digits.length === 6) {
+            this.submitOtp();
+        }
+    }
+
     startOtpTimer(): void {
         this.resendTimer = 60;
         if (this.otpInterval) clearInterval(this.otpInterval);
@@ -156,44 +195,90 @@ export class MainLoginComponent extends BaseAuthComponent {
         console.log("OTP : " + otp);
         this.isLoading = true;
 
-        // Disable Inputs
-        this.loginForm.get('emailOrMobile')?.disable();
         const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
         inputs.forEach((input) => input.disabled = true);
 
-        setTimeout(() => {
-            this.isLoading = false;
-            if (otp === '123456') {
-
-                this.authService.login({ email: 'user@example.com', password: 'password' }, 'main').subscribe({
-                    next: (success) => {
-                        this.isLoading = false;
-                        if (success) {
-                            this.authService.redirectToUserDashboard();
-                            return;
-                        } else {
-                            this.errorMessage = 'Invalid emailOrMobile or password';
-                        }
-                    },
-                    error: (error) => {
-                        this.isLoading = false;
-                        this.errorMessage = 'Login failed. Please try again.';
-                        console.error('Login error:', error);
+        this.authService.verifyLoginOtp({ userId: this.userId, otp }).subscribe({
+            next: (res) => {
+                this.isLoading = false;
+                if (res) {
+                    console.log(res);
+                    //clean old local storage
+                    this.authService.logout();
+                    if (res.data.isRegistering) {
+                        localStorage.setItem('user_id', res.data.userId);
+                        this.router.navigate(['/auth/basic-details']);
+                        return;
                     }
-                });
-            } else {
-                this.errorMessage = 'Invalid OTP. Please try again.';
-            }
 
-            // Re-enable inputs if needed
-            inputs.forEach((input) => input.disabled = false);
-        }, 600);
+                    // add credintial for auth
+                    localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('user_id', res.data.userId);
+                    localStorage.setItem('user_email', this.loginForm.value.emailOrMobile);
+                    localStorage.setItem('user_roles', JSON.stringify(['admin']));
+                    localStorage.setItem('user_type', 'main');
+
+                    // const userX = {
+                    //     id: res.data.userId,
+                    //     email: this.loginForm.value.emailOrMobile,
+                    //     roles: ['user'],
+                    //     userType: 'main' as 'main'
+                    // };
+                    // this.authService['currentUserSubject'].next(userX);
+
+                    this.authService.redirectToUserDashboard();
+                    return;
+                } else {
+                    this.errorMessage = 'Invalid OTP';
+                    inputs.forEach((input) => input.disabled = false);
+                }
+            },
+            error: (error) => {
+                this.isLoading = false;
+                this.isOtpPage = true;
+                this.errorMessage = error.error.message;
+                console.error('Login error:', error);
+                inputs.forEach((input) => input.disabled = false);
+            }
+        });
     }
 
     resendOtp() {
         if (this.resendTimer > 0) return;
+        const input = this.loginForm.value.emailOrMobile;
+        this.otpResendLoading = true;
+        let credentials: any = {};
 
-        console.log(' RESEND OTP TRIGGERED');
-        this.startOtpTimer();
+        if (/^\d+$/.test(input)) {
+            credentials.mobile = input;
+        }
+        else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)) {
+            credentials.email = input;
+        }
+        else {
+            this.isLoading = false;
+            this.errorMessage = 'Please enter a valid email or mobile number.';
+            return;
+        }
+        this.authService.resendOtp({ email: credentials.email, contact: credentials.contact, otpFlow: 'login' }).subscribe({
+            next: (success) => {
+                if (success) {
+                    this.startOtpTimer();
+                    this.otpResendLoading = false;
+                } else {
+                    this.resendTimer = 0;
+                    this.otpResendLoading = false;
+                }
+            },
+            error: (err) => {
+                this.resendTimer = 0;
+                this.otpResendLoading = false;
+            }
+        })
     }
+
+    isOtpComplete(): boolean {
+        return this.otpValues.length === 6 && this.otpValues.every(v => /^[0-9]$/.test(v));
+    }
+
 }

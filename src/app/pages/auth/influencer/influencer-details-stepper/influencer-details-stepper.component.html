@@ -54,16 +54,16 @@
                 @if (currentStep === 2) {
                 <div class="flex flex-col gap-4">
 
-                    <div class="flex flex-wrap gap-3 justify-center">
+                    <div class="grid grid-cols-3 gap-3">
                         @for (option of socialMediaOptions; track option.value) {
                         <button type="button" (click)="toggleSocialMedia(option.value)"
                             class="kt-badge inline-flex items-center gap-2 px-3 py-8 rounded-lg text-[14px] font-normal transition-all whitespace-nowrap border-gray-300"
                             [class.kt-badge-primary]="isSocialMediaSelected(option.value)"
                             [class.kt-badge-outline]="!isSocialMediaSelected(option.value)">
                             <img [src]="option.icon" class="w-8 h-8 object-contain" />
-                            @if (isSocialMediaSelected(option.value)) {
+                            <!-- @if (isSocialMediaSelected(option.value)) {
                             <i class="ki-filled ki-cross text-xs"></i>
-                            }
+                            } -->
                         </button>
                         }
 

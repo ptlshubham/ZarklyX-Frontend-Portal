@@ -3519,6 +3519,87 @@
 				</div>
 			</div>
 			<!-- End of Apps -->
+
+			@if(isInfluencerPage){
+			<button
+				class="kt-btn kt-btn-ghost kt-btn-icon size-9 rounded-full hover:bg-primary/10 hover:[&_i]:text-primary"
+				data-kt-drawer-toggle="#widgets_drawer">
+				<i class="ki-filled ki-element-plus text-lg"></i>
+			</button>
+			}
+			<!--widgets Drawer-->
+			<div class="hidden kt-drawer kt-drawer-end card flex-col max-w-[90%] w-[450px] top-5 bottom-5 end-5 rounded-xl border border-border"
+				data-kt-drawer="true" data-kt-drawer-container="body" id="widgets_drawer">
+				<div>
+					<div class="flex items-center justify-between gap-2.5 text-sm text-mono font-semibold px-5 py-3.5">
+						Widgets
+						<button class="kt-btn kt-btn-sm kt-btn-icon kt-btn-dim shrink-0" data-kt-drawer-dismiss="true">
+							<i class="ki-filled ki-cross">
+							</i>
+						</button>
+					</div>
+					<div class="border-b border-b-border">
+					</div>
+				</div>
+				<div class="kt-scrollable-y-auto grow" data-kt-scrollable="true"
+					data-kt-scrollable-dependencies="#header" data-kt-scrollable-max-height="auto">
+					<div class="col-span-2 p-5">
+						<div class="flex flex-wrap gap-4 justify-start">
+							@for (w of widgetsService.widgetsToAdd(); track w.id) {
+
+							@if((w.cols ?? 1) === 1) {
+							<!-- 2-column widget -->
+							<div class="kt-card shadow-md shadow-black/5 border-050 flex flex-col cursor-pointer w-[47%]"
+								(click)="widgetsService.addWidget(w)">
+
+								<div class="overflow-hidden flex-1 h-32 bg-white rounded-md" style="height: 120px;">
+									<app-widgets [data]="w" [isInHeader]="true" class="w-full h-full"></app-widgets>
+								</div>
+
+								<div class="flex flex-col gap-0.5 px-3 py-2 text-center">
+									<a class="text-sm text-foreground font-semibold leading-none pb-1">
+										{{ w.label }}
+									</a>
+									<p class="text-xs text-secondary-foreground font-medium leading-none">
+										{{w.rows?? 1}}X{{w.cols?? 1 }}
+									</p>
+								</div>
+
+							</div>
+							}
+
+							@else {
+							<!-- Full-width widget -->
+							<div class="kt-card shadow-md shadow-black/5 border-0 flex flex-col cursor-pointer w-full"
+								(click)="widgetsService.addWidget(w)">
+
+								<div class="overflow-hidden flex-1 bg-white rounded-md" style="height: 120px;">
+									<app-widgets [data]="w" [isInHeader]="true" class="w-full h-full"></app-widgets>
+								</div>
+
+								<div class="flex flex-col gap-0.5 px-3 py-2 text-center">
+									<a class="text-sm text-foreground font-semibold leading-none pb-1">
+										{{ w.label }}
+									</a>
+									<p class="text-xs text-secondary-foreground font-medium leading-none">
+										{{w.cols?? 1 }}X{{w.rows?? 1}}
+									</p>
+								</div>
+							</div>
+							}
+
+							}
+							@empty {
+							<div class="h-full flex justify-center">
+								no widgets to add
+							</div>
+							}
+
+						</div>
+
+					</div>
+				</div>
+			</div>
 			<!-- User -->
 			<div class="shrink-0" data-kt-dropdown="true" data-kt-dropdown-offset="10px, 10px"
 				data-kt-dropdown-offset-rtl="-20px, 10px" data-kt-dropdown-placement="bottom-end"
