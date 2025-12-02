@@ -9,6 +9,7 @@ import { BaseAuthComponent } from '../../base-auth.component';
 import moment from 'moment-timezone';
 import { Country, ICountry } from 'country-state-city';
 import { SignupSetting } from '../../../../core/services/super-admin/signup-setting.service';
+import { ToastService } from '../../../../core/services/toast.service';
 declare const KTSelect: any;
 
 @Component({
@@ -30,7 +31,6 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   errorMessage = '';
 
   private userId: string = '';
-  private companyId = undefined;
 
   agencyForm!: FormGroup;
 
@@ -42,7 +42,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
   businessAreaOptions: any[] = [];
 
   accountTypeOptions = [
-    { value: 'organization', label: 'Agency/Industry', icon: 'ki-office-bag', description: 'For businesses and organizations' },
+    { value: 'agency', label: 'Agency/Industry', icon: 'ki-office-bag', description: 'For businesses and organizations' },
     { value: 'freelancer', label: 'Freelancer', icon: 'ki-user', description: 'For individual professionals' }
   ];
 
@@ -62,6 +62,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
     public router: Router,
     public authService: AuthService,
     private formBuilder: FormBuilder,
+    private toastService: ToastService,
     renderer: Renderer2,
     @Inject(DOCUMENT) document: Document,
     private signupSetting: SignupSetting,
@@ -92,7 +93,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       businessArea: ['', Validators.required],
       accountType: ['', Validators.required],
       companyName: ['', [Validators.required, Validators.pattern(/^[A-Za-z ]+$/)]],
-      website: ['', [Validators.pattern(/^(https:\/\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=%]+|www\.[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=%]+)$/)]],
+      website: ['', [Validators.pattern('^(https:\\/\\/)?([A-Za-z0-9-]+\\.)+[A-Za-z]{2,}(\\/.*)?$')]],
       country: ['', Validators.required],
       timezone: ['', Validators.required],
       client: ['', Validators.required],
@@ -156,7 +157,13 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
     this.countries = Country.getAllCountries()
       .map((country: ICountry) => country.name)
       .sort();
-    this.timezones = moment.tz.names();
+    // this.timezones = moment.tz.names();
+    this.timezones = moment.tz.names().map(tz => {
+      const offset = moment.tz(tz).format("Z");  // +05:30
+      const name = tz.replace("_", " ");         // Asia/Kolkata → Asia/Kolkata
+
+      return `${name} (GMT ${offset})`
+    });
   }
 
   nextStep() {
@@ -181,6 +188,9 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       if (!this.agencyForm.get('client')?.value) {
         return;
       }
+      this.toastService.success('No of Clients Saved Successful!', {
+        position: 'top-end',
+      });
       this.currentStep = 5;
     }
   }
@@ -201,11 +211,17 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
         if (res) {
           this.isLoading = false;
           this.currentStep = 2;
+          this.toastService.success('Business Area Saved Successful!', {
+            position: 'top-end',
+          });
         } else {
           this.isLoading = false;
         }
       },
       error: (err) => {
+        this.toastService.error(err.error.message, {
+          position: 'top-end',
+        });
         this.isLoading = false;
         this.errorMessage = err.error.message;
       }
@@ -218,6 +234,9 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       next: (res) => {
         if (res) {
           this.isLoading = false;
+          this.toastService.success('Account Type Saved Successful!', {
+            position: 'top-end',
+          });
           this.currentStep = 3;
           this.initializeSelects();
         } else {
@@ -225,6 +244,9 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
         }
       },
       error: (err) => {
+        this.toastService.error(err.error.message, {
+          position: 'top-end',
+        });
         this.isLoading = false;
         this.errorMessage = err.error.message
       }
@@ -243,22 +265,25 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       timezone: companyDeatilsForm.timezone,
     }
 
-    console.log(payload);
-
     this.authService.registerCompanyDetails(payload).subscribe({
       next: (res: any) => {
         if (res) {
           this.isLoading = false;
-          localStorage.setItem('company_id', res.data.companyId)
-          console.log(res)
+          this.toastService.success('Register Company Details Saved Successful!', {
+            position: 'top-end',
+          });
+          localStorage.setItem('company_id', res.data.companyId);
           this.currentStep = 4;
         } else {
           this.isLoading = false;
         }
       },
       error: (err) => {
+        this.toastService.error(err.error.message, {
+          position: 'top-end',
+        });
         this.isLoading = false;
-        console.log(err);
+        console.error(err);
         this.errorMessage = err.error.message;
       }
     })
@@ -277,7 +302,9 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
       next: (res: any) => {
         if (res) {
           this.isLoading = false;
-          console.log(res);
+          this.toastService.success('Register Successful!', {
+            position: 'top-end',
+          });
 
           localStorage.setItem('auth_token', res.data.token);
           localStorage.setItem('user_roles', JSON.stringify(['admin']));
@@ -286,8 +313,11 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
         }
       },
       error: (err) => {
+        this.toastService.error(err.error.message, {
+          position: 'top-end',
+        });
         this.isLoading = false;
-        console.log(err)
+        console.error(err);
       }
     });
   }
@@ -302,7 +332,12 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
           icon: item.icon ? 'ki-' + item.icon : ""
         }));
       },
-      error: err => console.error(err)
+      error: (err) => {
+        this.toastService.error(err.error.message, {
+          position: 'top-end',
+        });
+        console.error(err)
+      }
     });
   }
 

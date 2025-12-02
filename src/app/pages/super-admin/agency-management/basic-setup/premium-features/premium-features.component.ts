@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../../../core/services/toast.service';
 import { ModalService } from '../../../../../core/services/modal.service';
 import { SearchService } from '../../../../../core/services/search.service';
-import { ɵɵDir } from "@angular/cdk/scrolling";
 
 @Component({
   selector: 'app-premium-features',
@@ -165,7 +164,7 @@ export class PremiumFeaturesComponent {
     this.isUpdateMode = false;
     this.updatePremiumFeatureId = null;
     this.addPremiumFeaturesForm.reset();
-    this.modalService.open('premiumFeatures_model');
+    this.modalService.open('premiumFeatures_modal');
   }
 
   editPremiumFeature(premiumFeatures: any) {
@@ -176,7 +175,7 @@ export class PremiumFeaturesComponent {
       name: premiumFeatures.name,
       icon: premiumFeatures.icon
     });
-    this.modalService.open('premiumFeatures_model');
+    this.modalService.open('premiumFeatures_modal');
   }
   updatePremiumFeatureDetails() {
     this.submitted = true;
@@ -188,7 +187,7 @@ export class PremiumFeaturesComponent {
       ...this.addPremiumFeaturesForm.value
     };
 
-    this.signupSetting.updateCategoty(updateData).subscribe({
+    this.signupSetting.updatePremiumFeaturesUsingId(updateData).subscribe({
       next: res => {
         if (res.success) {
           this.addPremiumFeaturesForm.reset();

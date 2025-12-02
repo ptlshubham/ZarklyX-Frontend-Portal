@@ -8,7 +8,7 @@ export class ThemeToggleService {
   themeMode = signal<ThemeMode>('system');
   effectiveTheme = signal<'light' | 'dark'>('light');
 
-  private storageKey = 'kt-theme';
+  private storageKey = 'is_dark_mode';
   private systemMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   private systemListener: (() => void) | null = null;
   private renderer: Renderer2;
