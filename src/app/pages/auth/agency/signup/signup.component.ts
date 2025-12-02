@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, DOCUMENT, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { BaseAuthComponent } from '../../base-auth.component';
 import { HttpClient } from '@angular/common/http'
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../../../core/services/auth.service';
-
+import { ToastService } from '../../../../core/services/toast.service';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 declare const KTSelect: any;
 
@@ -60,8 +61,7 @@ export class SignupComponent extends BaseAuthComponent {
                       <span class="text-foreground">{{text}}</span>
                     </div>`,
     optionTemplate: `<div class="flex items-center gap-2">
-                      <span class="text-foreground">{{text}} - {{name}}</span>
-                    </div>
+                      <span class="text-foreground">{{text}}</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                       stroke-linecap="round" stroke-linejoin="round"
                       class="size-3.5 ms-auto hidden text-primary kt-select-option-selected:block">
@@ -74,7 +74,7 @@ export class SignupComponent extends BaseAuthComponent {
   getSelectOption(country: string, code: string) {
     return JSON.stringify({
       name: country,
-      text: `${code}`
+      text: code
     });
   }
 
@@ -83,26 +83,28 @@ export class SignupComponent extends BaseAuthComponent {
     @Inject(DOCUMENT) document: Document,
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private toastService: ToastService,
     private router: Router
   ) {
     super(renderer, document);
-    this.logout();
+    localStorage.clear();
+    localStorage.setItem('is_dark_mode', 'light');
     this.initializeForm();
     this.fetchCountryCodes();
   }
 
-  logout() {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_roles');
-    localStorage.removeItem('user_type');
-    localStorage.removeItem('user_email');
-    localStorage.removeItem('user_username');
-    localStorage.removeItem('user_admin_id');
-    localStorage.removeItem('user_permissions');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('company_id')
-    localStorage.removeItem('dashboard_widgets');
-  }
+  // logout() {
+  //   localStorage.removeItem('auth_token');
+  //   localStorage.removeItem('user_roles');
+  //   localStorage.removeItem('user_type');
+  //   localStorage.removeItem('user_email');
+  //   localStorage.removeItem('user_username');
+  //   localStorage.removeItem('user_admin_id');
+  //   localStorage.removeItem('user_permissions');
+  //   localStorage.removeItem('user_id');
+  //   localStorage.removeItem('company_id')
+  //   localStorage.removeItem('dashboard_widgets');
+  // }
 
   private initializeForm(): void {
     this.signupForm = this.formBuilder.group({
@@ -111,7 +113,7 @@ export class SignupComponent extends BaseAuthComponent {
       email: ['', [Validators.required, Validators.email]],
       contact: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
       countryCode: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
       confirmPassword: ['', Validators.required],
       acceptTaC: [false]
     }, {
@@ -131,12 +133,50 @@ export class SignupComponent extends BaseAuthComponent {
       }
     };
   }
+  // Custom validator for phone number using libphonenumber-js
+  phoneValidator = (control: AbstractControl): ValidationErrors | null => {
+    const phoneNumber = control.value;
+    const countryCodeControl = this.signupForm?.get('countryCode');
 
+    if (!phoneNumber || !countryCodeControl) {
+      return null;
+    }
+
+    const countryCodeValue = countryCodeControl.value;
+    if (!countryCodeValue) {
+      return null;
+    }
+
+    // Extract country code (e.g., "IN" from "+91 - IN")
+    const countryMatch = countryCodeValue.match(/- ([A-Z]{2})$/);
+    if (!countryMatch) {
+      return null;
+    }
+
+    const countryCode = countryMatch[1];
+    const dialCode = countryCodeValue.split(' - ')[0];
+
+    try {
+      // Parse phone number with country code
+      const phoneNumberObj = parsePhoneNumberFromString(dialCode + phoneNumber, countryCode);
+
+      if (!phoneNumberObj || !phoneNumberObj.isValid()) {
+        return { invalidPhone: true };
+      }
+
+      return null;
+    } catch (error) {
+      return { invalidPhone: true };
+    }
+  };
   ngAfterViewInit(): void {
     setTimeout(() => {
       if (KTSelect) {
         new KTSelect(this.countrySelect.nativeElement);
       }
+      // Add phone validator after form is initialized
+      this.signupForm.get('contact')?.setValidators([Validators.required, this.phoneValidator]);
+      this.signupForm.get('contact')?.updateValueAndValidity();
     }, 100);
   }
 
@@ -276,9 +316,11 @@ export class SignupComponent extends BaseAuthComponent {
         if (res) {
           this.isLoading = false;
           this.startOtpTimer();
-          console.log(res)
           this.isOtpPage = true;
           this.userId = res.data.otpRefId;
+          this.toastService.success('OTP Send successfully!', {
+            position: 'top-end',
+          });
         } else {
           this.errorMessage = 'Someting went Wrong';
         }
@@ -286,6 +328,12 @@ export class SignupComponent extends BaseAuthComponent {
       error: (err) => {
         this.isLoading = false;
         console.error(err);
+        if (err.status === 500) {
+          this.toastService.error("Faild to Send OTP", {
+            position: 'top-end',
+          });
+          return;
+        }
         this.errorMessage = err.error.message;
       }
     });
@@ -374,14 +422,15 @@ export class SignupComponent extends BaseAuthComponent {
 
     const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
     inputs.forEach((input) => input.disabled = true);
-    console.log(this.signupForm.get('email')?.value)
     this.authService.verifyRegisterOtp({ email: this.signupForm.get('email')?.value, otp }).subscribe({
       next: (res: any) => {
         if (res) {
-          console.log(res)
           this.userId = res.data.userId;
           localStorage.setItem('user_id', this.userId)
           localStorage.setItem('user_email', this.signupForm.value.email);
+          this.toastService.success('OTP Verification successfully!', {
+            position: 'top-end',
+          });
           this.router.navigate(['/auth/basic-details']);
         } else {
           this.errorMessage = 'Invalid OTP';
@@ -390,7 +439,10 @@ export class SignupComponent extends BaseAuthComponent {
         }
       },
       error: (err) => {
-        console.log(err)
+        console.error(err)
+        this.toastService.error(err.error.message, {
+          position: 'top-end',
+        });
         this.errorMessage = err.error.message;
         this.isLoading = false;
         inputs.forEach((input) => input.disabled = false);
@@ -409,6 +461,9 @@ export class SignupComponent extends BaseAuthComponent {
         if (success) {
           this.startOtpTimer();
           this.otpResendLoading = false;
+          this.toastService.success('OTP Send successfully!', {
+            position: 'top-end',
+          });
         } else {
           this.resendTimer = 0;
           this.otpResendLoading = false;
@@ -417,6 +472,9 @@ export class SignupComponent extends BaseAuthComponent {
       error: (err) => {
         this.resendTimer = 0;
         this.otpResendLoading = false;
+        this.toastService.error(err.error.message, {
+          position: 'top-end',
+        });
       }
     })
   }

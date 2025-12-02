@@ -114,7 +114,7 @@
                                 @for (countryCode of countryCodes; track countryCode.id) {
                                 <option [value]="countryCode.code+ ' - ' + countryCode.country"
                                     [attr.data-kt-select-option]="getSelectOption(countryCode.country, countryCode.code)">
-                                    {{ countryCode.code}}
+                                     {{ countryCode.code }} {{ countryCode.country }}
                                 </option>
 
                                 }
@@ -133,6 +133,9 @@
                                 }
                                 @if (f['contact'].errors?.['pattern']) {
                                 enter valid Contact No
+                                }
+                                @if (f['contact'].errors?.['invalidPhone']) {
+                                Please enter a valid phone number for the selected country
                                 }
                             </div>
                             }
@@ -171,7 +174,11 @@
                         Password is required
                         }
                         @if (f['password'].errors?.['minlength']) {
-                        Password must be at least 6 characters
+                        Password must be at least 8 characters.
+                        }
+                        @if (f['password'].errors?.['pattern'] && (f['password'].touched || submitted)) {
+                        Password must contain at least one uppercase letter, one lowercase letter, one number, and one
+                        special character
                         }
                     </div>
                     }

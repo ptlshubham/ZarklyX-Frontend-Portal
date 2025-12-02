@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } 
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { BaseAuthComponent } from '../../base-auth.component';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
     selector: 'app-main-login',
@@ -38,12 +39,15 @@ export class MainLoginComponent extends BaseAuthComponent {
         private router: Router,
         private authService: AuthService,
         private formBuilder: FormBuilder,
+        private toastService: ToastService,
         renderer: Renderer2,
         @Inject(DOCUMENT) document: Document
     ) {
         super(renderer, document);
         this.initializeForm();
-        authService.logout();
+        // authService.logout();
+        localStorage.clear();
+        localStorage.setItem('is_dark_mode', 'light');
     }
 
     private initializeForm(): void {
@@ -79,14 +83,15 @@ export class MainLoginComponent extends BaseAuthComponent {
             return;
         }
 
-        console.log("Final Login Payload:", credentials);
-
         this.authService.login(credentials, 'main').subscribe({
             next: res => {
                 this.isLoading = false;
                 this.isOtpPage = true;
                 this.userId = res.userId
                 this.startOtpTimer();
+                this.toastService.success('OTP Send successfully!', {
+                    position: 'top-end',
+                });
                 // Disable Inputs
                 this.loginForm.get('emailOrMobile')?.disable();
                 this.loginForm.get('password')?.disable();
@@ -192,7 +197,6 @@ export class MainLoginComponent extends BaseAuthComponent {
             this.errorMessage = 'Please enter full 6-digit OTP.';
             return;
         }
-        console.log("OTP : " + otp);
         this.isLoading = true;
 
         const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
@@ -202,9 +206,10 @@ export class MainLoginComponent extends BaseAuthComponent {
             next: (res) => {
                 this.isLoading = false;
                 if (res) {
-                    console.log(res);
                     //clean old local storage
-                    this.authService.logout();
+                    // this.authService.logout();
+                    // localStorage.clear();
+                    localStorage.setItem('is_dark_mode', 'light');
                     if (res.data.isRegistering) {
                         localStorage.setItem('user_id', res.data.userId);
                         this.router.navigate(['/auth/basic-details']);
@@ -226,7 +231,8 @@ export class MainLoginComponent extends BaseAuthComponent {
                     // };
                     // this.authService['currentUserSubject'].next(userX);
 
-                    this.authService.redirectToUserDashboard();
+                    this.router.navigate(['/dashboard']);
+                    // this.authService.redirectToUserDashboard();
                     return;
                 } else {
                     this.errorMessage = 'Invalid OTP';
@@ -265,12 +271,18 @@ export class MainLoginComponent extends BaseAuthComponent {
                 if (success) {
                     this.startOtpTimer();
                     this.otpResendLoading = false;
+                    this.toastService.success('OTP Send successfully!', {
+                        position: 'top-end',
+                    });
                 } else {
                     this.resendTimer = 0;
                     this.otpResendLoading = false;
                 }
             },
             error: (err) => {
+                this.toastService.error(err.error.message, {
+                    position: 'top-end',
+                });
                 this.resendTimer = 0;
                 this.otpResendLoading = false;
             }
