@@ -1,11 +1,16 @@
-import { Component, Renderer2, Inject } from '@angular/core';
+// main-login.component.ts (UPDATED VERSION)
+import { Component, Renderer2, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { BaseAuthComponent } from '../../base-auth.component';
 import { ToastService } from '../../../../core/services/toast.service';
+import { GOOGLE_AUTH_CONFIG } from '../../../../core/config/google-auth.config';
+
+declare var google: any;
 
 @Component({
     selector: 'app-main-login',
@@ -19,7 +24,7 @@ import { ToastService } from '../../../../core/services/toast.service';
     templateUrl: './main-login.component.html',
     styleUrls: ['../../auth-layout.scss', './main-login.component.scss']
 })
-export class MainLoginComponent extends BaseAuthComponent {
+export class MainLoginComponent extends BaseAuthComponent implements OnInit {
     loginForm!: FormGroup;
     submitted = false;
     isLoading = false;
@@ -35,11 +40,15 @@ export class MainLoginComponent extends BaseAuthComponent {
     resendTimer = 60;
     otpInterval: ReturnType<typeof setInterval> | null = null;
 
+    // Google Login
+    googleLoginLoading = false;
+
     constructor(
         private router: Router,
         private authService: AuthService,
         private formBuilder: FormBuilder,
         private toastService: ToastService,
+        private http: HttpClient,
         renderer: Renderer2,
         @Inject(DOCUMENT) document: Document
     ) {
@@ -57,6 +66,201 @@ export class MainLoginComponent extends BaseAuthComponent {
         });
     }
 
+    override ngOnInit(): void {
+        // Initialize Google Sign-In
+        this.initializeGoogleSignIn();
+    }
+
+    /**
+     * Initialize Google Sign-In (without rendering button)
+     */
+    private initializeGoogleSignIn(): void {
+        try {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_AUTH_CONFIG.clientId,
+                callback: (response: any) => this.handleGoogleCredential(response),
+                error_callback: () => {
+                    console.log('Google Sign-In error callback triggered');
+                },
+                ux_mode: 'popup',
+                use_fedcm_for_prompt: false
+            });
+        } catch (error) {
+            console.error('Google Sign-In initialization error:', error);
+        }
+    }
+
+    /**
+     * Trigger Google Sign-In popup manually
+     * Uses OAuth popup flow instead of FedCM to avoid browser restrictions
+     */
+    signInWithGoogle(): void {
+        if (typeof google === 'undefined' || !google.accounts) {
+            this.toastService.error('Google Sign-In is not available', {
+                position: 'top-end',
+            });
+            return;
+        }
+
+        try {
+            // Use OAuth2 popup flow instead of FedCM prompt
+            const client = google.accounts.oauth2.initCodeClient({
+                client_id: GOOGLE_AUTH_CONFIG.clientId,
+                scope: 'email profile openid',
+                ux_mode: 'popup',
+                callback: (response: any) => {
+                    if (response.code) {
+                        this.handleGoogleAuthCode(response.code);
+                    } else if (response.error) {
+                        console.error('Google OAuth error:', response);
+                        this.toastService.error('Google Sign-In failed', {
+                            position: 'top-end',
+                        });
+                    }
+                }
+            });
+            
+            client.requestCode();
+        } catch (error) {
+            console.error('Google Sign-In error:', error);
+            this.toastService.error('Failed to open Google Sign-In', {
+                position: 'top-end',
+            });
+        }
+    }
+
+    /**
+     * Handle Google authorization code
+     * Send to backend to exchange for user info and JWT token
+     */
+    private handleGoogleAuthCode(code: string): void {
+        this.googleLoginLoading = true;
+        this.errorMessage = '';
+
+        this.authService.loginWithGoogle({ code: code }).subscribe({
+            next: (res: any) => {
+                this.googleLoginLoading = false;
+
+                if (res.success) {
+                    console.log('Google login successful:', res.data);
+
+                    localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('user_id', res.data.userId);
+                    localStorage.setItem('user_email', res.data.email);
+                    localStorage.setItem('user_roles', JSON.stringify(['admin']));
+                    localStorage.setItem('user_type', 'main');
+                    localStorage.setItem('is_dark_mode', 'light');
+
+                    this.toastService.success(res.data.isNew ? 'Welcome! Account created.' : 'Login successful!', {
+                        position: 'top-end',
+                    });
+
+                    if (res.data.isNew) {
+                        setTimeout(() => {
+                            this.router.navigate(['/auth/basic-details']);
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            this.router.navigate(['/dashboard']);
+                        }, 1000);
+                    }
+                } else {
+                    this.errorMessage = res.message || 'Google login failed';
+                    this.toastService.error(this.errorMessage, {
+                        position: 'top-end',
+                    });
+                }
+            },
+            error: (err) => {
+                this.googleLoginLoading = false;
+                console.error('Google login error:', err);
+
+                const errorMessage = err.error?.message || 'Google login failed. Please try again.';
+                this.errorMessage = errorMessage;
+                this.toastService.error(errorMessage, {
+                    position: 'top-end',
+                });
+            }
+        });
+    }
+
+    /**
+     * Handle Google Credential Response
+     * Sends credential to backend for verification and login
+     */
+    handleGoogleCredential(response: any): void {
+        debugger
+        if (!response.credential) {
+            this.toastService.error('Failed to get Google credential', {
+                position: 'top-end',
+            });
+            return;
+        }
+
+        this.googleLoginLoading = true;
+        this.errorMessage = '';
+
+        // Call backend to verify and login with Google
+        this.authService.loginWithGoogle({ credential: response.credential }).subscribe({
+            next: (res: any) => {
+                this.googleLoginLoading = false;
+
+                if (res.success) {
+                    console.log('Google login successful:', res.data);
+
+                    // Save authentication data
+                    localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('user_id', res.data.userId);
+                    localStorage.setItem('user_email', res.data.email);
+                    localStorage.setItem('user_roles', JSON.stringify(['admin']));
+                    localStorage.setItem('user_type', 'main');
+                    localStorage.setItem('is_dark_mode', 'light');
+
+                    this.toastService.success(res.data.isNew ? 'Welcome! Account created.' : 'Login successful!', {
+                        position: 'top-end',
+                    });
+
+                    // Handle post-login routing
+                    if (res.data.isNew) {
+                        // New user - redirect to complete profile
+                        setTimeout(() => {
+                            this.router.navigate(['/auth/basic-details']);
+                        }, 1000);
+                    } else {
+                        // Existing user - redirect to dashboard
+                        setTimeout(() => {
+                            this.router.navigate(['/dashboard']);
+                        }, 1000);
+                    }
+                } else {
+                    this.errorMessage = res.message || 'Google login failed';
+                    this.toastService.error(this.errorMessage, {
+                        position: 'top-end',
+                    });
+                }
+            },
+            error: (err) => {
+                this.googleLoginLoading = false;
+                console.error('Google login error:', err);
+
+                const errorMessage = err.error?.message || 'Google login failed. Please try again.';
+                this.errorMessage = errorMessage;
+                this.toastService.error(errorMessage, {
+                    position: 'top-end',
+                });
+            }
+        });
+    }
+
+    /**
+     * Get backend URL based on environment
+     */
+    private getBackendUrl(): string {
+        // Update this based on your environment
+        const isDevelopment = !window.location.hostname.includes('production-domain');
+        return isDevelopment ? 'http://localhost:9005' : 'https://api.yourdomain.com';
+    }
+
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
 
@@ -72,7 +276,7 @@ export class MainLoginComponent extends BaseAuthComponent {
         };
 
         if (/^\d+$/.test(input)) {
-            credentials.mobile = input;
+            credentials.contact = input;
         }
         else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)) {
             credentials.email = input;
@@ -256,7 +460,7 @@ export class MainLoginComponent extends BaseAuthComponent {
         let credentials: any = {};
 
         if (/^\d+$/.test(input)) {
-            credentials.mobile = input;
+            credentials.contact = input;
         }
         else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)) {
             credentials.email = input;
@@ -292,5 +496,4 @@ export class MainLoginComponent extends BaseAuthComponent {
     isOtpComplete(): boolean {
         return this.otpValues.length === 6 && this.otpValues.every(v => /^[0-9]$/.test(v));
     }
-
 }

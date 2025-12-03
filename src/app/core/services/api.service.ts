@@ -27,6 +27,8 @@ export class ApiService {
   public static RegisterCompanyDetailsURL:string = ApiService.HOST_URL + '/user/register/company'; // step 3
   public static RegisterFinalStepURL:string = ApiService.HOST_URL + '/user/register/final'; // step 4& 5
   public static ResendOtpURL:string = ApiService.HOST_URL + '/otp/resend-otp'
+  public static GoogleLoginURL : string = ApiService.HOST_URL + '/user/auth/google'
+  public static GoogleVerifyURL : string = ApiService.HOST_URL + '/user/auth/verify-google'
   
   // main login urls
   public static MainLoginURL : string = ApiService.HOST_URL + '/user/login'

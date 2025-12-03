@@ -286,17 +286,17 @@ export class ClientSignupComponent extends BaseAuthComponent {
     inputs.forEach((input) => input.disabled = true);
 
     if (otp == '123456') {
-      this.authService.createAccount(this.signupForm.value).subscribe(isCreated => {
-        if (isCreated) {
-          this.router.navigate(['/client']);
-          return;
-        } else {
-          this.errorMessage = 'Invalid OTP!';
-          this.isLoading = false;
+      // this.authService.createAccount(this.signupForm.value).subscribe(isCreated => {
+      //   if (isCreated) {
+      //     this.router.navigate(['/client']);
+      //     return;
+      //   } else {
+      //     this.errorMessage = 'Invalid OTP!';
+      //     this.isLoading = false;
 
-          inputs.forEach((input) => input.disabled = false);
-        }
-      });
+      //     inputs.forEach((input) => input.disabled = false);
+      //   }
+      // });
     } else {
       this.errorMessage = 'Invalid OTP';
       this.isLoading = false;

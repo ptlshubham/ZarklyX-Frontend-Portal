@@ -22,6 +22,7 @@
     "@ng-select/ng-select": "^20.7.0",
     "country-state-city": "^3.2.1",
     "currency-codes": "^2.2.0",
+    "google-one-tap": "^1.0.6",
     "libphonenumber-js": "^1.12.30",
     "moment-timezone": "^0.6.0",
     "rxjs": "~7.8.0",

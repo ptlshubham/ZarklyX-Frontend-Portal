@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, DOCUMENT, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
+import { Component, DOCUMENT, ElementRef, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { BaseAuthComponent } from '../../base-auth.component';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { GOOGLE_AUTH_CONFIG } from '../../../../core/config/google-auth.config';
 
 declare const KTSelect: any;
+declare var google: any;
 
 interface CountryCode {
   id: number,
@@ -32,7 +34,7 @@ interface RestCountryApi {
   styleUrls: ['./signup.component.scss', '../../auth-layout.scss']
 })
 
-export class SignupComponent extends BaseAuthComponent {
+export class SignupComponent extends BaseAuthComponent implements OnInit {
 
   signupForm!: FormGroup;
   submitted = false;
@@ -46,6 +48,7 @@ export class SignupComponent extends BaseAuthComponent {
   isOtpPage = false;
   isLoading = false;
   errorMessage = '';
+  googleSignupLoading = false;
 
   // OTP
   otpValues: string[] = ['', '', '', '', '', ''];
@@ -91,6 +94,213 @@ export class SignupComponent extends BaseAuthComponent {
     localStorage.setItem('is_dark_mode', 'light');
     this.initializeForm();
     this.fetchCountryCodes();
+  }
+
+  override ngOnInit(): void {
+    this.initializeGoogleSignIn();
+  }
+
+  /**
+   * Initialize Google Sign-In Button
+   */
+  private initializeGoogleSignIn(): void {
+    try {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_AUTH_CONFIG.clientId,
+        callback: (response: any) => this.handleGoogleCredential(response),
+        error_callback: () => {
+          // Avoid changing UI; show a light error
+          console.log('Google Sign-In error callback triggered');
+        },
+        ux_mode: 'popup',
+        use_fedcm_for_prompt: false
+      });
+    } catch (error) {
+      console.error('Google Sign-In initialization error:', error);
+      this.toastService.error('Failed to initialize Google Sign-In', {
+        position: 'top-end',
+      });
+    }
+  }
+
+  /**
+   * Trigger Google Sign-Up via OAuth2 popup (avoids FedCM)
+   */
+  signUpWithGoogle(): void {
+    if (typeof google === 'undefined' || !google.accounts) {
+      this.toastService.error('Google Sign-In is not available', {
+        position: 'top-end',
+      });
+      return;
+    }
+
+    try {
+      const client = google.accounts.oauth2.initCodeClient({
+        client_id: GOOGLE_AUTH_CONFIG.clientId,
+        scope: 'email profile openid',
+        ux_mode: 'popup',
+        callback: (response: any) => {
+          if (response.code) {
+            this.handleGoogleAuthCode(response.code);
+          } else if (response.error) {
+            console.error('Google OAuth error:', response);
+            this.toastService.error('Google Sign-Up failed', {
+              position: 'top-end',
+            });
+          }
+        }
+      });
+      client.requestCode();
+    } catch (error) {
+      console.error('Google Sign-Up error:', error);
+      this.toastService.error('Failed to open Google Sign-Up', {
+        position: 'top-end',
+      });
+    }
+  }
+
+  /**
+   * Handle authorization code: send to backend to create/login user
+   */
+  private handleGoogleAuthCode(code: string): void {
+    this.googleSignupLoading = true;
+    this.errorMessage = '';
+
+    this.authService.loginWithGoogle({ code }).subscribe({
+      next: (res: any) => {
+        this.googleSignupLoading = false;
+        if (res.success) {
+          localStorage.setItem('auth_token', res.data.token);
+          localStorage.setItem('user_id', res.data.userId);
+          localStorage.setItem('user_email', res.data.email);
+          localStorage.setItem('user_roles', JSON.stringify(['admin']));
+          localStorage.setItem('user_type', 'main');
+          localStorage.setItem('is_dark_mode', 'light');
+
+          if (res.data.isNew) {
+            this.toastService.success('Welcome! Account created successfully.', { position: 'top-end' });
+            setTimeout(() => this.router.navigate(['/auth/basic-details']), 800);
+          } else {
+            this.toastService.success('Welcome back!', { position: 'top-end' });
+            setTimeout(() => this.router.navigate(['/dashboard']), 800);
+          }
+        } else {
+          this.errorMessage = res.message || 'Google authentication failed';
+          this.toastService.error(this.errorMessage, { position: 'top-end' });
+        }
+      },
+      error: (err) => {
+        this.googleSignupLoading = false;
+        console.error('Google authentication error:', err);
+        const errorMessage = err.error?.message || 'Failed to authenticate with Google. Please try again.';
+        this.errorMessage = errorMessage;
+        this.toastService.error(errorMessage, { position: 'top-end' });
+      }
+    });
+  }
+
+  /**
+   * Handle Google Credential Response
+   * Verifies token with backend and creates/logs in user
+   */
+  handleGoogleCredential(response: any): void {
+    if (!response.credential) {
+      this.toastService.error('Failed to get Google credential', {
+        position: 'top-end',
+      });
+      return;
+    }
+
+    this.googleSignupLoading = true;
+    this.errorMessage = '';
+
+    // Call backend to verify Google token
+    this.http.post('http://localhost:9005/user/auth/verify-google', {
+      credential: response.credential
+    }).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          // Google token verified, now proceed with signup/login
+          this.handleGoogleAuthSuccess(res.data);
+        } else {
+          this.googleSignupLoading = false;
+          this.errorMessage = res.message || 'Google verification failed';
+          this.toastService.error(this.errorMessage, {
+            position: 'top-end',
+          });
+        }
+      },
+      error: (err) => {
+        this.googleSignupLoading = false;
+        console.error('Google verification error:', err);
+
+        const errorMessage = err.error?.message || 'Google authentication failed. Please try again.';
+        this.errorMessage = errorMessage;
+        this.toastService.error(errorMessage, {
+          position: 'top-end',
+        });
+      }
+    });
+  }
+
+  /**
+   * Handle successful Google authentication
+   * Creates new user or logs in existing user
+   */
+  private handleGoogleAuthSuccess(googleData: any): void {
+    // Call login endpoint which handles both login and signup
+    this.authService.loginWithGoogle({ credential: googleData }).subscribe({
+      next: (res: any) => {
+        this.googleSignupLoading = false;
+
+        if (res.success) {
+          console.log('Google auth successful:', res.data);
+
+          // Save authentication data
+          localStorage.setItem('auth_token', res.data.token);
+          localStorage.setItem('user_id', res.data.userId);
+          localStorage.setItem('user_email', res.data.email);
+          localStorage.setItem('user_roles', JSON.stringify(['admin']));
+          localStorage.setItem('user_type', 'main');
+          localStorage.setItem('is_dark_mode', 'light');
+
+          if (res.data.isNew) {
+            this.toastService.success('Welcome! Account created successfully.', {
+              position: 'top-end',
+            });
+
+            // New user - redirect to complete profile
+            setTimeout(() => {
+              this.router.navigate(['/auth/basic-details']);
+            }, 1000);
+          } else {
+            this.toastService.success('Welcome back!', {
+              position: 'top-end',
+            });
+
+            // Existing user - redirect to dashboard
+            setTimeout(() => {
+              this.router.navigate(['/dashboard']);
+            }, 1000);
+          }
+        } else {
+          this.errorMessage = res.message || 'Google authentication failed';
+          this.toastService.error(this.errorMessage, {
+            position: 'top-end',
+          });
+        }
+      },
+      error: (err) => {
+        this.googleSignupLoading = false;
+        console.error('Google authentication error:', err);
+
+        const errorMessage = err.error?.message || 'Failed to authenticate with Google. Please try again.';
+        this.errorMessage = errorMessage;
+        this.toastService.error(errorMessage, {
+          position: 'top-end',
+        });
+      }
+    });
   }
 
   // logout() {

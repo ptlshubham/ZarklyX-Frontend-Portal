@@ -68,9 +68,9 @@ export class AuthService {
 
   login(credentials: any, userType: 'main' | 'influencer' | 'super-admin'): Observable<any> {
     // Mock login - replace with actual API call
-    if(userType == 'main')
+    if (userType == 'main')
       return this.httpClient.post(ApiService.MainLoginURL, credentials);
-    
+
     return new Observable(observer => {
       setTimeout(() => {
         if (this.validateCredentials(credentials, userType)) {
@@ -86,35 +86,43 @@ export class AuthService {
     });
   }
 
-  verifyLoginOtp(credentials: any): Observable<any>{
+  loginWithGoogle(data: any): Observable<any> {
+    return this.httpClient.post(ApiService.GoogleLoginURL, data);
+  }
+
+  verifyGoogleToken(data: any): Observable<any> {
+    return this.httpClient.post(ApiService.GoogleVerifyURL, data);
+  }
+
+  verifyLoginOtp(credentials: any): Observable<any> {
     return this.httpClient.post(ApiService.VerifyLoginOtpURL, credentials);
   }
 
-  registerAccount(data: any):Observable<any> {
+  registerAccount(data: any): Observable<any> {
     return this.httpClient.post(ApiService.RegisterUserURL, data);
   }
 
-  verifyRegisterOtp(data:any){
+  verifyRegisterOtp(data: any) {
     return this.httpClient.post(ApiService.VerifyRegisterOtpURL, data);
   }
-  
-  resendOtp(data:any){
+
+  resendOtp(data: any) {
     return this.httpClient.post(ApiService.ResendOtpURL, data)
   }
 
-  registerCategory(data:any){
+  registerCategory(data: any) {
     return this.httpClient.post(ApiService.RegisterCategoryURL, data);
   }
-  
-  registerUserType(data:any){
+
+  registerUserType(data: any) {
     return this.httpClient.post(ApiService.RegisterUserTypeURL, data);
   }
 
-  registerCompanyDetails(data:any){
+  registerCompanyDetails(data: any) {
     return this.httpClient.post(ApiService.RegisterCompanyDetailsURL, data)
   }
 
-  registerFinalStep(data:any){
+  registerFinalStep(data: any) {
     return this.httpClient.post(ApiService.RegisterFinalStepURL, data);
   }
 
