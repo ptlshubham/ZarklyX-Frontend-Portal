@@ -105,7 +105,9 @@ export class AuthService {
   verifyRegisterOtp(data: any) {
     return this.httpClient.post(ApiService.VerifyRegisterOtpURL, data);
   }
-
+  sendOtp(data:any): Observable<any>{
+    return this.httpClient.post(ApiService.SendLoginOtpURL, data)
+  }
   resendOtp(data: any) {
     return this.httpClient.post(ApiService.ResendOtpURL, data)
   }
