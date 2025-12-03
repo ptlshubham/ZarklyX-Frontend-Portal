@@ -32,6 +32,7 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
     fieldTextType = false;
     isOtpPage = false;
     otpResendLoading = false;
+    isOtpSended = false;
 
     userId = '';
 
@@ -119,7 +120,7 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
                     }
                 }
             });
-            
+
             client.requestCode();
         } catch (error) {
             console.error('Google Sign-In error:', error);
@@ -290,18 +291,36 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
         this.authService.login(credentials, 'main').subscribe({
             next: res => {
                 this.isLoading = false;
-                this.isOtpPage = true;
+                // this.isOtpPage = true;
                 this.userId = res.userId
                 this.startOtpTimer();
-                this.toastService.success('OTP Send successfully!', {
-                    position: 'top-end',
-                });
+                // this.toastService.success('OTP Send successfully!', {
+                //     position: 'top-end',
+                // });
+                localStorage.setItem('is_dark_mode', 'light');
+                if (res.isRegistering) {
+                    localStorage.setItem('user_id', res.userId);
+                    this.router.navigate(['/auth/basic-details']);
+                    return;
+                }
+
+                // add credintial for auth
+                localStorage.setItem('auth_token', res.token);
+                localStorage.setItem('user_id', res.userId);
+                localStorage.setItem('company_id', res.companyId);
+                localStorage.setItem('user_email', this.loginForm.value.emailOrMobile);
+                localStorage.setItem('user_roles', JSON.stringify(['admin']));
+                localStorage.setItem('user_type', 'main');
+                this.router.navigate(['/dashboard']);
                 // Disable Inputs
-                this.loginForm.get('emailOrMobile')?.disable();
-                this.loginForm.get('password')?.disable();
+                // this.loginForm.get('emailOrMobile')?.disable();
+                // this.loginForm.get('password')?.disable();
             },
             error: err => {
                 this.isLoading = false;
+                this.toastService.error(err.error?.message, {
+                    position: 'top-end',
+                });
                 this.errorMessage = err.error?.message || 'Login failed';
             }
         });
@@ -393,6 +412,48 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
         }, 1000);
     }
 
+
+    sendOtp() {
+        const input = this.loginForm.value.emailOrMobile;
+        let credentials: any = {};
+        this.isLoading = true;
+
+        if (/^\d+$/.test(input)) {
+            credentials.contact = input;
+        }
+        else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)) {
+            credentials.email = input;
+        }
+        else {
+            this.isLoading = false;
+            this.errorMessage = 'Please enter a valid email or mobile number.';
+            return;
+        }
+        this.authService.sendOtp({ email: credentials.email, contact: credentials.contact, otpFlow: 'login' }).subscribe({
+            next: (success) => {
+                if (success) {
+                    this.loginForm.get('emailOrMobile')?.disable();
+                    this.userId = success.data.userId;
+                    this.startOtpTimer();
+                    this.otpResendLoading = false;
+                    this.toastService.success('OTP Send successfully!', {
+                        position: 'top-end',
+                    });
+                    this.isOtpSended = true;
+                    this.isLoading = false;
+                } else {
+                    this.isOtpSended = false;
+                }
+            },
+            error: (err) => {
+                this.toastService.error(err.error.message, {
+                    position: 'top-end',
+                });
+                this.isLoading = false;
+            }
+        })
+    }
+
     submitOtp() {
         const otp = this.otpValues.join('');
 
@@ -410,9 +471,6 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
             next: (res) => {
                 this.isLoading = false;
                 if (res) {
-                    //clean old local storage
-                    // this.authService.logout();
-                    // localStorage.clear();
                     localStorage.setItem('is_dark_mode', 'light');
                     if (res.data.isRegistering) {
                         localStorage.setItem('user_id', res.data.userId);
@@ -423,17 +481,10 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
                     // add credintial for auth
                     localStorage.setItem('auth_token', res.data.token);
                     localStorage.setItem('user_id', res.data.userId);
+                    localStorage.setItem('company_id', res.data.companyId);
                     localStorage.setItem('user_email', this.loginForm.value.emailOrMobile);
                     localStorage.setItem('user_roles', JSON.stringify(['admin']));
                     localStorage.setItem('user_type', 'main');
-
-                    // const userX = {
-                    //     id: res.data.userId,
-                    //     email: this.loginForm.value.emailOrMobile,
-                    //     roles: ['user'],
-                    //     userType: 'main' as 'main'
-                    // };
-                    // this.authService['currentUserSubject'].next(userX);
 
                     this.router.navigate(['/dashboard']);
                     // this.authService.redirectToUserDashboard();
@@ -446,6 +497,9 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
             error: (error) => {
                 this.isLoading = false;
                 this.isOtpPage = true;
+                this.toastService.error(error.error.message, {
+                    position: 'top-end',
+                });
                 this.errorMessage = error.error.message;
                 console.error('Login error:', error);
                 inputs.forEach((input) => input.disabled = false);

@@ -33,5 +33,6 @@ export class ApiService {
   // main login urls
   public static MainLoginURL : string = ApiService.HOST_URL + '/user/login'
   public static VerifyLoginOtpURL : string = ApiService.HOST_URL + '/user/login/verify-otp'
+  public static SendLoginOtpURL:string = ApiService.HOST_URL + '/otp/send-otp'
 
 }

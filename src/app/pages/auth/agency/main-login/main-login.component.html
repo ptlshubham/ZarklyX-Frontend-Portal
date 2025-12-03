@@ -61,6 +61,7 @@
                     </div>
                     }
                 </div>
+                @if(!isOtpPage){
                 <div class="flex flex-col kt-form-item gap-1">
                     <div class="flex items-center justify-between gap-1">
                         <label class="kt-form-label font-normal text-mono">
@@ -108,7 +109,8 @@
                     </div>
                     }
                 </div>
-                @if(isOtpPage){
+                }
+                @if(isOtpPage && isOtpSended){
                 <div class="mb-2">
                     <div class="text-center mb-2">
                         <div class="flex flex-col">
@@ -154,26 +156,56 @@
                         </label>
                     </div>
                 </div> -->
+
                 @if (isLoading && !isOtpPage) {
                 <button class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
                     <span>Signing in...</span>
                 </button>
                 }
                 @else if(isOtpPage){
-                @if(isOtpPage && isLoading){
-                <button class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
-                    <span>Verifing...</span>
-                </button>}@else{
+
+                @if (!isOtpSended) {
+                <!-- Get OTP -->
+                <div class="flex gap-3">
+                    <button (click)="isOtpPage = !isOtpPage"
+                        class="kt-btn kt-btn-primary flex justify-center grow w-1/2">
+                        <span>With Password</span>
+                    </button>
+                    <button class="kt-btn kt-btn-primary flex justify-center grow w-1/2"
+                        [disabled]="f['emailOrMobile'].invalid || isLoading" (click)="sendOtp()">
+                        <span>{{otpResendLoading ? 'OTP Sending...' :'Get OTP'}}</span>
+                    </button>
+                </div>
+                }
+
+                @else if(isLoading) {
+                <!-- Verifying OTP -->
+                <button class="kt-btn kt-btn-primary flex justify-center grow" disabled>
+                    <span>Verifying...</span>
+                </button>
+                }
+
+
+                @else {
+                <!-- Verify OTP -->
                 <button (click)="submitOtp()" class="kt-btn kt-btn-primary flex justify-center grow"
                     [disabled]="!isOtpComplete()">
                     <span>Verify OTP</span>
-                </button>}
+                </button>
+                }
                 }
                 @else{
-                <button (click)="onSubmit()" class="kt-btn kt-btn-primary flex justify-center grow"
-                    [disabled]="loginForm.invalid">
-                    <span>Sign In</span>
-                </button>
+                <div class="flex gap-3">
+                    <button (click)="isOtpPage = !isOtpPage"
+                        class="kt-btn kt-btn-primary flex justify-center grow w-1/2">
+                        <span>With OTP</span>
+                    </button>
+
+                    <button (click)="onSubmit()" class="kt-btn kt-btn-primary flex justify-center grow w-1/2"
+                        type="submit" [disabled]="loginForm.invalid">
+                        <span>Sign In</span>
+                    </button>
+                </div>
                 }
 
                 <!-- Navigation to other login types -->

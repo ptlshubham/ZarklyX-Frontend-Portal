@@ -309,6 +309,7 @@ export class AgencyBasicDetailsStepperComponent extends BaseAuthComponent {
           localStorage.setItem('auth_token', res.data.token);
           localStorage.setItem('user_roles', JSON.stringify(['admin']));
           localStorage.setItem('user_type', 'main');
+          localStorage.setItem('showWelcomeMessage', '1')
           this.router.navigate(['/dashboard']);
         }
       },
