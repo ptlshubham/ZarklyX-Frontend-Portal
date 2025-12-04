@@ -1,6 +1,6 @@
 // main-login.component.ts (UPDATED VERSION)
 import { Component, Renderer2, Inject, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
@@ -44,8 +44,12 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
     // Google Login
     googleLoginLoading = false;
 
+    // Return URL for redirect after login
+    private returnUrl: string = '/dashboard';
+
     constructor(
         private router: Router,
+        private route: ActivatedRoute,
         private authService: AuthService,
         private formBuilder: FormBuilder,
         private toastService: ToastService,
@@ -58,6 +62,9 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
         // authService.logout();
         localStorage.clear();
         localStorage.setItem('is_dark_mode', 'light');
+        
+        // Capture return URL from query params
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
     }
 
     private initializeForm(): void {
@@ -144,26 +151,43 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
 
                 if (res.success) {
                     console.log('Google login successful:', res.data);
+                    console.log('isNew:', res.data.isNew, 'isRegistering:', res.data.isRegistering);
 
+                    // Save authentication data
                     localStorage.setItem('auth_token', res.data.token);
                     localStorage.setItem('user_id', res.data.userId);
                     localStorage.setItem('user_email', res.data.email);
                     localStorage.setItem('user_roles', JSON.stringify(['admin']));
                     localStorage.setItem('user_type', 'main');
                     localStorage.setItem('is_dark_mode', 'light');
+                    
+                    // Save company_id if available
+                    if (res.data.companyId) {
+                        localStorage.setItem('company_id', res.data.companyId);
+                    }
+
+                    // Reload user in auth service
+                    this.authService.loadUserFromStorage();
+                    console.log('User loaded in auth service');
 
                     this.toastService.success(res.data.isNew ? 'Welcome! Account created.' : 'Login successful!', {
                         position: 'top-end',
                     });
 
-                    if (res.data.isNew) {
+                    // Check if user needs to complete registration
+                    if (res.data.isNew || res.data.isRegistering) {
+                        console.log('New user - redirecting to basic details');
                         setTimeout(() => {
                             this.router.navigate(['/auth/basic-details']);
                         }, 1000);
                     } else {
-                        setTimeout(() => {
-                            this.router.navigate(['/dashboard']);
-                        }, 1000);
+                        // Navigate immediately without setTimeout
+                        console.log('Existing user - navigating to:', this.returnUrl);
+                        this.router.navigate([this.returnUrl]).then(success => {
+                            console.log('Navigation result:', success);
+                        }).catch(err => {
+                            console.error('Navigation error:', err);
+                        });
                     }
                 } else {
                     this.errorMessage = res.message || 'Google login failed';
@@ -216,22 +240,29 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
                     localStorage.setItem('user_roles', JSON.stringify(['admin']));
                     localStorage.setItem('user_type', 'main');
                     localStorage.setItem('is_dark_mode', 'light');
+                    
+                    // Save company_id if available
+                    if (res.data.companyId) {
+                        localStorage.setItem('company_id', res.data.companyId);
+                    }
+
+                    // Reload user in auth service
+                    this.authService.loadUserFromStorage();
 
                     this.toastService.success(res.data.isNew ? 'Welcome! Account created.' : 'Login successful!', {
                         position: 'top-end',
                     });
 
                     // Handle post-login routing
-                    if (res.data.isNew) {
+                    if (res.data.isNew || res.data.isRegistering) {
                         // New user - redirect to complete profile
                         setTimeout(() => {
                             this.router.navigate(['/auth/basic-details']);
                         }, 1000);
                     } else {
-                        // Existing user - redirect to dashboard
-                        setTimeout(() => {
-                            this.router.navigate(['/dashboard']);
-                        }, 1000);
+                        // Existing user - navigate immediately
+                        console.log('Navigating to:', this.returnUrl);
+                        this.router.navigate([this.returnUrl]);
                     }
                 } else {
                     this.errorMessage = res.message || 'Google login failed';
@@ -311,7 +342,11 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
                 localStorage.setItem('user_email', this.loginForm.value.emailOrMobile);
                 localStorage.setItem('user_roles', JSON.stringify(['admin']));
                 localStorage.setItem('user_type', 'main');
-                this.router.navigate(['/dashboard']);
+                
+                // Reload user in auth service
+                this.authService.loadUserFromStorage();
+                
+                this.router.navigate([this.returnUrl]);
                 // Disable Inputs
                 // this.loginForm.get('emailOrMobile')?.disable();
                 // this.loginForm.get('password')?.disable();
@@ -486,7 +521,10 @@ export class MainLoginComponent extends BaseAuthComponent implements OnInit {
                     localStorage.setItem('user_roles', JSON.stringify(['admin']));
                     localStorage.setItem('user_type', 'main');
 
-                    this.router.navigate(['/dashboard']);
+                    // Reload user in auth service
+                    this.authService.loadUserFromStorage();
+
+                    this.router.navigate([this.returnUrl]);
                     // this.authService.redirectToUserDashboard();
                     return;
                 } else {

@@ -166,7 +166,7 @@ export class SignupComponent extends BaseAuthComponent implements OnInit {
     this.googleSignupLoading = true;
     this.errorMessage = '';
 
-    this.authService.loginWithGoogle({ code }).subscribe({
+    this.authService.sinupWithGoogle({ code }).subscribe({
       next: (res: any) => {
         this.googleSignupLoading = false;
         if (res.success) {
