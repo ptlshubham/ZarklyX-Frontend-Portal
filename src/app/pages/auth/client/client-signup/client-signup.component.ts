@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { BaseAuthComponent } from '../../base-auth.component';
 import { HttpClient } from '@angular/common/http'
 import { Router, RouterLink } from "@angular/router";
-import { AuthService } from '../../../../core/services/auth.service';
+import { ClientAuthService } from '../../../../core/services/client-auth.service';
 
 
 declare const KTSelect: any;
@@ -30,10 +30,18 @@ export class ClientSignupComponent extends BaseAuthComponent {
   isLoading = false;
   errorMessage = '';
 
+  // Hardcoded userId and companyId
+  userId = 'bf17509c-e27c-4106-87bd-aa2be1b5fa04';
+  companyId = 'cc173ad0-df34-4d2a-892c-d92aed4c1551';
+
   // OTP
   otpValues: string[] = ['', '', '', '', '', ''];
   resendTimer = 60;
   otpInterval: ReturnType<typeof setInterval> | null = null;
+
+  // Store email and contact for OTP verification
+  signupEmail = '';
+  signupContact = '';
 
   @ViewChild('countrySelect') countrySelect!: ElementRef;
 
@@ -57,7 +65,7 @@ export class ClientSignupComponent extends BaseAuthComponent {
     renderer: Renderer2,
     @Inject(DOCUMENT) document: Document,
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private authService: ClientAuthService,
     private router: Router
   ) {
     super(renderer, document);
@@ -67,13 +75,14 @@ export class ClientSignupComponent extends BaseAuthComponent {
 
   private initializeForm(): void {
     this.signupForm = this.formBuilder.group({
-      companyName: ['', [Validators.required, Validators.minLength(2)]],
-      ownerName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]{2,50}$/)]],
+      businessName: ['', [Validators.required, Validators.minLength(2)]],
+      clientfirstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]{2,50}$/)]],
+      clientLastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]{2,50}$/)]],
       email: ['', [Validators.required, Validators.email]],
       contact: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
       countryCode: ['', Validators.required],
       acceptTaC: [false],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/)]],
       confirmPassword: ['', Validators.required],
     }, {
       validators: this.matchPasswords('password', 'confirmPassword')
@@ -216,14 +225,49 @@ export class ClientSignupComponent extends BaseAuthComponent {
     this.errorMessage = '';
     this.isLoading = true;
 
-    console.log(' form data:', this.signupForm);
+    // Extract ISD code and ISO code from countryCode
+    const countryCodeValue = this.signupForm.get('countryCode')?.value || '';
+    const isdCode = countryCodeValue.split(' - ')[0] || '';
+    const isoCode = countryCodeValue.split(' - ')[1] || '';
 
-    setTimeout(() => {
-      this.isLoading = false;
+    const payload = {
+      userId: this.userId,
+      companyId: this.companyId,
+      businessName: this.signupForm.get('businessName')?.value,
+      clientfirstName: this.signupForm.get('clientfirstName')?.value,
+      clientLastName: this.signupForm.get('clientLastName')?.value,
+      email: this.signupForm.get('email')?.value,
+      contact: this.signupForm.get('contact')?.value,
+      isdCode: isdCode,
+      isoCode: isoCode,
+      password: this.signupForm.get('password')?.value,
+      confirmPassword: this.signupForm.get('confirmPassword')?.value,
+    };
 
-      this.startOtpTimer();
-      this.isOtpPage = true;
-    }, 600);
+    console.log('Signup payload:', payload);
+
+    this.authService.startClientSignup(payload).subscribe({
+      next: (response) => {
+        console.log('Signup response:', response);
+        if (response.success) {
+          // Store email and contact for OTP verification
+          this.signupEmail = payload.email;
+          this.signupContact = payload.contact;
+
+          this.isLoading = false;
+          this.startOtpTimer();
+          this.isOtpPage = true;
+        } else {
+          this.isLoading = false;
+          this.errorMessage = response.message || 'Signup failed. Please try again.';
+        }
+      },
+      error: (error) => {
+        console.error('Signup error:', error);
+        this.isLoading = false;
+        this.errorMessage = error.error?.message || 'An error occurred during signup.';
+      }
+    });
   }
 
   onOtpInput(event: Event, index: number) {
@@ -250,6 +294,35 @@ export class ClientSignupComponent extends BaseAuthComponent {
 
     if (value && index === 5) {
       this.submitOtp();
+    }
+  }
+
+  onOtpPaste(event: ClipboardEvent, index: number) {
+    event.preventDefault();
+    const pastedData = event.clipboardData?.getData('text') || '';
+    const digits = pastedData.replace(/\D/g, '').slice(0, 6);
+
+    if (digits.length === 0) return;
+
+    this.errorMessage = '';
+
+    // Fill OTP inputs with pasted digits
+    for (let i = 0; i < digits.length && i < 6; i++) {
+      this.otpValues[i] = digits[i];
+      const input = document.querySelector<HTMLInputElement>(`input[name="code_${i}"]`);
+      if (input) {
+        input.value = digits[i];
+      }
+    }
+
+    // Focus on the next empty input or the last input
+    const nextEmptyIndex = Math.min(digits.length, 5);
+    const nextInput = document.querySelector<HTMLInputElement>(`input[name="code_${nextEmptyIndex}"]`);
+    nextInput?.focus();
+
+    // Auto-submit if all 6 digits are filled
+    if (digits.length === 6) {
+      setTimeout(() => this.submitOtp(), 100);
     }
   }
 
@@ -285,31 +358,89 @@ export class ClientSignupComponent extends BaseAuthComponent {
     const inputs = document.querySelectorAll<HTMLInputElement>('input[name^="code_"]');
     inputs.forEach((input) => input.disabled = true);
 
-    if (otp == '123456') {
-      // this.authService.createAccount(this.signupForm.value).subscribe(isCreated => {
-      //   if (isCreated) {
-      //     this.router.navigate(['/client']);
-      //     return;
-      //   } else {
-      //     this.errorMessage = 'Invalid OTP!';
-      //     this.isLoading = false;
+    const payload = {
+      email: this.signupEmail,
+      otp: otp,
+      mbOTP: otp // Using same OTP for both email and mobile for now
+    };
 
-      //     inputs.forEach((input) => input.disabled = false);
-      //   }
-      // });
-    } else {
-      this.errorMessage = 'Invalid OTP';
-      this.isLoading = false;
-      inputs.forEach((input) => input.disabled = false);
-    }
+    this.authService.verifyClientSignupOtp(payload).subscribe({
+      next: (response) => {
+        console.log('OTP verification response:', response);
+        if (response.success) {
+          // Store token in localStorage
+          if (response.data?.token) {
+            localStorage.setItem('auth_token', response.data.token);
+            localStorage.setItem('user_roles', JSON.stringify(['client']));
+            if (response.data.email) {
+              localStorage.setItem('user_email', response.data.email);
+            }
+            localStorage.setItem('clientData', JSON.stringify(response.data));
+          }
+
+          this.isLoading = false;
+          // Navigate to client dashboard
+          this.router.navigate(['/client']).then(() => {
+            console.log('Navigation to client dashboard successful');
+          });
+        } else {
+          this.errorMessage = response.message || 'Invalid OTP!';
+          this.isLoading = false;
+          inputs.forEach((input) => input.disabled = false);
+        }
+      },
+      error: (error) => {
+        console.error('OTP verification error:', error);
+        this.errorMessage = error.error?.message || 'Invalid OTP. Please try again.';
+        this.isLoading = false;
+        inputs.forEach((input) => input.disabled = false);
+      }
+    });
   }
 
 
   resendOtp() {
     if (this.resendTimer > 0) return;
 
-    console.log(' RESEND OTP TRIGGERED');
-    this.startOtpTimer();
+    console.log('RESEND OTP TRIGGERED');
+    this.isLoading = true;
+
+    // Extract ISD code and ISO code from countryCode
+    const countryCodeValue = this.signupForm.get('countryCode')?.value || '';
+    const isdCode = countryCodeValue.split(' - ')[0] || '';
+    const isoCode = countryCodeValue.split(' - ')[1] || '';
+
+    const payload = {
+      userId: this.userId,
+      companyId: this.companyId,
+      businessName: this.signupForm.get('businessName')?.value,
+      clientfirstName: this.signupForm.get('clientfirstName')?.value,
+      clientLastName: this.signupForm.get('clientLastName')?.value,
+      email: this.signupEmail,
+      contact: this.signupContact,
+      isdCode: isdCode,
+      isoCode: isoCode,
+      password: this.signupForm.get('password')?.value,
+      confirmPassword: this.signupForm.get('confirmPassword')?.value,
+    };
+
+    this.authService.startClientSignup(payload).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.isLoading = false;
+          this.startOtpTimer();
+          this.errorMessage = '';
+        } else {
+          this.isLoading = false;
+          this.errorMessage = response.message || 'Failed to resend OTP.';
+        }
+      },
+      error: (error) => {
+        console.error('Resend OTP error:', error);
+        this.isLoading = false;
+        this.errorMessage = error.error?.message || 'Failed to resend OTP.';
+      }
+    });
   }
   isOtpComplete(): boolean {
     return this.otpValues.length === 6 && this.otpValues.every(v => /^[0-9]$/.test(v));

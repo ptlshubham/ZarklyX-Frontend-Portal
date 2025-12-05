@@ -82,11 +82,24 @@ export const routes: Routes = [
     path: 'agency',
     component: MainLayoutComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { title: 'agency Panel', breadcrumb: 'agency', roles: ['user', 'admin'] },
+    data: { title: 'agency Panel', breadcrumb: 'agency', roles: ['user', 'admin', 'client'] },
     children: [
       {
         path: '',
         loadChildren: () => import('./pages/agency/agency.routing').then(m => m.agencyRoutes)
+      }
+    ]
+  },
+  // Client Routes with Main Layout - client features in one place
+  {
+    path: 'client',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { title: 'Client Panel', breadcrumb: 'Client', roles: ['client'] },
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./pages/client/client.routing').then(m => m.ClientRoutes)
       }
     ]
   },

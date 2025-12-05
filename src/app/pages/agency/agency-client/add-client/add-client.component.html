@@ -16,793 +16,887 @@
             </button>
         </div>
     </div>
-</div>
-<div class="kt-container-fixed">
-    <!-- begin: grid -->
-    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
-        <!-- Left side -->
-        <div class="col-span-1">
-            <div class="grid gap-5 lg:gap-7.5">
-                <div class="kt-card min-w-full">
-                    <div class="kt-card-header" id="basic_settings">
-                        <h3 class="kt-card-title">
-                            Personal Details
-                        </h3>
-                    </div>
-
-                    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="kt-card-content grid grid-cols-1 gap-5">
-                        <div class="flex gap-5 ">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="clientFirstName"
-                                    class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Client First Name<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Client Name"
-                                    name="clientFirstName" formControlName="clientFirstName"
-                                    [class.kt-input-error]="f['clientFirstName'].invalid && (f['clientFirstName'].touched || submitted)"
-                                    [class.border-red-500]="f['clientFirstName'].invalid && (f['clientFirstName'].touched || submitted)" />
-                                @if (f['clientFirstName'].invalid && (f['clientFirstName'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['clientFirstName'].errors?.['required']) {
-                                    Client name is required
-                                    }
-                                    @if (f['clientFirstName'].errors?.['pattern']) {
-                                    Client name must be 2-50 characters long and contain only letters and spaces
-                                    }
-                                </div>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="clientLastName"
-                                    class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Client Last Name<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Client Name"
-                                    name="clientLastName" formControlName="clientLastName"
-                                    [class.kt-input-error]="f['clientLastName'].invalid && (f['clientLastName'].touched || submitted)"
-                                    [class.border-red-500]="f['clientLastName'].invalid && (f['clientLastName'].touched || submitted)" />
-                                @if (f['clientLastName'].invalid && (f['clientLastName'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['clientLastName'].errors?.['required']) {
-                                    Client name is required
-                                    }
-                                    @if (f['clientLastName'].errors?.['pattern']) {
-                                    Client name must be 2-50 characters long and contain only letters and spaces
-                                    }
-                                </div>
-                                }
-                            </div>
-
+    <!-- Show error message if any -->
+    @if (errorMessage) {
+    <div class="mt-3">
+        <div class="kt-alert kt-alert-danger">
+            {{ errorMessage }}
+        </div>
+    </div>
+    }
+    <div class="kt-container-fixed">
+        <!-- begin: grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
+            <!-- Left side -->
+            <div class="col-span-1">
+                <div class="grid gap-5 lg:gap-7.5">
+                    <div class="kt-card min-w-full">
+                        <div class="kt-card-header" id="basic_settings">
+                            <h3 class="kt-card-title">
+                                Personal Details
+                            </h3>
                         </div>
 
-
-                        <div class="flex gap-5 ">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="email" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Email<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <input class="kt-input " type="email" placeholder="Enter Email Address" name="email"
-                                    formControlName="email"
-                                    [class.kt-input-error]="f['email'].invalid && (f['email'].touched || submitted)"
-                                    [class.border-red-500]="f['email'].invalid && (f['email'].touched || submitted)" />
-                                @if (f['email'].invalid && (f['email'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['email'].errors?.['required']) {
-                                    Email is required
-                                    }
-                                    @if (f['email'].errors?.['email']) {
-                                    Please enter a valid email address
+                        <div [formGroup]="form" class="kt-card-content grid grid-cols-1 gap-5">
+                            <div class="flex gap-5 ">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="clientFirstName"
+                                        class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        First Name<span class="text-red-500"> *
+                                        </span>
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter  Name" name="clientfirstName"
+                                        formControlName="clientfirstName"
+                                        [class.kt-input-error]="f['clientfirstName'].invalid && (f['clientfirstName'].touched || submitted)"
+                                        [class.border-red-500]="f['clientfirstName'].invalid && (f['clientfirstName'].touched || submitted)" />
+                                    @if (f['clientfirstName'].invalid && (f['clientfirstName'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['clientfirstName'].errors?.['required']) {
+                                        <div>Client name is required
+                                        </div>
+                                        }
+                                        @if (f['clientfirstName'].errors?.['pattern']) {
+                                        <div>Client name must be 2-50
+                                            characters long and contain only letters and spaces</div>
+                                        }
+                                    </div>
                                     }
                                 </div>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-1  w-1/2">
-                                <label for="contactNumber" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Contact Number<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <div class="grid grid-cols-3 gap-2.5">
-                                    <div>
-                                        <select class="kt-select" data-kt-select="true"
-                                            data-kt-select-enable-search="true" name="contactCountryCode"
-                                            [attr.data-kt-select-config]="ktConfig" #contactCountrySelect
-                                            formControlName="contactCountryCode">
-                                            <option value="">Select</option>
-                                            @for (code of countryCodes; track code.id) {
-                                            <option [value]="code.code + ' - ' + code.country">{{code.code}} -
-                                                {{code.country}}</option>
-                                            }
-                                        </select>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="clientLastName"
+                                        class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Last Name<span class="text-red-500"> *
+                                        </span>
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter  Name" name="clientLastName"
+                                        formControlName="clientLastName"
+                                        [class.kt-input-error]="f['clientLastName'].invalid && (f['clientLastName'].touched || submitted)"
+                                        [class.border-red-500]="f['clientLastName'].invalid && (f['clientLastName'].touched || submitted)" />
+                                    @if (f['clientLastName'].invalid && (f['clientLastName'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['clientLastName'].errors?.['required']) {
+                                        <div>Client name is required
+                                        </div>
+                                        }
+                                        @if (f['clientLastName'].errors?.['pattern']) {
+                                        <div>Client name must be 2-50
+                                            characters long and contain only letters and spaces</div>
+                                        }
                                     </div>
-                                    <div class="col-span-2">
-                                        <input class="kt-input" type="tel" placeholder="Enter Contact Number"
-                                            name="contactNumber" formControlName="contactNumber"
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="flex gap-5 ">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="email" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Email<span class="text-red-500"> *
+                                        </span>
+                                    </label>
+                                    <div class="kt-input-group">
+                                        <div class="kt-input-addon kt-input-addon-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-mail" aria-hidden="true">
+                                                <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
+                                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                            </svg>
+                                        </div>
+                                        <input class="kt-input" type="email" placeholder="Enter Email Address"
+                                            name="email" formControlName="email"
+                                            [class.kt-input-error]="f['email'].invalid && (f['email'].touched || submitted)"
+                                            [class.border-red-500]="f['email'].invalid && (f['email'].touched || submitted)" />
+                                    </div>
+                                    @if (f['email'].invalid && (f['email'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['email'].errors?.['required']) {
+                                        <div>Email is required</div>
+                                        }
+                                        @if (f['email'].errors?.['email']) {
+                                        <div>Please enter a valid email address
+                                        </div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                                <div class="flex flex-col gap-1  w-1/2">
+                                    <label for="contactNumber"
+                                        class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Contact Number<span class="text-red-500"> *
+                                        </span>
+                                    </label>
+                                    <div class="kt-input-group">
+                                        <div class="kt-input-addon kt-input-addon-icon w-21">
+                                            <select class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true" name="contactCountryCode"
+                                                [attr.data-kt-select-config]="ktConfig" #contactCountrySelect
+                                                data-kt-select-placeholder="Select"
+                                                formControlName="contactCountryCode">
+                                                <option value="">Select</option>
+                                                @for (code of countryCodes; track code.id) {
+                                                <option [value]="code.code + ' - ' + code.country"
+                                                    [attr.data-kt-select-option]="getSelectOption(code.country, code.code)">
+                                                    {{code.code}}
+                                                </option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <input class="kt-input" type="tel" [placeholder]="contactNumberPlaceholder"
+                                            name="contactNumber" formControlName="contactNumber" pattern="[0-9]+"
+                                            inputmode="numeric" title="Only numeric digits are allowed"
                                             [class.border-red-500]="f['contactNumber'].invalid && (f['contactNumber'].touched || submitted)" />
                                     </div>
-                                </div>
-                                @if (f['contactNumber'].invalid && (f['contactNumber'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['contactNumber'].errors?.['required']) {
-                                    Contact number is required
-                                    }
-                                    @if (f['contactNumber'].errors?.['pattern']) {
-                                    Contact number must be 7-15 digits
-                                    }
-                                </div>
-                                }
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="kt-card min-w-full">
-                    <div class="kt-card-header" id="basic_settings">
-                        <h3 class="kt-card-title">
-                            Business Details
-                        </h3>
-                    </div>
-                    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="kt-card-content grid gap-5">
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="businessName" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Business Name<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Business Name"
-                                    name="businessName" formControlName="businessName"
-                                    [class.kt-input-error]="f['businessName'].invalid && (f['businessName'].touched || submitted)"
-                                    [class.border-red-500]="f['businessName'].invalid && (f['businessName'].touched || submitted)" />
-                                @if (f['businessName'].invalid && (f['businessName'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['businessName'].errors?.['required']) {
-                                    Business name is required
-                                    }
-                                    @if (f['businessName'].errors?.['pattern']) {
-                                    Business name must be 2-50 characters long and contain only letters and spaces
-                                    }
-                                </div>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="assignedExecutive"
-                                    class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Assigned Executive<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <input class="kt-input " type="text" placeholder="Enter Assigned Executive Name"
-                                    name="assignedExecutive" formControlName="assignedExecutive"
-                                    [class.kt-input-error]="f['assignedExecutive'].invalid && (f['assignedExecutive'].touched || submitted)"
-                                    [class.border-red-500]="f['assignedExecutive'].invalid && (f['assignedExecutive'].touched || submitted)" />
-                                @if (f['assignedExecutive'].invalid && (f['assignedExecutive'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['assignedExecutive'].errors?.['required']) {
-                                    Assigned executive is required
-                                    }
-                                    @if (f['assignedExecutive'].errors?.['pattern']) {
-                                    Assigned executive must be 2-50 characters long and contain only letters and spaces
-                                    }
-                                </div>
-                                }
-                            </div>
-
-                        </div>
-
-                        <div class="flex gap-5">
-
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="businessEmail" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Business Email<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <input class="kt-input " type="email" placeholder="Enter Business Email"
-                                    name="businessEmail" formControlName="businessEmail"
-                                    [class.kt-input-error]="f['businessEmail'].invalid && (f['businessEmail'].touched || submitted)"
-                                    [class.border-red-500]="f['businessEmail'].invalid && (f['businessEmail'].touched || submitted)" />
-                                @if (f['businessEmail'].invalid && (f['businessEmail'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['businessEmail'].errors?.['required']) {
-                                    Business email is required
-                                    }
-                                    @if (f['businessEmail'].errors?.['email']) {
-                                    Please enter a valid email address
-                                    }
-                                </div>
-                                }
-                            </div>
-
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="businessContact"
-                                    class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Business Contact<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <div class="grid grid-cols-3 gap-2.5">
-                                    <div>
-                                        <select class="kt-select" data-kt-select="true"
-                                            data-kt-select-enable-search="true" name="businessContactCountryCode"
-                                            [attr.data-kt-select-config]="ktConfig" #businessContactCountrySelect
-                                            formControlName="businessContactCountryCode">
-                                            <option value="">Select</option>
-                                            @for (code of countryCodes; track code.id) {
-                                            <option [value]="code.code + ' - ' + code.country">{{code.code}} -
-                                                {{code.country}}</option>
-                                            }
-                                        </select>
+                                    @if (f['contactNumber'].invalid && (f['contactNumber'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['contactNumber'].errors?.['required']) {
+                                        <div>Contact number is required
+                                        </div>
+                                        }
+                                        @if (f['contactNumber'].errors?.['pattern']) {
+                                        <div>Please enter only numeric
+                                            digits
+                                            (0-9)</div>
+                                        }
+                                        @if (f['contactNumber'].errors?.['invalidPhone']) {
+                                        <div>Please enter a valid
+                                            phone
+                                            number</div>
+                                        }
+                                        @if (f['contactNumber'].errors?.['missingCountryCode']) {
+                                        <div>Please select a
+                                            country code</div>
+                                        }
                                     </div>
-                                    <div class="col-span-2">
-                                        <input class="kt-input" type="tel" placeholder="Enter Business Contact"
-                                            name="businessContact" formControlName="businessContact"
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-card min-w-full">
+                        <div class="kt-card-header" id="basic_settings">
+                            <h3 class="kt-card-title">
+                                Business Details
+                            </h3>
+                        </div>
+                        <div [formGroup]="form" class="kt-card-content grid gap-5">
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="businessName"
+                                        class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Business Name<span class="text-red-500"> *
+                                        </span>
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Business Name"
+                                        name="businessName" formControlName="businessName"
+                                        [class.kt-input-error]="f['businessName'].invalid && (f['businessName'].touched || submitted)"
+                                        [class.border-red-500]="f['businessName'].invalid && (f['businessName'].touched || submitted)" />
+                                    @if (f['businessName'].invalid && (f['businessName'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['businessName'].errors?.['required']) {
+                                        <div>Business name is required
+                                        </div>
+                                        }
+                                        @if (f['businessName'].errors?.['pattern']) {
+                                        <div>Business name must be 2-50
+                                            characters long and contain only letters and spaces</div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="assignedExecutive"
+                                        class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Assigned Executive
+                                    </label>
+                                    <input class="kt-input " type="text" placeholder="Enter Assigned Executive Name"
+                                        name="assignedExecutive" formControlName="assignedExecutive"
+                                        [class.kt-input-error]="f['assignedExecutive'].invalid && (f['assignedExecutive'].touched || submitted)"
+                                        [class.border-red-500]="f['assignedExecutive'].invalid && (f['assignedExecutive'].touched || submitted)" />
+                                    @if (f['assignedExecutive'].invalid && (f['assignedExecutive'].touched ||
+                                    submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['assignedExecutive'].errors?.['required']) {
+                                        <div>Assigned executive is
+                                            required</div>
+                                        }
+                                        @if (f['assignedExecutive'].errors?.['pattern']) {
+                                        <div>Assigned executive must
+                                            be
+                                            2-50 characters long and contain only letters and spaces</div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+
+                            </div>
+
+                            <div class="flex gap-5">
+
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="businessEmail"
+                                        class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Business Email<span class="text-red-500"> *
+                                        </span>
+                                    </label>
+                                    <input class="kt-input " type="email" placeholder="Enter Business Email"
+                                        name="businessEmail" formControlName="businessEmail"
+                                        [class.kt-input-error]="f['businessEmail'].invalid && (f['businessEmail'].touched || submitted)"
+                                        [class.border-red-500]="f['businessEmail'].invalid && (f['businessEmail'].touched || submitted)" />
+                                    @if (f['businessEmail'].invalid && (f['businessEmail'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['businessEmail'].errors?.['required']) {
+                                        <div>Business email is required
+                                        </div>
+                                        }
+                                        @if (f['businessEmail'].errors?.['email']) {
+                                        <div>Please enter a valid email
+                                            address
+                                        </div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="businessContact"
+                                        class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Business Contact<span class="text-red-500"> *
+                                        </span>
+                                    </label>
+                                    <div class="kt-input-group">
+                                        <div class="kt-input-addon kt-input-addon-icon w-21">
+                                            <select class="kt-select" data-kt-select="true"
+                                                data-kt-select-enable-search="true" name="businessContactCountryCode"
+                                                [attr.data-kt-select-config]="ktConfig" #businessContactCountrySelect
+                                                data-kt-select-placeholder="Select"
+                                                formControlName="businessContactCountryCode">
+                                                <option value="">Select</option>
+                                                @for (code of countryCodes; track code.id) {
+                                                <option [value]="code.code + ' - ' + code.country"
+                                                    [attr.data-kt-select-option]="getSelectOption(code.country, code.code)">
+                                                    {{code.code}}
+                                                </option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <input class="kt-input" type="tel" [placeholder]="businessContactPlaceholder"
+                                            name="businessContact" formControlName="businessContact" pattern="[0-9]+"
+                                            inputmode="numeric" title="Only numeric digits are allowed"
                                             [class.border-red-500]="f['businessContact'].invalid && (f['businessContact'].touched || submitted)" />
                                     </div>
-                                </div>
-                                @if (f['businessContact'].invalid && (f['businessContact'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['businessContact'].errors?.['required']) {
-                                    Business contact is required
+                                    @if (f['businessContact'].invalid && (f['businessContact'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['businessContact'].errors?.['required']) {
+                                        <div>Business contact is
+                                            required
+                                        </div>
+                                        }
+                                        @if (f['businessContact'].errors?.['pattern']) {
+                                        <div>Please enter only numeric
+                                            digits (0-9)</div>
+                                        }
+                                        @if (f['businessContact'].errors?.['invalidPhone']) {
+                                        <div>Please enter a valid
+                                            phone number</div>
+                                        }
+                                        @if (f['businessContact'].errors?.['missingCountryCode']) {
+                                        <div>Please select a
+                                            country code</div>
+                                        }
+                                    </div>
                                     }
-                                    @if (f['businessContact'].errors?.['pattern']) {
-                                    Business contact must be 7-15 digits
-                                    }
                                 </div>
-                                }
                             </div>
-                        </div>
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="businessType" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Business Type<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <select #businessTypeSelect name="businessType" class="kt-select "
-                                    formControlName="businessType" data-kt-select="true"
-                                    data-kt-select-enable-search="true" data-kt-select-search-placeholder="Search..."
-                                    data-kt-select-placeholder="Select Business Type"
-                                    data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
-                                    (change)="onBusinessTypeChange($any($event.target).value)"
-                                    [class.kt-input-error]="f['businessType'].invalid && (f['businessType'].touched || submitted)"
-                                    [class.border-red-500]="f['businessType'].invalid && (f['businessType'].touched || submitted)">
-                                    <option value="">Select Business Type</option>
-                                    @for (type of businessTypes; track type.value) {
-                                    <option [value]="type.value">{{ type.label }}</option>
-                                    }
-                                </select>
-                                @if (f['businessType'].invalid && (f['businessType'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['businessType'].errors?.['required']) {
-                                    Business type is required
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="businessType"
+                                        class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Business Type
+                                    </label>
+                                    <select #businessTypeSelect name="businessType" class="kt-select "
+                                        formControlName="businessType" data-kt-select="true"
+                                        data-kt-select-enable-search="true"
+                                        data-kt-select-search-placeholder="Search..."
+                                        data-kt-select-placeholder="Select Business Type"
+                                        data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
+                                        (change)="onBusinessTypeChange($any($event.target).value)"
+                                        data-kt-select-autofocus-search="true"
+                                        [class.kt-input-error]="f['businessType'].invalid && (f['businessType'].touched || submitted)"
+                                        [class.border-red-500]="f['businessType'].invalid && (f['businessType'].touched || submitted)">
+                                        <!-- <option value="">Select Business Type</option> -->
+                                        @for (type of businessTypes; track type.value) {
+                                        <option [value]="type.value">{{ type.label }}</option>
+                                        }
+                                    </select>
+                                    @if (f['businessType'].invalid && (f['businessType'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['businessType'].errors?.['required']) {
+                                        <div>Business type is required
+                                        </div>
+                                        }
+                                    </div>
                                     }
                                 </div>
-                                }
+                                <div class="flex flex-col gap-1  w-1/2">
+                                    <label for="subCategory"
+                                        class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Subcategory
+                                    </label>
+                                    <select #subCategorySelect name="businessSubCategory" class="kt-select "
+                                        formControlName="businessSubCategory" data-kt-select="true"
+                                        data-kt-select-enable-search="true"
+                                        data-kt-select-search-placeholder="Search..."
+                                        data-kt-select-placeholder="Select Subcategory"
+                                        data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
+                                        [class.kt-input-error]="f['businessSubCategory'].invalid && (f['businessSubCategory'].touched || submitted)"
+                                        [class.border-red-500]="f['businessSubCategory'].invalid && (f['businessSubCategory'].touched || submitted)">
+                                        <!-- <option value="">Select Subcategory</option> -->
+                                        @for (sc of subCategoryOptions; track sc.value) {
+                                        <option [value]="sc.value">{{ sc.label }}</option>
+                                        }
+                                    </select>
+                                    @if (f['businessSubCategory'].invalid && (f['businessSubCategory'].touched ||
+                                    submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['businessSubCategory'].errors?.['required']) {
+                                        <div>Subcategory is
+                                            required
+                                        </div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+
                             </div>
-                            <div class="flex flex-col gap-1  w-1/2">
-                                <label for="subCategory" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Subcategory<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <select #subCategorySelect name="subCategory" class="kt-select "
-                                    formControlName="subCategory" data-kt-select="true"
-                                    data-kt-select-enable-search="true" data-kt-select-search-placeholder="Search..."
-                                    data-kt-select-placeholder="Select Subcategory"
-                                    data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
-                                    [class.kt-input-error]="f['subCategory'].invalid && (f['subCategory'].touched || submitted)"
-                                    [class.border-red-500]="f['subCategory'].invalid && (f['subCategory'].touched || submitted)">
-                                    <option value="">Select Subcategory</option>
-                                    @for (sc of subCategoryOptions; track sc.value) {
-                                    <option [value]="sc.value">{{ sc.label }}</option>
-                                    }
-                                </select>
-                                @if (f['subCategory'].invalid && (f['subCategory'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['subCategory'].errors?.['required']) {
-                                    Subcategory is required
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="website" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Website
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Website"
+                                        name="businessWebsite" formControlName="businessWebsite"
+                                        [class.kt-input-error]="f['businessWebsite'].invalid && (f['businessWebsite'].touched || submitted)"
+                                        [class.border-red-500]="f['businessWebsite'].invalid && (f['businessWebsite'].touched || submitted)" />
+                                    @if (f['businessWebsite'].invalid && (f['businessWebsite'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['businessWebsite'].errors?.['pattern']) {
+                                        <div>Please enter a valid
+                                            website
+                                            URL</div>
+                                        }
+                                    </div>
                                     }
                                 </div>
-                                }
+                                <!-- VIP Checkbox -->
+                                <div class="flex items-center gap-1 w-1/2">
+                                    <label for="isVip" class="kt-form-label mb-0">
+                                        Premium Client
+                                    </label>
+                                    <input type="checkbox" class="kt-switch" name="isVip" formControlName="isVip" />
+                                </div>
                             </div>
 
                         </div>
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="website" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Website
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Website" name="website"
-                                    formControlName="website"
-                                    [class.kt-input-error]="f['website'].invalid && (f['website'].touched || submitted)"
-                                    [class.border-red-500]="f['website'].invalid && (f['website'].touched || submitted)" />
-                                @if (f['website'].invalid && (f['website'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['website'].errors?.['pattern']) {
-                                    Please enter a valid website URL
-                                    }
-                                </div>
-                                }
-                            </div>
-                            <!-- VIP Checkbox -->
-                            <div class="flex items-center gap-1 w-1/2">
-                                <label for="isVip" class="kt-form-label mb-0">
-                                    remium Client
-                                </label>
 
-                                <input type="checkbox" class="kt-switch" name="isVip" formControlName="isVip" />
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
-                <div class="kt-card min-w-full">
-                    <div class="kt-card-header" id="basic_settings">
-                        <h3 class="kt-card-title">
-                            Address Details
-                        </h3>
                     </div>
-                    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="kt-card-content grid grid-cols-1 gap-5">
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="country" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Country<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <select #countrySelect id="country" class="kt-select " data-kt-select="true"
-                                    data-kt-select-enable-search="true" data-kt-select-search-placeholder="Search..."
-                                    data-kt-select-placeholder="Select country"
-                                    data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
-                                    (change)="onCountryChange($any($event.target).value)" formControlName="country"
-                                    [class.kt-input-error]="f['country'].invalid && (f['country'].touched || submitted)"
-                                    [class.border-red-500]="f['country'].invalid && (f['country'].touched || submitted)">
-                                    <option value="">Select country</option>
-                                    @for (country of countries; track country.isoCode) {
-                                    <option [value]="country.isoCode">{{ country.name }}</option>
-                                    }
-                                </select>
-                                @if (f['country'].invalid && (f['country'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['country'].errors?.['required']) {
-                                    Country is required
-                                    }
-                                </div>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="state" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    State<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <select #stateSelect id="state" class="kt-select " data-kt-select="true"
-                                    data-kt-select-enable-search="true" data-kt-select-search-placeholder="Search..."
-                                    data-kt-select-placeholder="Select state"
-                                    data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
-                                    (change)="onStateChange($any($event.target).value)"
-                                    [disabled]="!selectedCountryCode" formControlName="state"
-                                    [class.kt-input-error]="f['state'].invalid && (f['state'].touched || submitted)"
-                                    [class.border-red-500]="f['state'].invalid && (f['state'].touched || submitted)">
-                                    <option value="">Select state</option>
-                                    @for (state of states; track state.isoCode) {
-                                    <option [value]="state.isoCode">{{ state.name }}</option>
-                                    }
-                                </select>
-                                @if (f['state'].invalid && (f['state'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['state'].errors?.['required']) {
-                                    State is required
-                                    }
-                                </div>
-                                }
-                            </div>
+                    <div class="kt-card min-w-full">
+                        <div class="kt-card-header" id="basic_settings">
+                            <h3 class="kt-card-title">
+                                Address Details
+                            </h3>
                         </div>
-                        <div class="flex gap-5">
-
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="city" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    City<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <select #citySelect id="city" class="kt-select " data-kt-select="true"
-                                    data-kt-select-enable-search="true" data-kt-select-search-placeholder="Search..."
-                                    data-kt-select-placeholder="Select city"
-                                    data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
-                                    [disabled]="!selectedStateCode" formControlName="city"
-                                    [class.kt-input-error]="f['city'].invalid && (f['city'].touched || submitted)"
-                                    [class.border-red-500]="f['city'].invalid && (f['city'].touched || submitted)">
-                                    <option value="">Select city</option>
-                                    @for (city of cities; track city.name) {
-                                    <option [value]="city.name">{{ city.name }}</option>
+                        <div [formGroup]="form" class="kt-card-content grid grid-cols-1 gap-5">
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="country" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Country
+                                    </label>
+                                    <select #countrySelect id="country" class="kt-select " data-kt-select="true"
+                                        data-kt-select-enable-search="true"
+                                        data-kt-select-search-placeholder="Search..."
+                                        data-kt-select-placeholder="Select country"
+                                        data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
+                                        (change)="onCountryChange($any($event.target).value)" formControlName="country"
+                                        [class.kt-input-error]="f['country'].invalid && (f['country'].touched || submitted)"
+                                        [class.border-red-500]="f['country'].invalid && (f['country'].touched || submitted)">
+                                        @for (country of countries; track country.isoCode) {
+                                        <option [value]="country.isoCode">{{ country.name }}</option>
+                                        }
+                                    </select>
+                                    @if (f['country'].invalid && (f['country'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['country'].errors?.['required']) {
+                                        <div>Country is required</div>
+                                        }
+                                    </div>
                                     }
-                                </select>
-                                @if (f['city'].invalid && (f['city'].touched || submitted)) {
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="state" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        State
+                                    </label>
+                                    <select #stateSelect id="state" class="kt-select " data-kt-select="true"
+                                        data-kt-select-enable-search="true"
+                                        data-kt-select-search-placeholder="Search..."
+                                        data-kt-select-placeholder="Select state"
+                                        data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
+                                        (change)="onStateChange($any($event.target).value)"
+                                        [disabled]="!selectedCountryCode" formControlName="state"
+                                        [class.kt-input-error]="f['state'].invalid && (f['state'].touched || submitted)"
+                                        [class.border-red-500]="f['state'].invalid && (f['state'].touched || submitted)">
+                                        @for (state of states; track state.isoCode) {
+                                        <option [value]="state.isoCode">{{ state.name }}</option>
+                                        }
+                                    </select>
+                                    @if (f['state'].invalid && (f['state'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['state'].errors?.['required']) {
+                                        <div>State is required</div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="flex gap-5">
+
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="city" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        City
+                                    </label>
+                                    <select #citySelect id="city" class="kt-select " data-kt-select="true"
+                                        data-kt-select-enable-search="true"
+                                        data-kt-select-search-placeholder="Search..."
+                                        data-kt-select-placeholder="Select city"
+                                        data-kt-select-config='{"optionsClass": "kt-scrollable overflow-auto max-h-[250px]"}'
+                                        [disabled]="!selectedStateCode" formControlName="city"
+                                        [class.kt-input-error]="f['city'].invalid && (f['city'].touched || submitted)"
+                                        [class.border-red-500]="f['city'].invalid && (f['city'].touched || submitted)">
+                                        @for (city of cities; track city.name) {
+                                        <option [value]="city.name">{{ city.name }}</option>
+                                        }
+                                    </select>
+                                    @if (f['city'].invalid && (f['city'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['city'].errors?.['required']) {
+                                        <div>City is required</div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="pincode" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                        Pincode
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Pincode" name="postcode"
+                                        formControlName="postcode"
+                                        [class.kt-input-error]="f['postcode'].invalid && (f['postcode'].touched || submitted)"
+                                        [class.border-red-500]="f['postcode'].invalid && (f['postcode'].touched || submitted)" />
+                                    @if (f['postcode'].invalid && (f['postcode'].touched || submitted)) {
+                                    <div class="kt-form-message">
+                                        @if (f['postcode'].errors?.['required']) {
+                                        <div>Pincode is required</div>
+                                        }
+                                        @if (f['postcode'].errors?.['pattern']) {
+                                        <div>Pincode must be 5-10 digits</div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label for="address" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                                    Address
+                                </label>
+                                <textarea id="address"
+                                    class="kt-textarea  text-sm text-secondary-foreground font-normal" name="address"
+                                    rows="5" placeholder="Enter your adress here" formControlName="address"
+                                    [class.kt-input-error]="f['address'].invalid && (f['address'].touched || submitted)"
+                                    [class.border-red-500]="f['address'].invalid && (f['address'].touched || submitted)"></textarea>
+                                @if (f['address'].invalid && (f['address'].touched || submitted)) {
                                 <div class="kt-form-message">
-                                    @if (f['city'].errors?.['required']) {
-                                    City is required
+                                    @if (f['address'].errors?.['pattern']) {
+                                    <div>Please enter a valid address</div>
                                     }
                                 </div>
                                 }
                             </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="pincode" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                    Pincode<span class="text-red-500"> *
-                                    </span>
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Pincode" name="pincode"
-                                    formControlName="pincode"
-                                    [class.kt-input-error]="f['pincode'].invalid && (f['pincode'].touched || submitted)"
-                                    [class.border-red-500]="f['pincode'].invalid && (f['pincode'].touched || submitted)" />
-                                @if (f['pincode'].invalid && (f['pincode'].touched || submitted)) {
-                                <div class="kt-form-message">
-                                    @if (f['pincode'].errors?.['required']) {
-                                    Pincode is required
-                                    }
-                                    @if (f['pincode'].errors?.['pattern']) {
-                                    Pincode must be 5-10 digits
-                                    }
-                                </div>
-                                }
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label for="address" class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
-                                Address<span class="text-red-500"> *
-                                </span>
-                            </label>
-                            <textarea id="address" class="kt-textarea  text-sm text-secondary-foreground font-normal"
-                                name="address" rows="5" placeholder="Enter your adress here" formControlName="address"
-                                [class.kt-input-error]="f['address'].invalid && (f['address'].touched || submitted)"
-                                [class.border-red-500]="f['address'].invalid && (f['address'].touched || submitted)"></textarea>
-                            @if (f['address'].invalid && (f['address'].touched || submitted)) {
-                            <div class="kt-form-message">
-                                @if (f['address'].errors?.['required']) {
-                                Address is required
-                                }
-                            </div>
-                            }
+
                         </div>
 
-                    </form>
-
-                </div>
-                <div class="kt-card min-w-full">
-                    <div class="kt-card-header" id="basic_settings">
-                        <h3 class="kt-card-title">
-                            Accounting Details
-                        </h3>
                     </div>
-                    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="kt-card-content grid grid-cols-1 gap-5">
+                    <div class="kt-card min-w-full">
+                        <div class="kt-card-header" id="basic_settings">
+                            <h3 class="kt-card-title">
+                                Accounting Details
+                            </h3>
+                        </div>
+                        <div [formGroup]="form" class="kt-card-content grid grid-cols-1 gap-5">
 
-                        <!-- Accounting specific fields -->
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="accountHolderName"
-                                    class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Account Holder Name
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Account Holder Name"
-                                    name="accountHolderName" formControlName="accountHolderName"
-                                    [class.kt-input-error]="f['accountHolderName'].invalid && (f['accountHolderName'].touched || submitted)"
-                                    [class.border-red-500]="f['accountHolderName'].invalid && (f['accountHolderName'].touched || submitted)" />
-                                @if (f['accountHolderName'].invalid && (f['accountHolderName'].touched || submitted)) {
-                                <div class="kt-form-message">Please enter a valid account holder name</div>
-                                }
+                            <!-- Accounting specific fields -->
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="accountHolderName"
+                                        class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Account Holder Name
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Account Holder Name"
+                                        name="accounteHolderName" formControlName="accounteHolderName"
+                                        [class.kt-input-error]="f['accounteHolderName'].invalid && (f['accounteHolderName'].touched || submitted)"
+                                        [class.border-red-500]="f['accounteHolderName'].invalid && (f['accounteHolderName'].touched || submitted)" />
+                                    @if (f['accounteHolderName'].invalid && (f['accounteHolderName'].touched ||
+                                    submitted)) {
+                                    <div class="kt-form-message">Please enter a valid account holder name</div>
+                                    }
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="accountNumber"
+                                        class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Account Number
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Account Number"
+                                        name="accountNumber" formControlName="accountNumber"
+                                        [class.kt-input-error]="f['accountNumber'].invalid && (f['accountNumber'].touched || submitted)"
+                                        [class.border-red-500]="f['accountNumber'].invalid && (f['accountNumber'].touched || submitted)" />
+                                    @if (f['accountNumber'].invalid && (f['accountNumber'].touched || submitted)) {
+                                    <div class="kt-form-message">Please enter a valid account number</div>
+                                    }
+                                </div>
                             </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="accountNumber" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Account Number
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Account Number"
-                                    name="accountNumber" formControlName="accountNumber"
-                                    [class.kt-input-error]="f['accountNumber'].invalid && (f['accountNumber'].touched || submitted)"
-                                    [class.border-red-500]="f['accountNumber'].invalid && (f['accountNumber'].touched || submitted)" />
-                                @if (f['accountNumber'].invalid && (f['accountNumber'].touched || submitted)) {
-                                <div class="kt-form-message">Please enter a valid account number</div>
-                                }
+
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="bankName" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Bank Name
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Bank Name" name="bankName"
+                                        formControlName="bankName"
+                                        [class.kt-input-error]="f['bankName'].invalid && (f['bankName'].touched || submitted)"
+                                        [class.border-red-500]="f['bankName'].invalid && (f['bankName'].touched || submitted)" />
+                                    @if (f['bankName'].invalid && (f['bankName'].touched || submitted)) {
+                                    <div class="kt-form-message">Please enter a valid bank name</div>
+                                    }
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="branchName" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Branch Name
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Branch Name"
+                                        name="branchName" formControlName="branchName"
+                                        [class.kt-input-error]="f['branchName'].invalid && (f['branchName'].touched || submitted)"
+                                        [class.border-red-500]="f['branchName'].invalid && (f['branchName'].touched || submitted)" />
+                                    @if (f['branchName'].invalid && (f['branchName'].touched || submitted)) {
+                                    <div class="kt-form-message">Please enter a valid branch name</div>
+                                    }
+                                </div>
                             </div>
+
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="ifscCode" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        IFSC Code
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter IFSC Code" name="ifscCode"
+                                        formControlName="ifscCode"
+                                        [class.kt-input-error]="f['ifscCode'].invalid && (f['ifscCode'].touched || submitted)"
+                                        [class.border-red-500]="f['ifscCode'].invalid && (f['ifscCode'].touched || submitted)" />
+                                    @if (f['ifscCode'].invalid && (f['ifscCode'].touched || submitted)) {
+                                    <div class="kt-form-message">Invalid IFSC code</div>
+                                    }
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="swiftCode" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        SWIFT Code
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter SWIFT Code" name="swiftCode"
+                                        formControlName="swiftCode"
+                                        [class.kt-input-error]="f['swiftCode'].invalid && (f['swiftCode'].touched || submitted)"
+                                        [class.border-red-500]="f['swiftCode'].invalid && (f['swiftCode'].touched || submitted)" />
+                                    @if (f['swiftCode'].invalid && (f['swiftCode'].touched || submitted)) {
+                                    <div class="kt-form-message">Invalid SWIFT code</div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="accountType"
+                                        class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Account Type
+                                    </label>
+                                    <select #accountTypeSelect class="kt-select" name="accountType"
+                                        formControlName="accountType" data-kt-select="true"
+                                        data-kt-select-enable-search="true"
+                                        data-kt-select-search-placeholder="Search..."
+                                        data-kt-select-placeholder="Select account type"
+                                        [attr.data-kt-select-config]="ktConfig"
+                                        [class.kt-input-error]="f['accountType'].invalid && (f['accountType'].touched || submitted)"
+                                        [class.border-red-500]="f['accountType'].invalid && (f['accountType'].touched || submitted)">
+                                        <!-- <option value="">Select account type</option> -->
+                                        <option value="savings">Savings</option>
+                                        <option value="current">Current</option>
+                                        <option value="checking">Checking</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="currency" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Currency
+                                    </label>
+                                    <select #currencySelect class="kt-select" name="currency" formControlName="currency"
+                                        data-kt-select="true" data-kt-select-enable-search="true"
+                                        data-kt-select-search-placeholder="Search..."
+                                        data-kt-select-placeholder="Select Currency"
+                                        [attr.data-kt-select-config]="ktConfig">
+                                        <option value="">Select Currency</option>
+                                        @for (curr of currencies; track curr.value) {
+                                        <option [value]="curr.value">{{ curr.label }}</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-5">
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <label for="taxId" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
+                                        Tax/VAT ID
+                                    </label>
+                                    <input class="kt-input" type="text" placeholder="Enter Tax/VAT ID" name="taxVatId"
+                                        formControlName="taxVatId" />
+                                </div>
+                                <div class="flex flex-col gap-1 w-1/2">
+                                    <!-- Empty placeholder for alignment -->
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="bankName" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Bank Name
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Bank Name" name="bankName"
-                                    formControlName="bankName"
-                                    [class.kt-input-error]="f['bankName'].invalid && (f['bankName'].touched || submitted)"
-                                    [class.border-red-500]="f['bankName'].invalid && (f['bankName'].touched || submitted)" />
-                                @if (f['bankName'].invalid && (f['bankName'].touched || submitted)) {
-                                <div class="kt-form-message">Please enter a valid bank name</div>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="branchName" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Branch Name
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Branch Name" name="branchName"
-                                    formControlName="branchName"
-                                    [class.kt-input-error]="f['branchName'].invalid && (f['branchName'].touched || submitted)"
-                                    [class.border-red-500]="f['branchName'].invalid && (f['branchName'].touched || submitted)" />
-                                @if (f['branchName'].invalid && (f['branchName'].touched || submitted)) {
-                                <div class="kt-form-message">Please enter a valid branch name</div>
-                                }
-                            </div>
-                        </div>
-
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="ifscCode" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    IFSC Code
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter IFSC Code" name="ifscCode"
-                                    formControlName="ifscCode"
-                                    [class.kt-input-error]="f['ifscCode'].invalid && (f['ifscCode'].touched || submitted)"
-                                    [class.border-red-500]="f['ifscCode'].invalid && (f['ifscCode'].touched || submitted)" />
-                                @if (f['ifscCode'].invalid && (f['ifscCode'].touched || submitted)) {
-                                <div class="kt-form-message">Invalid IFSC code</div>
-                                }
-                            </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="swiftCode" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    SWIFT Code
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter SWIFT Code" name="swiftCode"
-                                    formControlName="swiftCode"
-                                    [class.kt-input-error]="f['swiftCode'].invalid && (f['swiftCode'].touched || submitted)"
-                                    [class.border-red-500]="f['swiftCode'].invalid && (f['swiftCode'].touched || submitted)" />
-                                @if (f['swiftCode'].invalid && (f['swiftCode'].touched || submitted)) {
-                                <div class="kt-form-message">Invalid SWIFT code</div>
-                                }
-                            </div>
-                        </div>
-
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="accountType" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Account Type
-                                </label>
-                                <select #accountTypeSelect class="kt-select" name="accountType"
-                                    formControlName="accountType" data-kt-select="true"
-                                    data-kt-select-enable-search="true" data-kt-select-search-placeholder="Search..."
-                                    data-kt-select-placeholder="Select account type"
-                                    [attr.data-kt-select-config]="ktConfig"
-                                    [class.kt-input-error]="f['accountType'].invalid && (f['accountType'].touched || submitted)"
-                                    [class.border-red-500]="f['accountType'].invalid && (f['accountType'].touched || submitted)">
-                                    <option value="">Select account type</option>
-                                    <option value="savings">Savings</option>
-                                    <option value="current">Current</option>
-                                    <option value="checking">Checking</option>
-                                </select>
-                            </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="currency" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Currency
-                                </label>
-                                <input class="kt-input" type="text" placeholder="USD" name="currency"
-                                    formControlName="currency" />
-                            </div>
-                        </div>
-
-                        <div class="flex gap-5">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="taxId" class="kt-form-label flex items-center gap-1 mb-1 max-w-56">
-                                    Tax/VAT ID
-                                </label>
-                                <input class="kt-input" type="text" placeholder="Enter Tax/VAT ID" name="taxId"
-                                    formControlName="taxId" />
-                            </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <!-- Empty placeholder for alignment -->
-                            </div>
-                        </div>
-                        <div class="flex justify-end mt-5">
-                            <button type="submit" class="kt-btn kt-btn-primary" [disabled]="form.invalid">Save </button>
-                        </div>
-                    </form>
+                    </div>
 
                 </div>
+
             </div>
-        </div>
 
-        <!-- right side -->
-        <div class="col-span-1">
-            <div class="grid gap-5 lg:gap-7.5">
-                <div class="kt-card">
-                    <div class="kt-card-content lg:py-7.5">
-                        <div class="flex flex-col items-stretch gap-5 lg:gap-7.5">
+            <!-- right side -->
+            <div class="col-span-1">
+                <div class="grid gap-5 lg:gap-7.5">
+                    <div class="kt-card">
+                        <div class="kt-card-content lg:py-7.5">
+                            <div class="flex flex-col items-stretch gap-5 lg:gap-7.5">
 
-                            <!-- Header -->
-                            <div class="flex flex-wrap items-center gap-5 justify-between">
-                                <div class="flex flex-col gap-1">
-                                    <div class="flex items-center gap-2.5">
-                                        <h2 class="text-2xl font-semibold text-mono">Onboarding Status</h2>
-                                        <span class="kt-badge kt-badge-sm kt-badge-primary kt-badge-outline">In
-                                            Progress</span>
+                                <!-- Header -->
+                                <div class="flex flex-wrap items-center gap-5 justify-between">
+                                    <div class="flex flex-col gap-1">
+                                        <div class="flex items-center gap-2.5">
+                                            <h2 class="text-2xl font-semibold text-mono">Client Onboarding</h2>
+                                            <span [ngClass]="badgeClass">{{ badgeLabel }}</span>
+                                        </div>
+                                        <p class="text-sm text-secondary-foreground">
+                                            {{ onboardingSubtext }}
+                                        </p>
                                     </div>
-                                    <p class="text-sm text-secondary-foreground">
-                                        Complete your profile to get the best experience.
-                                    </p>
-                                </div>
-                                <div class="kt-menu flex-inline" data-kt-menu="true">
-                                    <div class="kt-menu-item" data-kt-menu-item-offset="0, 10px"
-                                        data-kt-menu-item-placement="bottom-end"
-                                        data-kt-menu-item-placement-rtl="bottom-start"
-                                        data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click">
-                                        <button class="kt-menu-toggle kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost">
-                                            <i class="ki-filled ki-dots-vertical text-lg">
-                                            </i>
-                                        </button>
-                                        <div class="kt-menu-dropdown kt-menu-default w-full max-w-[175px]"
-                                            data-kt-menu-dismiss="true">
-                                            <div class="kt-menu-item">
-                                                <a class="kt-menu-link" href="#">
-                                                    <span class="kt-menu-icon">
-                                                        <i class="ki-outline ki-printer  text-lg"></i>
-                                                    </span>
-                                                    <span class="kt-menu-title">
-                                                        Print
-                                                    </span>
-                                                </a>
-                                            </div>
-                                            <div class="kt-menu-item">
-                                                <a class="kt-menu-link" href="#">
-                                                    <span class="kt-menu-icon">
-                                                        <i class="ki-filled ki-file-down text-lg"></i>
-                                                    </span>
-                                                    <span class="kt-menu-title">
-                                                        Download PDF
-                                                    </span>
-                                                </a>
+                                    <div class="kt-menu flex-inline" data-kt-menu="true">
+                                        <div class="kt-menu-item" data-kt-menu-item-offset="0, 10px"
+                                            data-kt-menu-item-placement="bottom-end"
+                                            data-kt-menu-item-placement-rtl="bottom-start"
+                                            data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click">
+                                            <button class="kt-menu-toggle kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost">
+                                                <i class="ki-filled ki-dots-vertical text-lg">
+                                                </i>
+                                            </button>
+                                            <div class="kt-menu-dropdown kt-menu-default w-full max-w-[175px]"
+                                                data-kt-menu-dismiss="true">
+                                                <div class="kt-menu-item">
+                                                    <a class="kt-menu-link" href="#">
+                                                        <span class="kt-menu-icon">
+                                                            <i class="ki-outline ki-printer  text-lg"></i>
+                                                        </span>
+                                                        <span class="kt-menu-title">
+                                                            Print
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <div class="kt-menu-item">
+                                                    <a class="kt-menu-link" href="#">
+                                                        <span class="kt-menu-icon">
+                                                            <i class="ki-filled ki-file-down text-lg"></i>
+                                                        </span>
+                                                        <span class="kt-menu-title">
+                                                            Download PDF
+                                                        </span>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Progress Info -->
-                            <div class="flex items-center flex-wrap gap-2 lg:gap-5">
-                                <div
-                                    class="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-3.5 py-2 min-w-24 max-w-auto">
-                                    <span class="text-mono text-base leading-none font-medium"> 30% </span>
-                                    <span class="text-secondary-foreground text-sm">Form Completed</span>
-                                </div>
-                                <div
-                                    class="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-3.5 py-2 min-w-24 max-w-auto">
-                                    <span class="text-mono text-base leading-none font-medium"> 4 of 12 </span>
-                                    <span class="text-secondary-foreground text-sm">Sections Filled</span>
-                                </div>
-                                <div
-                                    class="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-3.5 py-2 min-w-24 max-w-auto">
-                                    <span class="text-mono text-base leading-none font-medium"> Due Soon </span>
-                                    <span class="text-secondary-foreground text-sm">Recommended Completion</span>
-                                </div>
-                            </div>
+                                <!-- Progress Info -->
+                                <div class="flex items-center flex-wrap gap-2 lg:gap-5">
+                                    <div
+                                        class="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-3.5 py-2 min-w-24 max-w-auto">
+                                        <span class="text-mono text-base leading-none font-medium"> {{ formProgress }}%
+                                        </span>
+                                        <span class="text-secondary-foreground text-sm">Form Completed</span>
+                                    </div>
+                                    <div
+                                        class="grid grid-cols-1 content-between gap-1.5 border border-dashed border-input shrink-0 rounded-md px-3.5 py-2 min-w-24 max-w-auto">
+                                        <span class="text-mono text-base leading-none font-medium"> {{ sectionsCompleted
+                                            }}
+                                            of {{ totalSections }} </span>
+                                        <span class="text-secondary-foreground text-sm">Sections Filled</span>
+                                    </div>
 
-                            <!-- Progress Bar -->
-                            <div class="flex flex-col gap-3.5">
-                                <span class="text-sm text-secondary-foreground">Overall Progress</span>
-                                <div class="kt-progress kt-progress-primary">
-                                    <div class="kt-progress-indicator" style="width: 30%; background-color:#3b82f6;">
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="flex flex-col gap-3.5">
+                                    <span class="text-sm text-secondary-foreground">Overall Progress</span>
+                                    <div class="kt-progress kt-progress-primary">
+                                        <div class="kt-progress-indicator" [style.width.%]="formProgress"
+                                            style="background-color:#3b82f6;">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="kt-card min-w-full">
-                    <div class="kt-card-header" id="basic_settings">
-                        <h3 class="kt-card-title">
-                            Business Description
-                        </h3>
-                    </div>
-                    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="kt-card-content grid gap-5">
-                        <div class="flex flex-col gap-1">
-                            <label for="businessdescription"
-                                class="kt-form-label flex items-center gap-1  mb-1 max-w-56">
+                    <div class="kt-card min-w-full">
+                        <div class="kt-card-header flex items-center justify-between" id="basic_settings">
+                            <h3 class="kt-card-title">
                                 Business Description
-                            </label>
-                            <textarea id="businessdescription"
-                                class="kt-textarea  text-sm text-secondary-foreground font-normal"
-                                name="businessdescription" rows="5" placeholder="Enter Business Description here"
-                                formControlName="businessdescription"
-                                [class.kt-input-error]="f['businessdescription'].invalid && (f['businessdescription'].touched || submitted)"
-                                [class.border-red-500]="f['businessdescription'].invalid && (f['businessdescription'].touched || submitted)"></textarea>
-                            @if (f['businessdescription'].invalid && (f['businessdescription'].touched || submitted)) {
-                            <div class="kt-form-message">
-                                @if (f['businessdescription'].errors?.['required']) {
-                                businessdescription is required
+                            </h3>
+                            <!-- Button aligned to the end of the header -->
+                            <div class="flex items-center">
+                                <button class="kt-btn kt-btn-outline" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-sparkles" aria-hidden="true">
+                                        <path
+                                            d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z">
+                                        </path>
+                                        <path d="M20 2v4"></path>
+                                        <path d="M22 4h-4"></path>
+                                        <circle cx="4" cy="20" r="2"></circle>
+                                    </svg>
+                                    Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div [formGroup]="form" class="kt-card-content grid gap-5">
+                            <div class="flex flex-col gap-1">
+
+                                <textarea id="businessDescription"
+                                    class="kt-textarea  text-sm text-secondary-foreground font-normal"
+                                    name="businessDescription" rows="5" placeholder="Enter Business Description here"
+                                    formControlName="businessDescription"
+                                    [class.kt-input-error]="f['businessDescription'].invalid && (f['businessDescription'].touched || submitted)"
+                                    [class.border-red-500]="f['businessDescription'].invalid && (f['businessDescription'].touched || submitted)"></textarea>
+                                @if (f['businessDescription'].invalid && (f['businessDescription'].touched ||
+                                submitted)) {
+                                <div class="kt-form-message">
+                                    @if (f['businessDescription'].errors?.['required']) {
+                                    <div>businessDescription is
+                                        required</div>
+                                    }
+                                </div>
                                 }
                             </div>
-                            }
+
                         </div>
 
-                    </form>
-
-                </div>
-
-                <div class="kt-card ">
-                    <div class="kt-card-header" id="auth_social_sign_in">
-                        <h3 class="kt-card-title">
-                            Social Sign in
-                        </h3>
                     </div>
 
-                    <div class="kt-card-content">
-                        <div class="grid gap-5 mb-7">
+                    <div class="kt-card ">
+                        <div class="kt-card-header" id="auth_social_sign_in">
+                            <h3 class="kt-card-title">
+                                Social Sign in
+                            </h3>
+                        </div>
 
-                            <!-- instagram -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/instagram.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Instagram
-                                            </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
+                        <div class="kt-card-content">
+                            <div class="grid gap-5 mb-7">
 
+                                <!-- instagram -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/instagram.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Instagram
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('instagram')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('instagram')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
+
+                                    @if (showInstagramCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Instagram ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter Instagram ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
+                                        </div>
                                     </div>
+                                    }
                                 </div>
-                                <div *ngIf="showInstagramCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Instagram ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter Instagram ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- facebook -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/facebook.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Facebook
-                                            </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
+                                <!-- facebook -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/facebook.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Facebook
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
 
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('facebook')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('facebook')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
-                                    </div>
-                                </div>
-                                <div *ngIf="showFacebookCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <!-- <div class="flex flex-col gap-1">
+                                    @if (showFacebookCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <!-- <div class="flex flex-col gap-1">
                                             <label class="text-sm font-medium">Facebook ID</label>
                                             <input type="text" class="kt-input" placeholder="Enter Facebook ID">
                                         </div>
@@ -810,369 +904,389 @@
                                             <label class="text-sm font-medium">Password</label>
                                             <input type="password" class="kt-input" placeholder="Enter Password">
                                         </div> -->
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Facebook Page Link</label>
-                                            <input type="url" class="kt-input" placeholder="Enter Facebook Page Link">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Admin Rights</label>
-                                            <input type="url" class="kt-input" placeholder="Enter Admin Rights">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Facebook Page Link</label>
+                                                <input type="url" class="kt-input"
+                                                    placeholder="Enter Facebook Page Link">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Admin Rights</label>
+                                                <input type="url" class="kt-input" placeholder="Enter Admin Rights">
+                                            </div>
                                         </div>
                                     </div>
+                                    }
                                 </div>
-                            </div>
 
-                            <!-- google my business -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/google-my-business.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Google My Business
+                                <!-- google my business -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/google-my-business.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Google My Business
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('google-my-business')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
-                                            </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('google-my-business')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
+                                    @if (showGoogleMyBusinessCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Google My Business ID</label>
+                                                <input type="text" class="kt-input"
+                                                    placeholder="Enter Google My Business ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Google My Bussiness Link</label>
+                                                <input type="url" class="kt-input"
+                                                    placeholder="Enter Google My Bussiness Link">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Admin Rights</label>
+                                                <input type="url" class="kt-input" placeholder="Enter Admin Rights">
+                                            </div>
+                                        </div>
                                     </div>
+                                    }
                                 </div>
-                                <div *ngIf="showGoogleMyBusinessCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Google My Business ID</label>
-                                            <input type="text" class="kt-input"
-                                                placeholder="Enter Google My Business ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Google My Bussiness Link</label>
-                                            <input type="url" class="kt-input"
-                                                placeholder="Enter Google My Bussiness Link">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Admin Rights</label>
-                                            <input type="url" class="kt-input" placeholder="Enter Admin Rights">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- gmail -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/google.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Gmail
-                                            </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
+                                <!-- gmail -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/gmail.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Gmail
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
 
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('google')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('google')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
-                                    </div>
-                                </div>
-                                <div *ngIf="showGoogleCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Google ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter Google ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
+                                    @if (showGoogleCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Google ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter Google ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
                                         </div>
                                     </div>
+                                    }
                                 </div>
-                            </div>
 
-                            <!-- linkedin -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/linkedin.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Linkedin
-                                            </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
+                                <!-- linkedin -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/linkedin.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Linkedin
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
 
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('linkedin')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('linkedin')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
+                                    @if (showLinkedInCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">LinkedIn Page Link</label>
+                                                <input type="text" class="kt-input"
+                                                    placeholder="Enter LinkedIn Page Link">
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">LinkedIn ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter LinkedIn ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
+                                        </div>
                                     </div>
+                                    }
                                 </div>
-                                <div *ngIf="showLinkedInCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">LinkedIn Page Link</label>
-                                            <input type="text" class="kt-input" placeholder="Enter LinkedIn Page Link">
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">LinkedIn ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter LinkedIn ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- tiktok -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/tiktok.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Tiktok
-                                            </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
+                                <!-- tiktok -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/tiktok.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Tiktok
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
 
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('tiktok')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('tiktok')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
-                                    </div>
-                                </div>
-                                <div *ngIf="showTiktokCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Tiktok ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter Tiktok ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
+                                    @if (showTiktokCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Tiktok ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter Tiktok ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
                                         </div>
                                     </div>
+                                    }
                                 </div>
-                            </div>
 
-                            <!-- X -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-4 shrink-0" src="/assets/media/brand-logos/x.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                X
+                                <!-- X -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-4 shrink-0" src="/assets/media/brand-logos/x.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    X
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('X')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
-                                            </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('X')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
+                                    @if (showXCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">X ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter X ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
+                                        </div>
                                     </div>
+                                    }
                                 </div>
-                                <div *ngIf="showXCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">X ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter X ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- youtube -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/youtube.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Youtube
+                                <!-- youtube -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/youtube.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Youtube
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('youtube')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
-                                            </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('youtube')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
+                                    @if (showYoutubeCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">youtube ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter X ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
+                                        </div>
                                     </div>
+                                    }
                                 </div>
-                                <div *ngIf="showYoutubeCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">youtube ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter X ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Google Drive -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/google-drive.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Google Drive
+                                <!-- Google Drive -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/google-drive.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Google Drive
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('google-drive')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
-                                            </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('google-drive')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
+                                    @if (showGoogleDriveCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Google Drive ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter X ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
+                                        </div>
                                     </div>
+                                    }
                                 </div>
-                                <div *ngIf="showGoogleDriveCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Google Drive ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter X ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Pintrest -->
-                            <div class="border border-border rounded-xl px-3.5 py-2.5">
-                                <div class="flex items-center justify-between flex-wrap gap-2">
-                                    <div class="flex items-center flex-wrap gap-3.5">
-                                        <img alt="" class="size-6 shrink-0"
-                                            src="/assets/media/brand-logos/Pinterest.svg" />
-                                        <div class="flex flex-col gap-0.5">
-                                            <a class="text-sm font-medium text-mono hover:text-primary">
-                                                Pintrest
+                                <!-- Pintrest -->
+                                <div class="border border-border rounded-xl px-3.5 py-2.5">
+                                    <div class="flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center flex-wrap gap-3.5">
+                                            <img alt="" class="size-6 shrink-0"
+                                                src="/assets/media/brand-logos/Pinterest.svg" />
+                                            <div class="flex flex-col gap-0.5">
+                                                <a class="text-sm font-medium text-mono hover:text-primary">
+                                                    Pintrest
+                                                </a>
+                                                <a class="text-sm text-secondary-foreground hover:text-primary">
+                                                    Connect your account to continue
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-5">
+                                            <button class="kt-btn kt-btn-outline" type="button"
+                                                (click)="toggleCredentials('pinterest')">
+                                                <i class="ki-filled ki-key"></i>
+                                                Credentials
+                                            </button>
+                                            <a class="kt-btn kt-btn-outline">
+                                                <i class="ki-filled ki-mouse-square">
+                                                </i>
+                                                Connect
                                             </a>
-                                            <a class="text-sm text-secondary-foreground hover:text-primary">
-                                                Connect your account to continue
-                                            </a>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-5">
-                                        <button class="kt-btn kt-btn-outline" type="button"
-                                            (click)="toggleCredentials('pinterest')">
-                                            <i class="ki-filled ki-key"></i>
-                                            Credentials
-                                        </button>
-                                        <a class="kt-btn kt-btn-outline">
-                                            <i class="ki-filled ki-mouse-square">
-                                            </i>
-                                            Connect
-                                        </a>
-                                    </div>
-                                </div>
-                                <div *ngIf="showpinterestCredentials" class="mt-3 pt-3 ">
-                                    <div class="grid grid-cols-2 gap-3 px-3 pb-3">
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">pinterest ID</label>
-                                            <input type="text" class="kt-input" placeholder="Enter X ID">
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <label class="text-sm font-medium">Password</label>
-                                            <input type="password" class="kt-input" placeholder="Enter Password">
+                                    @if (showpinterestCredentials) {
+                                    <div class="mt-3 pt-3 ">
+                                        <div class="grid grid-cols-2 gap-3 px-3 pb-3">
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">pinterest ID</label>
+                                                <input type="text" class="kt-input" placeholder="Enter X ID">
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                <label class="text-sm font-medium">Password</label>
+                                                <input type="password" class="kt-input" placeholder="Enter Password">
+                                            </div>
                                         </div>
                                     </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -1180,6 +1294,17 @@
                 </div>
             </div>
         </div>
+        <div class="flex justify-end mt-5">
+            <!-- Use click handler instead of native submit (button is outside form elements) -->
+            <button type="button" class="kt-btn kt-btn-primary" (click)="onSubmit()"
+                [disabled]="form.invalid || isLoading">
+                @if (!isLoading) {
+                <span>Save</span>
+                }
+                @if (isLoading) {
+                <span>Saving...</span>
+                }
+            </button>
+        </div>
     </div>
-    <!-- end: grid -->
 </div>
