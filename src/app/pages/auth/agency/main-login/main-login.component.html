@@ -17,10 +17,10 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2.5">
-                    <a class="kt-btn kt-btn-outline justify-center" href="#">
+                    <button type="button" class="kt-btn kt-btn-outline justify-center" (click)="signInWithGoogle()">
                         <img alt="" class="size-3.5 shrink-0" src="/assets/media/brand-logos/google.svg" />
                         Use Google
-                    </a>
+                    </button>
                     <a class="kt-btn kt-btn-outline justify-center" href="#">
                         <img alt="" class="size-3.5 shrink-0 block dark:hidden"
                             src="/assets/media/brand-logos/apple-black.svg" />
@@ -61,7 +61,8 @@
                     </div>
                     }
                 </div>
-                <!-- <div class="flex flex-col kt-form-item gap-1">
+                @if(!isOtpPage){
+                <div class="flex flex-col kt-form-item gap-1">
                     <div class="flex items-center justify-between gap-1">
                         <label class="kt-form-label font-normal text-mono">
                             Password:
@@ -80,15 +81,16 @@
                                 [attr.aria-invalid]="f['password'].invalid && (f['password'].touched || submitted)"
                                 required />
                             <button class="kt-btn kt-btn-sm kt-btn-ghost kt-btn-icon bg-transparent! -me-1.5"
-                                (click)="toggleFieldTextType()" type="button" data-kt-toggle-password-trigger="true">
+                                (click)="fieldTextType = !fieldTextType" type="button"
+                                data-kt-toggle-password-trigger="true">
                                 @if (!fieldTextType) {
-                                <span class="kt-toggle-password-active:hidden">
+                                <span class="">
                                     <i class="ki-filled ki-eye text-muted-foreground">
                                     </i>
                                 </span>
                                 }
-                                @if (fieldTextType) {
-                                <span class="hidden kt-toggle-password-active:block">
+                                @else {
+                                <span class="">
                                     <i class="ki-filled ki-eye-slash text-muted-foreground">
                                     </i>
                                 </span>
@@ -106,8 +108,9 @@
                         }
                     </div>
                     }
-                </div> -->
-                @if(isOtpPage){
+                </div>
+                }
+                @if(isOtpPage && isOtpSended){
                 <div class="mb-2">
                     <div class="text-center mb-2">
                         <div class="flex flex-col">
@@ -121,7 +124,8 @@
                         <input
                             class="kt-input focus:border-primary/10 focus:ring-3 focus:ring-primary/10 size-10 shrink-0 px-0 text-center"
                             style="width: 40px !important;" maxlength="1" type="text" name="code_{{ i }}"
-                            (keydown)="onOtpKeyDown($event, i)" (input)="onOtpInput($event, i)" />
+                            (keydown)="onOtpKeyDown($event, i)" (input)="onOtpInput($event, i)"
+                            (paste)="onOtpPaste($event)" />
                         }
                     </div>
 
@@ -131,7 +135,7 @@
                         </span>
                         @if(resendTimer == 0){
                         <a class="text-2sm kt-link" (click)="resendOtp()">
-                            Resend
+                            {{otpResendLoading ? 'Resending...' : 'Resend'}}
                         </a>
                         }
                     </div>
@@ -152,26 +156,56 @@
                         </label>
                     </div>
                 </div> -->
+
                 @if (isLoading && !isOtpPage) {
                 <button class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
                     <span>Signing in...</span>
                 </button>
                 }
                 @else if(isOtpPage){
-                @if(isOtpPage && isLoading){
-                <button class="kt-btn kt-btn-primary flex justify-center grow" [disabled]="isLoading">
-                    <span>Verifing Otp...</span>
-                </button>}@else{
+
+                @if (!isOtpSended) {
+                <!-- Get OTP -->
+                <div class="flex gap-3">
+                    <button (click)="isOtpPage = !isOtpPage"
+                        class="kt-btn kt-btn-primary flex justify-center grow w-1/2">
+                        <span>With Password</span>
+                    </button>
+                    <button class="kt-btn kt-btn-primary flex justify-center grow w-1/2"
+                        [disabled]="f['emailOrMobile'].invalid || isLoading" (click)="sendOtp()">
+                        <span>{{otpResendLoading ? 'OTP Sending...' :'Get OTP'}}</span>
+                    </button>
+                </div>
+                }
+
+                @else if(isLoading) {
+                <!-- Verifying OTP -->
+                <button class="kt-btn kt-btn-primary flex justify-center grow" disabled>
+                    <span>Verifying...</span>
+                </button>
+                }
+
+
+                @else {
+                <!-- Verify OTP -->
                 <button (click)="submitOtp()" class="kt-btn kt-btn-primary flex justify-center grow"
-                    [disabled]="isLoading">
-                    <span>Verify Otp</span>
-                </button>}
+                    [disabled]="!isOtpComplete()">
+                    <span>Verify OTP</span>
+                </button>
+                }
                 }
                 @else{
-                <button (click)="onSubmit()" class="kt-btn kt-btn-primary flex justify-center grow"
-                    [disabled]="loginForm.invalid">
-                    <span>Sign In</span>
-                </button>
+                <div class="flex gap-3">
+                    <button (click)="isOtpPage = !isOtpPage"
+                        class="kt-btn kt-btn-primary flex justify-center grow w-1/2">
+                        <span>With OTP</span>
+                    </button>
+
+                    <button (click)="onSubmit()" class="kt-btn kt-btn-primary flex justify-center grow w-1/2"
+                        type="submit" [disabled]="loginForm.invalid">
+                        <span>Sign In</span>
+                    </button>
+                </div>
                 }
 
                 <!-- Navigation to other login types -->

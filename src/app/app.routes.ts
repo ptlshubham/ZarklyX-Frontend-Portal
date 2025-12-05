@@ -58,7 +58,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./pages/infulencer/influencer.routing').then(m => m.influencerRoutes)
+        loadChildren: () => import('./pages/influencer/influencer.routing').then(m => m.influencerRoutes)
       }
     ]
   },

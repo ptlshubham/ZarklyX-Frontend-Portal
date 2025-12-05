@@ -46,7 +46,6 @@
                         </label> -->
                         <p class="text-sm text-secondary-foreground text-center mb-2">Choose one or more areas that
                             apply to your business</p>
-
                         <div class="flex flex-wrap gap-2 justify-center">
                             @for (option of businessAreaOptions; track option.value) {
                             <button type="button" (click)="toggleBusinessArea(option.value)"
@@ -62,7 +61,11 @@
                             }
                         </div>
                     </div>
-
+                    @if(errorMessage){
+                    <div class="flex items-center justify-center">
+                        <div class="kt-form-message">{{errorMessage}}</div>
+                    </div>
+                    }
                     <button type="button" (click)="nextStep()" class="kt-btn kt-btn-primary flex justify-center grow"
                         [disabled]="!isStepValid()">
                         Continue to Next Step
@@ -101,6 +104,11 @@
                         </div>
                     </div>
 
+                    @if(errorMessage){
+                    <div class="flex items-center justify-center">
+                        <div class="kt-form-message">{{errorMessage}}</div>
+                    </div>
+                    }
                     <div class="flex gap-2">
                         <button type="button" (click)="previousStep()"
                             class="kt-btn kt-btn-outline flex justify-center grow">
@@ -128,7 +136,10 @@
                         @if (f['companyName'].invalid && (f['companyName'].touched || submitted)) {
                         <div class="kt-form-message">
                             @if (f['companyName'].errors?.['required']) {
-                            Company name is required
+                            Name is required
+                            }
+                            @if (f['companyName'].errors?.['pattern']) {
+                            Enter valid Name
                             }
                         </div>
                         }
@@ -145,7 +156,7 @@
                         @if (f['website'].invalid && (f['website'].touched || submitted)) {
                         <div class="kt-form-message">
                             @if (f['website'].errors?.['pattern']) {
-                            Please enter a valid website URL
+                            Enter a valid URL. It must start with https:// or www.
                             }
                         </div>
                         }
@@ -204,6 +215,11 @@
                     </div>
                     <!-- </div> -->
 
+                    @if(errorMessage){
+                    <div class="flex items-center justify-center">
+                        <div class="kt-form-message"></div>
+                    </div>
+                    }
                     <div class="flex gap-2">
                         <button type="button" (click)="previousStep()"
                             class="kt-btn kt-btn-outline flex justify-center grow">
@@ -227,8 +243,8 @@
 
                         <div class="grid grid-cols-2 gap-3">
                             @for (range of clientRanges; track range.value) {
-                            <label class="kt-btn kt-btn-outline justify-start cursor-pointer"
-                                [class.kt-btn-primary]="f['client'].value === range.value"
+                            <label class="kt-badge inline-flex items-center gap-2 px-3 py-3.5 rounded-lg text-[14px] font-normal transition-all whitespace-nowrap border-gray-300"
+                                [class.kt-badge-primary]="f['client'].value === range.value"
                                 [class.border-primary]="f['client'].value === range.value">
                                 <input type="radio" [value]="range.value" formControlName="client" class="sr-only" />
                                 <span class="flex items-center gap-2">
@@ -243,6 +259,11 @@
                         </div>
                     </div>
 
+                    @if(errorMessage){
+                    <div class="flex items-center justify-center">
+                        <div class="kt-form-message"></div>
+                    </div>
+                    }
                     <div class="flex gap-2">
                         <button type="button" (click)="previousStep()"
                             class="kt-btn kt-btn-outline flex justify-center grow">
@@ -269,9 +290,9 @@
                         <div class="flex flex-wrap gap-2 justify-center">
                             @for (module of moduleOptions; track module.value) {
                             <button type="button" (click)="toggleModule(module.value)"
-                                class="kt-badge kt-badge-lg gap-2 cursor-pointer transition-all"
+                                class="kt-badge inline-flex items-center gap-2 px-3 py-3.5 rounded-lg text-[14px] font-normal transition-all whitespace-nowrap border-gray-300"
                                 [class.kt-badge-primary]="isModuleSelected(module.value)"
-                                [class.kt-badge-primary-outline]="!isModuleSelected(module.value)">
+                                [class.kt-badge-outline]="!isModuleSelected(module.value)">
                                 <i class="ki-outline text-base" [ngClass]="module.icon"></i>
                                 <span>{{ module.label }}</span>
                                 @if (isModuleSelected(module.value)) {
@@ -281,7 +302,11 @@
                             }
                         </div>
                     </div>
-
+                    @if(errorMessage){
+                    <div class="flex items-center justify-center">
+                        <div class="kt-form-message">{{errorMessage}}</div>
+                    </div>
+                    }
                     <div class="flex gap-2">
                         <button type="button" (click)="previousStep()"
                             class="kt-btn kt-btn-outline flex justify-center grow">

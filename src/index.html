@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="h-full" data-kt-theme="true" data-kt-theme-mode="light" dir="ltr" lang="en">
+
 <head>
   <meta charset="utf-8" />
   <base href="/">
@@ -28,20 +29,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script>
     // Update favicons immediately based on browser dark mode
-    (function() {
+    (function () {
       var isBrowserDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       var favicon16 = document.getElementById('favicon-16');
       var favicon32 = document.getElementById('favicon-32');
       var faviconIco = document.getElementById('favicon-ico');
-      
+
       if (isBrowserDark) {
         if (favicon16) favicon16.href = '/assets/media/app/favicon-16x16-white.png';
         if (favicon32) favicon32.href = '/assets/media/app/favicon-32x32-white.png';
         if (faviconIco) faviconIco.href = '/assets/media/app/favicon-white.ico';
       }
-      
+
       // Listen for browser dark mode changes
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
         if (e.matches) {
           if (favicon16) favicon16.href = '/assets/media/app/favicon-16x16-white.png';
           if (favicon32) favicon32.href = '/assets/media/app/favicon-32x32-white.png';
@@ -54,7 +55,10 @@
       });
     })();
   </script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body app-root class="antialiased flex h-full text-base text-foreground bg-background">
 </body>
+
 </html>
