@@ -8,7 +8,7 @@ export interface User {
   username?: string;
   adminId?: string;
   roles: string[];
-  userType: 'main' | 'influencer' | 'super-admin';
+  userType: 'main' | 'influencer' | 'super-admin' | 'client';
 }
 
 @Injectable({
@@ -170,11 +170,12 @@ export class AuthService {
     }
   }
 
-  private createUser(credentials: any, userType: 'main' | 'influencer' | 'super-admin'): User {
+  private createUser(credentials: any, userType: 'main' | 'influencer' | 'super-admin' | 'client'): User {
     const roleMap = {
       'main': ['user'],
       'influencer': ['influencer'],
-      'super-admin': ['super-admin', 'admin']
+      'super-admin': ['super-admin', 'admin'],
+      'client': ['client']
     };
 
     return {
@@ -212,7 +213,8 @@ export class AuthService {
       'user': ['read:dashboard', 'read:profile'],
       'influencer': ['read:dashboard', 'read:profile', 'manage:content', 'read:analytics'],
       'admin': ['read:dashboard', 'read:users', 'write:users', 'read:reports'],
-      'super-admin': ['*'] // All permissions
+      'super-admin': ['*'], // All permissions
+      'client': ['read:dashboard', 'read:profile']
     };
 
     const permissions = new Set<string>();
@@ -244,6 +246,9 @@ export class AuthService {
         break;
       case 'super-admin':
         this.router.navigate(['/super-admin']);
+        break;
+      case 'client':
+        this.router.navigate(['/client']);
         break;
       default:
         this.router.navigate(['/dashboard']);
