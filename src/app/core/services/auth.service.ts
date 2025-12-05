@@ -26,14 +26,14 @@ export class AuthService {
     this.loadUserFromStorage();
   }
 
-  private loadUserFromStorage(): void {
+  loadUserFromStorage(): void {
     const token = localStorage.getItem('auth_token');
     const roles = JSON.parse(localStorage.getItem('user_roles') || '[]');
     const userType = localStorage.getItem('user_type') as any;
 
     if (token && roles.length > 0 && userType) {
       const user: User = {
-        id: 'user-id', // In real app, decode from token
+        id: localStorage.getItem('user_id') || 'user-id',
         email: localStorage.getItem('user_email') || '',
         username: localStorage.getItem('user_username') || '',
         adminId: localStorage.getItem('user_admin_id') || '',
@@ -89,7 +89,9 @@ export class AuthService {
   loginWithGoogle(data: any): Observable<any> {
     return this.httpClient.post(ApiService.GoogleLoginURL, data);
   }
-
+  sinupWithGoogle(data: any): Observable<any> {
+    return this.httpClient.post(ApiService.GoogleSignupURL, data);
+  }
   verifyGoogleToken(data: any): Observable<any> {
     return this.httpClient.post(ApiService.GoogleVerifyURL, data);
   }
@@ -105,7 +107,7 @@ export class AuthService {
   verifyRegisterOtp(data: any) {
     return this.httpClient.post(ApiService.VerifyRegisterOtpURL, data);
   }
-  sendOtp(data:any): Observable<any>{
+  sendOtp(data: any): Observable<any> {
     return this.httpClient.post(ApiService.SendLoginOtpURL, data)
   }
   resendOtp(data: any) {
