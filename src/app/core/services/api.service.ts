@@ -19,6 +19,10 @@ export class ApiService {
     })
   }
 
+
+  public static loginURL: string = ApiService.HOST_URL + '/keryar/DeleteTestimonial/';
+  public static ClientSignupLoginURL: string = ApiService.HOST_URL + '/clients/clientSignup/start';
+  public static ClientSignupVerifyOTPLoginURL: string = ApiService.HOST_URL + '/clients/clientSignup/verify-otp';
   // company register URL
   public static RegisterUserURL: string = ApiService.HOST_URL + '/user/register/start';
   public static VerifyRegisterOtpURL: string = ApiService.HOST_URL + '/user/register/verify-otp';
@@ -38,4 +42,7 @@ export class ApiService {
   public static VerifyLoginOtpURL: string = ApiService.HOST_URL + '/user/login/verify-otp'
   public static SendLoginOtpURL: string = ApiService.HOST_URL + '/otp/send-otp'
 
+  // Add client details URL
+  public static AddClientDetailsURL: string = ApiService.HOST_URL + '/clients/clients/add';
+  public static GetAllClientsByCIdURL: string = ApiService.HOST_URL + '/clients/clients/by-company/';
 }

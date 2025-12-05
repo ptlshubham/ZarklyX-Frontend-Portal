@@ -51,7 +51,7 @@ export const agencyRoutes: Routes = [
         data: {
             title: 'agency-clients',
             breadcrumb: 'agency-clients',
-            roles: ['user', 'admin']
+            roles: ['user', 'admin', 'client']
         },
         children: [
             {

@@ -1,7 +1,8 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Country, ICountry } from 'country-state-city';
+import { ICountry } from 'country-state-city';
+import { GlobalDataService } from '../../../../core/services/global-data.service';
 
 declare const KTSelect: any;
 
@@ -50,7 +51,10 @@ export class AddAgencyEmployeeComponent implements AfterViewInit {
   employeeStatuses = ['Active', 'Terminated', 'On Leave', 'Resigned'];
   departments = ['HR', 'Engineering', 'Sales', 'Marketing', 'Finance', 'Operations', 'Other'];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private globalDataService: GlobalDataService
+  ) {
     this.initializeForm();
     this.initializeCountries();
   }
@@ -136,7 +140,7 @@ export class AddAgencyEmployeeComponent implements AfterViewInit {
   }
 
   private initializeCountries() {
-    this.countries = Country.getAllCountries().sort((a, b) => a.name.localeCompare(b.name));
+    this.countries = this.globalDataService.getCountries();
   }
 
   public initializeSelects(): void {
